@@ -1,4 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:happyathome/apis/Backend.dart';
+import 'package:happyathome/models/User.dart';
+import 'package:happyathome/widgets/UserWidget.dart';
+
 
 class Profile extends StatefulWidget {
   @override
@@ -6,6 +12,13 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  Future<User> futureUser;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +50,21 @@ class _ProfileState extends State<Profile> {
               color: Colors.blue,
             ),
           ),
+          FlatButton.icon(
+            onPressed: () {
+              setState(() {
+                futureUser = Backend.fetchUser(Random().nextInt(5)+1);
+              });
+            },
+            label: Text(
+              "Fetch user",
+            ),
+            icon: Icon(
+              Icons.file_download,
+              color: Colors.blue,
+            ),
+          ),
+          UserWidget(futureUser)
         ],
       )),
     );
