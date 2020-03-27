@@ -10,11 +10,12 @@ class _CreateContentState extends State<CreateContent> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Column(
-        children: <Widget>[
-          Text("Create Content Page"),
-        ],
-      )),
+        child: Column(
+          children: <Widget>[
+            Text("Create Content Page"),
+          ],
+        ),
+      ),
     );
   }
 }

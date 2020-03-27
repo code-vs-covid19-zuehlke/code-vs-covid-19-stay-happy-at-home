@@ -10,11 +10,12 @@ class _ContentDetailState extends State<ContentDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Column(
-        children: <Widget>[
-          Text("Content Detail Page"),
-        ],
-      )),
+        child: Column(
+          children: <Widget>[
+            Text("Content Detail Page"),
+          ],
+        ),
+      ),
     );
   }
 }
