@@ -1,8 +1,8 @@
 package org.codevscovid19.stayhappyathome.controller;
 
-import org.codevscovid19.stayhappyathome.dto.Post;
-import org.codevscovid19.stayhappyathome.dto.Reaction;
-import org.codevscovid19.stayhappyathome.dto.Reply;
+import org.codevscovid19.stayhappyathome.entity.Post;
+import org.codevscovid19.stayhappyathome.entity.Reaction;
+import org.codevscovid19.stayhappyathome.entity.Reply;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

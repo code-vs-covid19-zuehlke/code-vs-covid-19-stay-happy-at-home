@@ -1,4 +1,4 @@
-package org.codevscovid19.stayhappyathome.dto;
+package org.codevscovid19.stayhappyathome.entity;
 
 public class User {
 	private String name;
