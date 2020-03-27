@@ -17,6 +17,3 @@ steps:
 
       # Sets the target image reference to push to.
       - --image=gcr.io/${PROJECT_ID}/${_IMAGE_NAME}
-    volumes:
-      - name: user.home
-        path: /root
