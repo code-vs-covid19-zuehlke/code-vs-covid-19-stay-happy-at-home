@@ -6,12 +6,44 @@ import 'package:image_picker/image_picker.dart';
 class ProfileImgWidget extends StatelessWidget {
   final File image;
   final Function onChooseImage;
+  final BuildContext context;
 
-  ProfileImgWidget(this.image, this.onChooseImage);
+  ProfileImgWidget(this.context, this.image, this.onChooseImage);
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+  Future getImage(isCamera) async {
+    var image = isCamera
+        ? await ImagePicker.pickImage(source: ImageSource.camera)
+        : await ImagePicker.pickImage(source: ImageSource.gallery);
     onChooseImage(image);
+  }
+
+  void showModal() {
+    showModalBottomSheet(
+        isDismissible: true,
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(Icons.image),
+                    title: new Text('Gallery'),
+                    onTap: () async {
+                      getImage(false);
+                      Navigator.pop(context);
+                    }),
+                new ListTile(
+                  leading: new Icon(Icons.camera_alt),
+                  title: new Text('Camera'),
+                  onTap: () async {
+                    getImage(true);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   @override
@@ -26,7 +58,7 @@ class ProfileImgWidget extends StatelessWidget {
               children: <Widget>[
                 Text('No image selected.'),
                 FlatButton.icon(
-                  onPressed: getImage,
+                  onPressed: showModal,
                   label: Text(
                     "Choose profile picture",
                   ),

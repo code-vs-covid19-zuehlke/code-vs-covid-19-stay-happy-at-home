@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
                   decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Enter your name'),
                 ),
               ),
-              ProfileImgWidget(_image, onChooseImage),
+              ProfileImgWidget(context, _image, onChooseImage),
               FlatButton.icon(
                 onPressed: createUser,
                 label: Text(
