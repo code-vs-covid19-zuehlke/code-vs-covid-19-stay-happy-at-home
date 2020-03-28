@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Emoji.dart';
+import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/FeelingChooserWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
@@ -46,6 +48,8 @@ class _ActualFeelingState extends State<ActualFeeling> {
                 ),
                 FlatButton.icon(
                   onPressed: () {
+                    Backend.setFeelings(UserState().user,
+                        {Feeling(emoji: Emoji.DROOLING_FACE), Feeling(emoji: Emoji.FACE_WITH_TEARS_OF_JOY)});
                     Navigator.pushNamed(context, "/feed");
                   },
                   label: Text(

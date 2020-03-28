@@ -26,6 +26,7 @@ dependencies:
   dart_json_mapper: any
   uuid: any
   badges: ^1.1.1
+  enum_to_string: ^1.0.9
 
 dev_dependencies:
   flutter_test:

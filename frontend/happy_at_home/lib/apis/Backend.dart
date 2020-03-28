@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
@@ -20,6 +21,10 @@ class Backend {
 
   static Future<User> postUser(User user) async {
     return _post('user', user);
+  }
+
+  static Future<String> setFeelings(User user, Set<Feeling> feelings) async {
+    return _postRaw('user/${user.id}/feeling', feelings);
   }
 
   static Future<Post> getPostById(String id) async {
@@ -82,5 +87,13 @@ class Backend {
     } else {
       throw Exception('Failed to load $url with status code ${response.statusCode}');
     }
+  }
+
+  static void init(){
+    JsonMapper().useAdapter(JsonMapperAdapter(
+        valueDecorators: {
+          typeOf<Set<Feeling>>(): (value) => value.cast<Feeling>()
+        })
+    );
   }
 }
