@@ -29,6 +29,12 @@ class _ActualFeelingState extends State<ActualFeeling> {
     this.timePeriod = time;
   }
 
+  void uploadFeelings() {
+    var feelings = chosenFeelings.map((emoji) => Feeling(emoji: emoji)).toSet();
+    Backend.setFeelings(UserState().user, feelings);
+    Navigator.pushNamed(context, "/feed");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,11 +56,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
                     title: "How do you feel?",
                     child: FeelingChooserWidget(3, updateFeelings)),
                 FlatButton.icon(
-                  onPressed: () {
-                    Backend.setFeelings(UserState().user,
-                        {Feeling(emoji: Emoji.DROOLING_FACE), Feeling(emoji: Emoji.FACE_WITH_TEARS_OF_JOY)});
-                    Navigator.pushNamed(context, "/feed");
-                  },
+                  onPressed: uploadFeelings,
                   label: Text(
                     "Go to Feed",
                   ),
