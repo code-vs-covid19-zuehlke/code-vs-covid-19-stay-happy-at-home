@@ -5,6 +5,7 @@ import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/FeelingChooserWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
+import 'package:happyathome/widgets/TitleCard.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
 
 import '../UserState.dart';
@@ -36,16 +37,16 @@ class _ActualFeelingState extends State<ActualFeeling> {
             child: Column(
               children: <Widget>[
                 UserWidget(UserRegistration.load()),
-                Text("How much time do you want to invest?"),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: StyledSlider(timePeriod, updateTimePeriod),
+                TitleCard(
+                  title: "How much time do you want to invest?",
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: StyledSlider(timePeriod, updateTimePeriod),
+                  ),
                 ),
-                Text("Hello, how do you feel?"),
-                Padding(
-                  padding: const EdgeInsets.all(50.0),
-                  child: FeelingChooserWidget(3, updateFeelings),
-                ),
+                TitleCard(
+                    title: "How do you feel?",
+                    child: FeelingChooserWidget(3, updateFeelings)),
                 FlatButton.icon(
                   onPressed: () {
                     Backend.setFeelings(UserState().user,
