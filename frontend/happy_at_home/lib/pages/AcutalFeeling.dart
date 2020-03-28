@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/FeelingChooserWidget.dart';
+import 'package:happyathome/widgets/StyledSlider.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
 
 import '../UserState.dart';
@@ -14,9 +15,14 @@ class ActualFeeling extends StatefulWidget {
 class _ActualFeelingState extends State<ActualFeeling> {
   final userstate = UserState();
   List<Emoji> chosenFeelings;
+  double timePeriod = 15.0;
 
   void updateFeelings(feelingList) {
     chosenFeelings = feelingList;
+  }
+
+  void updateTimePeriod(time) {
+    this.timePeriod = time;
   }
 
   @override
@@ -28,7 +34,16 @@ class _ActualFeelingState extends State<ActualFeeling> {
             child: Column(
               children: <Widget>[
                 UserWidget(UserRegistration.load()),
+                Text("How much time do you want to invest?"),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: StyledSlider(timePeriod, updateTimePeriod),
+                ),
                 Text("Hello, how do you feel?"),
+                Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: FeelingChooserWidget(3, updateFeelings),
+                ),
                 FlatButton.icon(
                   onPressed: () {
                     Navigator.pushNamed(context, "/feed");
@@ -52,10 +67,6 @@ class _ActualFeelingState extends State<ActualFeeling> {
                     Icons.edit,
                     color: Colors.blue,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: FeelingChooserWidget(3, updateFeelings),
                 ),
               ],
             ),
