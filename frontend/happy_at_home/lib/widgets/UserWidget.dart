@@ -13,8 +13,11 @@ class UserWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Column(children: <Widget>[
+            SizedBox(height: 15),
             Image.asset('assets/profile_picture.jpg'),
+            SizedBox(height: 15),
             Text(snapshot.data.name, style: TextStyle(fontSize: 36)),
+            SizedBox(height: 15),
           ]);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
