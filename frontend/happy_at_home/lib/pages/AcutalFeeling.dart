@@ -24,6 +24,18 @@ class _ActualFeelingState extends State<ActualFeeling> {
                 Icons.edit,
                 color: Colors.blue,
               ),
+            ),
+            FlatButton.icon(
+              onPressed: () {
+                Navigator.pushNamed(context, "/profile");
+              },
+              label: Text(
+                "Go to Profile",
+              ),
+              icon: Icon(
+                Icons.edit,
+                color: Colors.blue,
+              ),
             )
           ],
         ),
