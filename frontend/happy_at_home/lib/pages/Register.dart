@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:happyathome/widgets/ProfileImgWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -21,10 +22,12 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  void createUser() {
+  void createUser() async {
     var name = myController.text;
     //Todo: Save Name and Image here
-    Navigator.pushNamed(context, "/feeling");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("REGISTERED", true);
+    Navigator.pushReplacementNamed(context, "/feeling");
   }
 
   @override

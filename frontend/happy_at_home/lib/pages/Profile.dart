@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -43,6 +44,39 @@ class _ProfileState extends State<Profile> {
                 },
                 label: Text(
                   "Create Content",
+                ),
+                icon: Icon(
+                  Icons.edit,
+                  color: Colors.blue,
+                ),
+              ),
+              FlatButton.icon(
+                onPressed: () async {
+                  SharedPreferences prefs = await SharedPreferences
+                      .getInstance();
+                  await prefs.setBool("REGISTERED", false);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("Restart"),
+                        content: new Text("Now restart the App ;)"),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Ok"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                label: Text(
+                  "Unregister",
                 ),
                 icon: Icon(
                   Icons.edit,
