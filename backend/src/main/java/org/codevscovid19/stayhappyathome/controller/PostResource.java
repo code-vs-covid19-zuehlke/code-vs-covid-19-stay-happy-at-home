@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -56,11 +57,13 @@ public class PostResource {
   }
 
   @GetMapping(path = "", produces = "application/json")
+  public ResponseEntity<List<Post>> getAllPosts() {
+    return ResponseEntity.ok(postRepository.findAll());
+  }
+
+  @GetMapping(path = "", produces = "application/json")
   public ResponseEntity<Set<Post>> getPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId) {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
-
-    //		service.getPosts(user)
-    // rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
 
     return ResponseEntity.ok(postService.getPostsForUser(user));
   }
