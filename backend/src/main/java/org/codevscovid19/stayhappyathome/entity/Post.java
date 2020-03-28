@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "POSTS")
@@ -35,17 +36,21 @@ public class Post {
   @OneToMany
   private List<PostReaction> postReactions;
 
+  @OneToMany
+  private Set<TargetFeeling> targetFeelings;
+
   private Post() {
     // for Jackson
   }
 
-  public Post(String title, String description, URL link, byte[] picture, User user, List<PostReaction> postReactions) {
+  public Post(String title, String description, URL link, byte[] picture, User user, List<PostReaction> postReactions, Set<TargetFeeling> targetFeelings) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
     this.user = user;
     this.postReactions = postReactions;
+    this.targetFeelings = targetFeelings;
   }
 
   public Long getId() {
@@ -102,6 +107,14 @@ public class Post {
 
   public void setPostReactions(List<PostReaction> postReactions) {
     this.postReactions = postReactions;
+  }
+
+  public Set<TargetFeeling> getTargetFeelings() {
+    return targetFeelings;
+  }
+
+  public void setTargetFeelings(Set<TargetFeeling> targetFeelings) {
+    this.targetFeelings = targetFeelings;
   }
 
   @Override
