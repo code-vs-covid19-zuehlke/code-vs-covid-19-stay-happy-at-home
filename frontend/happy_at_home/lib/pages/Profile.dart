@@ -18,7 +18,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    futureUser = Backend.fetchUser();
+    futureUser = Backend.ensureTestUser();
   }
 
   void onChooseImage(image) {
@@ -62,7 +62,7 @@ class _ProfileState extends State<Profile> {
               FlatButton.icon(
                 onPressed: () {
                   setState(() {
-                    futureUser = Backend.fetchUser();
+                    futureUser = Backend.ensureTestUser();
                   });
                 },
                 label: Text(
