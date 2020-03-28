@@ -1,10 +1,12 @@
 package org.codevscovid19.stayhappyathome.controller;
 
 import org.codevscovid19.stayhappyathome.entity.Post;
-import org.codevscovid19.stayhappyathome.entity.Reaction;
+import org.codevscovid19.stayhappyathome.entity.PostReaction;
 import org.codevscovid19.stayhappyathome.entity.Reply;
+import org.codevscovid19.stayhappyathome.entity.ReplyReaction;
 import org.codevscovid19.stayhappyathome.repository.PostRepository;
-import org.codevscovid19.stayhappyathome.repository.ReactionRepository;
+import org.codevscovid19.stayhappyathome.repository.PostReactionRepository;
+import org.codevscovid19.stayhappyathome.repository.ReplyReactionRepository;
 import org.codevscovid19.stayhappyathome.repository.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,13 +27,15 @@ public class PostResource {
 
 	private final PostRepository postRepository;
 	private final ReplyRepository replyRepository;
-	private final ReactionRepository reactionRepository;
+	private final PostReactionRepository postReactionRepository;
+	private final ReplyReactionRepository replyReactionRepository;
 
 	@Autowired
-	public PostResource(PostRepository postRepository, ReplyRepository replyRepository, ReactionRepository reactionRepository) {
+	public PostResource(PostRepository postRepository, ReplyRepository replyRepository, PostReactionRepository postReactionRepository, ReplyReactionRepository replyReactionRepository) {
 		this.postRepository = postRepository;
 		this.replyRepository = replyRepository;
-		this.reactionRepository = reactionRepository;
+		this.postReactionRepository = postReactionRepository;
+		this.replyReactionRepository = replyReactionRepository;
 	}
 
 	@GetMapping(path = "", produces = "application/json")
@@ -59,14 +63,14 @@ public class PostResource {
 	}
 
 	@PostMapping(path = "/{postId}/reaction", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<Reaction> createPostReaction(@PathVariable("postId") Integer postId, @RequestBody Reaction reaction) {
-		Reaction newReaction = reactionRepository.save(reaction);
-		return ResponseEntity.ok(newReaction);
+	public ResponseEntity<PostReaction> createPostReaction(@PathVariable("postId") Integer postId, @RequestBody PostReaction reaction) {
+		PostReaction newPostReaction = postReactionRepository.save(reaction);
+		return ResponseEntity.ok(newPostReaction);
 	}
 
 	@PostMapping(path = "/{postId}/reply/{replyId}/reaction", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<Reaction> createReplyReaction(@PathVariable("postId") Integer postId, @PathVariable("replyId") Integer replyId, @RequestBody Reaction reaction) {
-		Reaction newReaction = reactionRepository.save(reaction);
-		return ResponseEntity.ok(newReaction);
+	public ResponseEntity<ReplyReaction> createReplyReaction(@PathVariable("postId") Integer postId, @PathVariable("replyId") Integer replyId, @RequestBody ReplyReaction reaction) {
+		ReplyReaction newReplyReaction = replyReactionRepository.save(reaction);
+		return ResponseEntity.ok(newReplyReaction);
 	}
 }

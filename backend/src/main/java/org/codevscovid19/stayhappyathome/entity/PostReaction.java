@@ -6,19 +6,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "REACTIONS")
-public class Reaction {
+public class PostReaction {
 	@Id
 	private Long id;
 
-	private Reaction() {
+
+
+	private PostReaction() {
 		// for Jackson
 	}
 
-	public Reaction(Long id) {
-		this.id = id;
-	}
-
-	public Long getId() {
-		return id;
-	}
 }
