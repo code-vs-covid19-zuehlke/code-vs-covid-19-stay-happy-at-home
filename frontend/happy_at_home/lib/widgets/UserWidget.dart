@@ -12,7 +12,10 @@ class UserWidget extends StatelessWidget {
       future: futureUser,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data.name);
+          return Column(children: <Widget>[
+            Image.asset('profile_picture.jpg'),
+            Text(snapshot.data.name),
+          ]);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
