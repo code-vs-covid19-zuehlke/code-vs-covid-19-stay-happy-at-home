@@ -3,25 +3,25 @@ import 'package:happyathome/models/Emoji.dart';
 
 import 'FeelingWidget.dart';
 
-class FeelingChooserWidget extends StatefulWidget {
+class EmojiChooserWidget extends StatefulWidget {
   final int maxFeelings;
   final bool multiChoose;
   final Function updateFeelings;
 
   @override
-  _FeelingChooserWidgetState createState() =>
-      _FeelingChooserWidgetState(maxFeelings, updateFeelings, multiChoose);
+  _EmojiChooserWidgetState createState() =>
+      _EmojiChooserWidgetState(maxFeelings, updateFeelings, multiChoose);
 
-  FeelingChooserWidget(this.maxFeelings, this.updateFeelings, this.multiChoose);
+  EmojiChooserWidget(this.maxFeelings, this.updateFeelings, this.multiChoose);
 }
 
-class _FeelingChooserWidgetState extends State<FeelingChooserWidget> {
+class _EmojiChooserWidgetState extends State<EmojiChooserWidget> {
   var addedFeelings = new List<Emoji>();
   var maxFeelings = 0;
   bool multiChoose;
   final Function updateFeelings;
 
-  _FeelingChooserWidgetState(this.maxFeelings, this.updateFeelings,
+  _EmojiChooserWidgetState(this.maxFeelings, this.updateFeelings,
       this.multiChoose);
 
   void addFeelingToList(feeling) {
