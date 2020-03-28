@@ -22,7 +22,7 @@ class _StartUpState extends State<StartUp> {
       loadUser();
     } else {
       Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushReplacementNamed(context, "/profile");
+        Navigator.pushReplacementNamed(context, "/register");
       });
     }
   }
