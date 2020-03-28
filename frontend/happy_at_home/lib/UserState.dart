@@ -1,9 +1,10 @@
+import 'models/User.dart';
+
 class UserState {
   static final UserState _instance = UserState._internal();
 
   factory UserState() => _instance;
-  String username;
-  String userId;
+  User user;
 
   UserState._internal() {
     // init things inside this

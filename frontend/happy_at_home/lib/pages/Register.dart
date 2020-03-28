@@ -32,8 +32,7 @@ class _RegisterState extends State<Register> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("REGISTERED", true);
     await prefs.setString("USER_ID", user.id);
-    UserState().userId = user.id;
-    UserState().username = user.name;
+    UserState().user = user;
     Navigator.pushReplacementNamed(context, "/feeling");
   }
 

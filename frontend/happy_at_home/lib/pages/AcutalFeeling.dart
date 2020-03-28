@@ -18,7 +18,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
           child: Column(
             children: <Widget>[
               Text("Actual Feeling Page"),
-              Text("Hello ${userstate.username}\nHow do you feel?"),
+              Text("Hello ${userstate.user.name}\nHow do you feel?"),
               FlatButton.icon(
                 onPressed: () {
                   Navigator.pushNamed(context, "/feed");

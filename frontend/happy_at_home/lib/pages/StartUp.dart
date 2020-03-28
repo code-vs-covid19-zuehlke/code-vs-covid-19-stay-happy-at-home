@@ -13,8 +13,7 @@ class _StartUpState extends State<StartUp> {
   void loadUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final user = await Backend.getUserById(prefs.getString("USER_ID"));
-    UserState().userId = user.id;
-    UserState().username = user.name;
+    UserState().user = user;
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, "/feeling");
     });
