@@ -8,12 +8,12 @@ class User {
   final String id;
   final String name;
   final String photo;
-  final Set<Feeling> feelingRecords;
+  final List<Feeling> feelingRecords;
 
   User({this.id, this.name, this.photo, this.feelingRecords});
 
   static User createUser(String name) {
     final id = Uuid().v4();
-    return User(id: id, name: name, photo: null, feelingRecords: {});
+    return User(id: id, name: name, photo: null, feelingRecords: []);
   }
 }

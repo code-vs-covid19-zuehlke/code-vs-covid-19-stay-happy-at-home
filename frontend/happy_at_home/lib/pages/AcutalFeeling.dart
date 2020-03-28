@@ -29,9 +29,9 @@ class _ActualFeelingState extends State<ActualFeeling> {
     this.timePeriod = time;
   }
 
-  void uploadFeelings() {
-    var feelings = chosenFeelings.map((emoji) => Feeling(emoji: emoji)).toSet();
-    Backend.setFeelings(UserState().user, feelings);
+  void uploadFeelings() async {
+    var feelings = chosenFeelings.map((emoji) => Feeling(emoji: emoji)).toList();
+    await Backend.setFeelings(UserState().user, feelings);
     Navigator.pushNamed(context, "/feed");
   }
 
