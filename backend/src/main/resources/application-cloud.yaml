@@ -9,6 +9,7 @@ spring:
     username: postgres
     password: gvfba2iDFwzewlql
     initialization-mode: always
+    driver-class-name: org.postgresql.Driver
 
   cloud:
     gcp:
