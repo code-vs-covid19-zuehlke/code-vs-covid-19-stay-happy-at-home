@@ -12,13 +12,18 @@ import java.util.Set;
 @Entity
 @Table(name = "POSTS")
 public class Post {
+
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_sequence_generator")
+  @SequenceGenerator(name = "post_sequence_generator", sequenceName = "post_id_sequence")
   private Long id;
+
   @Column(name = "title", nullable = false)
   private String title;
+
   @Column(name = "description", nullable = false)
   private String description;
+
   @Column(name = "link")
   private URL link;
 
