@@ -53,7 +53,19 @@ class _CreateContentState extends State<CreateContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text("Create Post"),
+              Row(
+                children: <Widget>[
+                  SizedBox(width: 16),
+                  Icon(Icons.chevron_left),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    "Create Post",
+                    style: TextStyle(fontFamily: "Comfortaa", fontSize: 35),
+                  ),
+                ],
+              ),
               Card(
                 margin: const EdgeInsets.all(16),
                 elevation: 2,
@@ -66,17 +78,23 @@ class _CreateContentState extends State<CreateContent> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Title",
-                        style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(
+                        "Title",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       TextField(
                         controller: titleController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Enter Title / Question / Challenge'),
                       ),
-                      SizedBox(height: 20,),
-                      Text("Description",
-                        style: TextStyle(fontWeight: FontWeight.bold),),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Description",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       TextField(
                         controller: descriptionController,
                         decoration: InputDecoration(
