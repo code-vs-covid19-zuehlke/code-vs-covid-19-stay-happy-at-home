@@ -16,7 +16,7 @@ public class FeelingRecord {
   private Long id;
 
   @OneToMany(cascade = CascadeType.ALL)
-  private Set<Feeling> feelings;
+  private List<Feeling> feelings;
 
   @Column(name = "time")
   private LocalDateTime time;
@@ -25,7 +25,7 @@ public class FeelingRecord {
     // for Jackson
   }
 
-  public FeelingRecord(Set<Feeling> feelings) {
+  public FeelingRecord(List<Feeling> feelings) {
     this.feelings = feelings;
     this.time = LocalDateTime.now();
   }
@@ -34,11 +34,11 @@ public class FeelingRecord {
     return id;
   }
 
-  public Set<Feeling> getFeelings() {
+  public List<Feeling> getFeelings() {
     return feelings;
   }
 
-  public void setFeelings(Set<Feeling> feelings) {
+  public void setFeelings(List<Feeling> feelings) {
     this.feelings = feelings;
   }
 
