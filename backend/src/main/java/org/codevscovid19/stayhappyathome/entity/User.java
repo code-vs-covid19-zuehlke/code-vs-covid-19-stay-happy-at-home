@@ -7,14 +7,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "USERS")
 public class User {
-	@Id
-	private String name;
+    @Id
+    private String name;
 
-	public User(String name) {
-		this.name = name;
-	}
+    public User() {
+        // for Jackson
+    }
 
-	public String getName() {
-		return name;
-	}
+    public User(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
