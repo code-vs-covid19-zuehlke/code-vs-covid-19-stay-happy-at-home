@@ -33,82 +33,82 @@ import java.util.Optional;
 @RequestMapping("/api/v1/post")
 public class PostResource {
 
-    private final PostRepository postRepository;
-    private final ReplyRepository replyRepository;
-    private final PostReactionRepository postReactionRepository;
-	private final ReplyReactionRepository replyReactionRepository;
-    private final UserRepository userRepository;
-    private final PostService postService;
+  private final PostRepository postRepository;
+  private final ReplyRepository replyRepository;
+  private final PostReactionRepository postReactionRepository;
+  private final ReplyReactionRepository replyReactionRepository;
+  private final UserRepository userRepository;
+  private final PostService postService;
 
-	@Autowired
-	public PostResource(PostRepository postRepository, ReplyRepository replyRepository, PostReactionRepository postReactionRepository, ReplyReactionRepository replyReactionRepository, UserRepository userRepository, PostService postService) {
-		this.postRepository = postRepository;
-		this.replyRepository = replyRepository;
-		this.postReactionRepository = postReactionRepository;
-		this.replyReactionRepository = replyReactionRepository;
-		this.userRepository = userRepository;
-		this.postService = postService;
-	}
+  @Autowired
+  public PostResource(PostRepository postRepository, ReplyRepository replyRepository, PostReactionRepository postReactionRepository, ReplyReactionRepository replyReactionRepository, UserRepository userRepository, PostService postService) {
+    this.postRepository = postRepository;
+    this.replyRepository = replyRepository;
+    this.postReactionRepository = postReactionRepository;
+    this.replyReactionRepository = replyReactionRepository;
+    this.userRepository = userRepository;
+    this.postService = postService;
+  }
 
-    @GetMapping(path = "/user/{id}", produces = "application/json")
-    public ResponseEntity<ResponseEntity<List<Post>>> getPosts(@PathVariable("id") String id) {
-        //		service.getPosts(user)
-        // rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
+  @GetMapping(path = "/user/{id}", produces = "application/json")
+  public ResponseEntity<ResponseEntity<List<Post>>> getPosts(@PathVariable("id") String id) {
+    //		service.getPosts(user)
+    // rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
 
-        Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(postService.getPostsForUser(user.get()));
+    Optional<User> user = userRepository.findById(id);
+    if (user.isEmpty()) {
+      return ResponseEntity.notFound().build();
     }
+    return ResponseEntity.ok(postService.getPostsForUser(user.get()));
+  }
 
-    @PostMapping(path = "", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Post> createPosts(@RequestBody PostDto postDto) {
-		User user = userRepository.findById(postDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
+  @PostMapping(path = "", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<Post> createPosts(@RequestBody PostDto postDto) {
+    User user = userRepository.findById(postDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-		Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, Collections.emptyList());
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, Collections.emptyList());
 
-        Post newPost = postRepository.save(post);
-        return ResponseEntity.ok(newPost);
-    }
+    Post newPost = postRepository.save(post);
+    return ResponseEntity.ok(newPost);
+  }
 
-    @GetMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
-        Optional<Post> post = postRepository.findById(id);
-        return post.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
+  @GetMapping(path = "/{id}", produces = "application/json")
+  public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
+    Optional<Post> post = postRepository.findById(id);
+    return post.map(ResponseEntity::ok)
+      .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+  }
 
-    @PostMapping(path = "/{postId}/reply", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Reply> createReply(@PathVariable("postId") Long postId, @RequestBody ReplyDto replyDto) {
-		User user = userRepository.findById(replyDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
-		Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), replyDto.getPicture(), user, Collections.emptyList());
+  @PostMapping(path = "/{postId}/reply", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<Reply> createReply(@PathVariable("postId") Long postId, @RequestBody ReplyDto replyDto) {
+    User user = userRepository.findById(replyDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
+    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), replyDto.getPicture(), user, Collections.emptyList());
 
-        Reply newReply = replyRepository.save(reply);
-        return ResponseEntity.ok(newReply);
-    }
+    Reply newReply = replyRepository.save(reply);
+    return ResponseEntity.ok(newReply);
+  }
 
-    @PostMapping(path = "/{postId}/reaction", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<PostReaction> createPostReaction(@PathVariable("postId") Long postId, @RequestBody PostReactionDto reactionDto) {
-		Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Could not find Post"));
-		User user = userRepository.findById(reactionDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
+  @PostMapping(path = "/{postId}/reaction", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<PostReaction> createPostReaction(@PathVariable("postId") Long postId, @RequestBody PostReactionDto reactionDto) {
+    Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Could not find Post"));
+    User user = userRepository.findById(reactionDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-		// TODO: add reaction to post
-		PostReaction postReaction = new PostReaction(user);
+    // TODO: add reaction to post
+    PostReaction postReaction = new PostReaction(user);
 
-		PostReaction newPostReaction = postReactionRepository.save(postReaction);
-        return ResponseEntity.ok(newPostReaction);
-    }
+    PostReaction newPostReaction = postReactionRepository.save(postReaction);
+    return ResponseEntity.ok(newPostReaction);
+  }
 
-    @PostMapping(path = "/{postId}/reply/{replyId}/reaction", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<ReplyReaction> createReplyReaction(@PathVariable("postId") Long postId, @PathVariable("replyId") Long replyId, @RequestBody ReplyReactionDto reactionDto) {
-		Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new RuntimeException("Could not find Reply"));
-		User user = userRepository.findById(reactionDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
+  @PostMapping(path = "/{postId}/reply/{replyId}/reaction", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<ReplyReaction> createReplyReaction(@PathVariable("postId") Long postId, @PathVariable("replyId") Long replyId, @RequestBody ReplyReactionDto reactionDto) {
+    Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new RuntimeException("Could not find Reply"));
+    User user = userRepository.findById(reactionDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-		// TODO: add reaction to reaction
-		ReplyReaction replyReaction = new ReplyReaction(user);
+    // TODO: add reaction to reaction
+    ReplyReaction replyReaction = new ReplyReaction(user);
 
-		ReplyReaction newReplyReaction = replyReactionRepository.save(replyReaction);
-        return ResponseEntity.ok(newReplyReaction);
-    }
+    ReplyReaction newReplyReaction = replyReactionRepository.save(replyReaction);
+    return ResponseEntity.ok(newReplyReaction);
+  }
 }
