@@ -6,6 +6,8 @@ import org.codevscovid19.stayhappyathome.entity.Reply;
 import org.codevscovid19.stayhappyathome.repository.PostRepository;
 import org.codevscovid19.stayhappyathome.repository.ReactionRepository;
 import org.codevscovid19.stayhappyathome.repository.ReplyRepository;
+import org.codevscovid19.stayhappyathome.repository.UserRepository;
+import org.codevscovid19.stayhappyathome.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,50 +25,56 @@ import java.util.Optional;
 @RequestMapping("/api/v1/post")
 public class PostResource {
 
-	private final PostRepository postRepository;
-	private final ReplyRepository replyRepository;
-	private final ReactionRepository reactionRepository;
+    private final PostRepository postRepository;
+    private final ReplyRepository replyRepository;
+    private final ReactionRepository reactionRepository;
+    private final UserRepository userRepository;
+    private final PostService postService;
 
-	@Autowired
-	public PostResource(PostRepository postRepository, ReplyRepository replyRepository, ReactionRepository reactionRepository) {
-		this.postRepository = postRepository;
-		this.replyRepository = replyRepository;
-		this.reactionRepository = reactionRepository;
-	}
+    @Autowired
+    public PostResource(PostRepository postRepository, ReplyRepository replyRepository, ReactionRepository reactionRepository,
+                        UserRepository userRepository, PostService postService) {
+        this.postRepository = postRepository;
+        this.replyRepository = replyRepository;
+        this.reactionRepository = reactionRepository;
+        this.userRepository = userRepository;
+        this.postService = postService;
+    }
 
-	@GetMapping(path = "", produces = "application/json")
-	public ResponseEntity<List<Post>> getPosts() {
-		return ResponseEntity.ok(postRepository.findAll());
-	}
+    @GetMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<List<Post>> getPosts(@PathVariable("id") String id) {
+        userRepository.findById(id);
+        return postService.getPostsForUser();
+    }
 
-	@PostMapping(path = "", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<Post> createPosts(@RequestBody Post post) {
-		Post newPost = postRepository.save(post);
-		return ResponseEntity.ok(newPost);
-	}
+    @PostMapping(path = "", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Post> createPosts(@RequestBody Post post) {
+        Post newPost = postRepository.save(post);
+        return ResponseEntity.ok(newPost);
+    }
 
-	@GetMapping(path = "/{id}", produces = "application/json")
-	public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
-		Optional<Post> post = postRepository.findById(id);
-		return post.map(ResponseEntity::ok)
-				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-	}
+    @GetMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        return post.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
-	@PostMapping(path = "/{postId}/reply", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<Reply> createReply(@PathVariable("postId") Integer postId, @RequestBody Reply reply) {
-		Reply newReply = replyRepository.save(reply);
-		return ResponseEntity.ok(newReply);
-	}
+    @PostMapping(path = "/{postId}/reply", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Reply> createReply(@PathVariable("postId") Integer postId, @RequestBody Reply reply) {
+        Reply newReply = replyRepository.save(reply);
+        return ResponseEntity.ok(newReply);
+    }
 
-	@PostMapping(path = "/{postId}/reaction", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<Reaction> createPostReaction(@PathVariable("postId") Integer postId, @RequestBody Reaction reaction) {
-		Reaction newReaction = reactionRepository.save(reaction);
-		return ResponseEntity.ok(newReaction);
-	}
+    @PostMapping(path = "/{postId}/reaction", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Reaction> createPostReaction(@PathVariable("postId") Integer postId, @RequestBody Reaction reaction) {
+        Reaction newReaction = reactionRepository.save(reaction);
+        return ResponseEntity.ok(newReaction);
+    }
 
-	@PostMapping(path = "/{postId}/reply/{replyId}/reaction", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<Reaction> createReplyReaction(@PathVariable("postId") Integer postId, @PathVariable("replyId") Integer replyId, @RequestBody Reaction reaction) {
-		Reaction newReaction = reactionRepository.save(reaction);
-		return ResponseEntity.ok(newReaction);
-	}
+    @PostMapping(path = "/{postId}/reply/{replyId}/reaction", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Reaction> createReplyReaction(@PathVariable("postId") Integer postId, @PathVariable("replyId") Integer replyId, @RequestBody Reaction reaction) {
+        Reaction newReaction = reactionRepository.save(reaction);
+        return ResponseEntity.ok(newReaction);
+    }
 }
