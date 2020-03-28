@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../UserState.dart';
+
 class StartUp extends StatefulWidget {
   @override
   _StartUpState createState() => _StartUpState();
@@ -8,7 +10,8 @@ class StartUp extends StatefulWidget {
 
 class _StartUpState extends State<StartUp> {
   void loadUser() async {
-    //Todo: Load User here
+    //Todo: Load User here and put values in the userstate
+    UserState().username = "Hans12";
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, "/feeling");
     });

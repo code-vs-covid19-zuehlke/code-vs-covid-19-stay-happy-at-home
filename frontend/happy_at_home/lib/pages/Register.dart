@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:happyathome/widgets/ProfileImgWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../UserState.dart';
+
 class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
@@ -27,6 +29,7 @@ class _RegisterState extends State<Register> {
     //Todo: Save Name and Image here
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("REGISTERED", true);
+    UserState().username = nameController.text;
     Navigator.pushReplacementNamed(context, "/feeling");
   }
 
