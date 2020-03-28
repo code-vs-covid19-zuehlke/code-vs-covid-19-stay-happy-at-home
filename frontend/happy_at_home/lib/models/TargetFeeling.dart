@@ -10,4 +10,5 @@ enum TargetFeeling {
   ENERGIZED,
   AWWW,
   INSPIRED,
+  ENTERTAINED
 }
