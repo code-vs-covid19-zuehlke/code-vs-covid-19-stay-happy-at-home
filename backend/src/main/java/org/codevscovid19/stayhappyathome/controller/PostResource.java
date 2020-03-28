@@ -29,7 +29,7 @@ public class PostResource {
   private final ReplyReactionRepository replyReactionRepository;
 
   @Autowired
-  public PostResource(PostRepository postRepository, ReplyRepository replyRepository, ReactionRepository reactionRepository,
+  public PostResource(PostRepository postRepository, ReplyRepository replyRepository,
                       PostReactionRepository postReactionRepository, ReplyReactionRepository replyReactionRepository,
                       UserRepository userRepository, PostService postService) {
     this.postRepository = postRepository;
@@ -47,9 +47,6 @@ public class PostResource {
 
   @GetMapping(path = "/user/{id}", produces = "application/json")
   public ResponseEntity<Set<Post>> getPosts(@PathVariable("id") String id) {
-    //		service.getPosts(user)
-    // rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
-
     Optional<User> user = userRepository.findById(id);
     if (user.isEmpty()) {
       return ResponseEntity.notFound().build();
