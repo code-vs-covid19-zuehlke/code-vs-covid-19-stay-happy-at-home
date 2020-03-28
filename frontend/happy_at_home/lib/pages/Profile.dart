@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/User.dart';
-import 'package:happyathome/widgets/ProfileImgWidget.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -13,18 +11,11 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Future<User> futureUser;
-  File _image;
 
   @override
   void initState() {
     super.initState();
-    futureUser = Backend.fetchUser();
-  }
-
-  void onChooseImage(image) {
-    setState(() {
-      _image = image;
-    });
+    futureUser = Backend.ensureTestUser();
   }
 
   @override
@@ -60,9 +51,42 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               FlatButton.icon(
+                onPressed: () async {
+                  SharedPreferences prefs = await SharedPreferences
+                      .getInstance();
+                  await prefs.setBool("REGISTERED", false);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("Restart"),
+                        content: new Text("Now restart the App ;)"),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Ok"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                label: Text(
+                  "Unregister",
+                ),
+                icon: Icon(
+                  Icons.edit,
+                  color: Colors.blue,
+                ),
+              ),
+              FlatButton.icon(
                 onPressed: () {
                   setState(() {
-                    futureUser = Backend.fetchUser();
+                    futureUser = Backend.ensureTestUser();
                   });
                 },
                 label: Text(
@@ -74,7 +98,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               UserWidget(futureUser),
-              ProfileImgWidget(_image, onChooseImage),
             ],
           ),
         ),

@@ -26,9 +26,9 @@ public class UserResource {
         this.feelingRepository = feelingRepository;
     }
 
-    @GetMapping(path = "/{name}", produces = "application/json")
-    public ResponseEntity<User> getUser(@PathVariable("name") String name) {
-        Optional<User> user = userRepository.findById(name);
+    @GetMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<User> getUser(@PathVariable("id") String id) {
+        Optional<User> user = userRepository.findById(id);
         return user.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
@@ -43,9 +43,9 @@ public class UserResource {
         return ResponseEntity.ok(userRepository.save(user));
     }
 
-    @PostMapping(path = "/{name}/feeling", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Feeling> createFeeling(@PathVariable String name, @RequestBody Feeling feeling) {
-        Optional<User> userEntity = userRepository.findByName(name);
+    @PostMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Feeling> createFeeling(@PathVariable String id, @RequestBody Feeling feeling) {
+        Optional<User> userEntity = userRepository.findById(id);
         userEntity.ifPresent(user -> user.addFeeling(feeling));
         return ResponseEntity.ok(feelingRepository.save(feeling));
     }
