@@ -19,8 +19,8 @@ class ProfileImgWidget extends StatelessWidget {
     return image == null
         ? Container(
             color: Colors.greenAccent,
-            width: 200,
-            height: 200,
+      width: 250,
+      height: 250,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -39,8 +39,8 @@ class ProfileImgWidget extends StatelessWidget {
             ),
           )
         : Container(
-            width: 200,
-            height: 200,
+      width: 250,
+      height: 250,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: FileImage(image),
