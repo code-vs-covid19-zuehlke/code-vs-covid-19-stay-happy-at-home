@@ -42,7 +42,16 @@ class _StartUpState extends State<StartUp> {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: Center(
-        child: Text("Stay Happy @ Home"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Stay Happy @ Home"),
+            Text("😀😷🐼",
+              style: TextStyle(
+                  fontSize: 50
+              ),),
+          ],
+        ),
       ),
     );
   }
