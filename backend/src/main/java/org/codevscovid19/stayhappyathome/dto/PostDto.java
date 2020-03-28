@@ -8,18 +8,16 @@ public class PostDto {
   private String description;
   private URL link;
   private byte[] picture;
-  private String userId;
 
   private PostDto() {
     // for Jackson
   }
 
-  public PostDto(String title, String description, URL link, byte[] picture, String userId) {
+  public PostDto(String title, String description, URL link, byte[] picture) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
-    this.userId = userId;
   }
 
   public Long getId() {
@@ -60,13 +58,5 @@ public class PostDto {
 
   public void setPicture(byte[] picture) {
     this.picture = picture;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
   }
 }
