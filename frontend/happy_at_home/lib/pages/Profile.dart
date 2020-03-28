@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/User.dart';
+import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../UserState.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -15,7 +17,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    futureUser = Backend.ensureTestUser();
+    futureUser = Backend.getUserById(UserState().user.id);
   }
 
   @override
@@ -25,7 +27,10 @@ class _ProfileState extends State<Profile> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Text("Profile Page"),
+              Image.asset('assets/profile_picture.jpg'),
+              Text("Hans12", style: TextStyle(fontSize: 36)),
+              Text("Reactions received", style: TextStyle(fontSize: 24)),
+              Text("Reactions given", style: TextStyle(fontSize: 24)),
               FlatButton.icon(
                 onPressed: () {
                   Navigator.pushNamed(context, "/feeling");
@@ -50,58 +55,38 @@ class _ProfileState extends State<Profile> {
                   color: Colors.blue,
                 ),
               ),
+
               FlatButton.icon(
-                onPressed: () async {
-                  SharedPreferences prefs = await SharedPreferences
-                      .getInstance();
-                  await prefs.setBool("REGISTERED", false);
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      // return object of type Dialog
-                      return AlertDialog(
-                        title: new Text("Restart"),
-                        content: new Text("Now restart the App ;)"),
-                        actions: <Widget>[
-                          // usually buttons at the bottom of the dialog
-                          new FlatButton(
-                            child: new Text("Ok"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
+                onPressed: () => _refresh(),
+                label: Text(
+                  "Refresh",
+                ),
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.blue,
+                ),
+              ),
+              FlatButton.icon(
+                onPressed: () => UserRegistration.unregister(context),
                 label: Text(
                   "Unregister",
                 ),
                 icon: Icon(
-                  Icons.edit,
+                  Icons.delete,
                   color: Colors.blue,
                 ),
               ),
-              FlatButton.icon(
-                onPressed: () {
-                  setState(() {
-                    futureUser = Backend.ensureTestUser();
-                  });
-                },
-                label: Text(
-                  "Re-fetch user",
-                ),
-                icon: Icon(
-                  Icons.file_download,
-                  color: Colors.blue,
-                ),
-              ),
-              UserWidget(futureUser),
+              UserWidget(Backend.getUserById(UserState().user.id)),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _refresh() async {
+    setState(() {
+      futureUser = Backend.getUserById(UserState().user.id);
+    });
   }
 }

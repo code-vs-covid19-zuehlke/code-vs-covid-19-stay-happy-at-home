@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:happyathome/apis/Backend.dart';
-import 'package:happyathome/models/User.dart';
+import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/ProfileImgWidget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../UserState.dart';
 
@@ -28,11 +26,7 @@ class _RegisterState extends State<Register> {
 
   void createUser() async {
     var name = nameController.text;
-    final user = await Backend.postUser(User.createUser(name));
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("REGISTERED", true);
-    await prefs.setString("USER_ID", user.id);
-    UserState().user = user;
+    UserState().user = await UserRegistration.register(name);
     Navigator.pushReplacementNamed(context, "/feeling");
   }
 
@@ -55,9 +49,7 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
                   controller: nameController,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter your name'),
+                  decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Enter your name'),
                 ),
               ),
               ProfileImgWidget(_image, onChooseImage),
