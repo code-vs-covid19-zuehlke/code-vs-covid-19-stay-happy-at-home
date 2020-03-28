@@ -12,15 +12,11 @@ import org.codevscovid19.stayhappyathome.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/post")
@@ -42,8 +38,13 @@ public class PostResource {
         this.postService = postService;
     }
 
+    @GetMapping(path = "", produces = "application/json")
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return ResponseEntity.ok(postRepository.findAll());
+    }
+
     @GetMapping(path = "/user/{id}", produces = "application/json")
-    public ResponseEntity<ResponseEntity<List<Post>>> getPosts(@PathVariable("id") String id) {
+    public ResponseEntity<Set<Post>> getPosts(@PathVariable("id") String id) {
         //		service.getPosts(user)
         // rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
 
