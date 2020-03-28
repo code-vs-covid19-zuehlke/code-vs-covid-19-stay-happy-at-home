@@ -36,7 +36,7 @@ public class PostResource {
 
 	@GetMapping(path = "", produces = "application/json")
 	public ResponseEntity<List<Post>> getPosts() {
-		return ResponseEntity.ok(postRepository.getAll());
+		return ResponseEntity.ok(postRepository.findAll());
 	}
 
 	@PostMapping(path = "", produces = "application/json", consumes = "application/json")
@@ -48,11 +48,8 @@ public class PostResource {
 	@GetMapping(path = "/{id}", produces = "application/json")
 	public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
 		Optional<Post> post = postRepository.findById(id);
-		if (post.isPresent()) {
-			return ResponseEntity.ok(post.get());
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+		return post.map(ResponseEntity::ok)
+				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@PostMapping(path = "/{postId}/reply", produces = "application/json", consumes = "application/json")
