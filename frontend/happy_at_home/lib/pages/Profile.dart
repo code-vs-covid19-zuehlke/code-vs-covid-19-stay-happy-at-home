@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/User.dart';
-import 'package:happyathome/widgets/ProfileImgWidget.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
 
 class Profile extends StatefulWidget {
@@ -13,18 +10,11 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Future<User> futureUser;
-  File _image;
 
   @override
   void initState() {
     super.initState();
     futureUser = Backend.ensureTestUser();
-  }
-
-  void onChooseImage(image) {
-    setState(() {
-      _image = image;
-    });
   }
 
   @override
@@ -74,7 +64,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               UserWidget(futureUser),
-              ProfileImgWidget(_image, onChooseImage),
             ],
           ),
         ),
