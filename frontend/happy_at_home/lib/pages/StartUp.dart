@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StartUp extends StatefulWidget {
   @override
@@ -13,19 +14,24 @@ class _StartUpState extends State<StartUp> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    //Todo: Check here if user is already registered
-    var userRegistered = false;
-    if (userRegistered) {
+  void loadState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool registered = (prefs.getBool("REGISTERED") ?? false);
+
+    if (registered) {
       loadUser();
     } else {
       Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushReplacementNamed(context, "/profile");
       });
-
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadState();
   }
 
   @override
