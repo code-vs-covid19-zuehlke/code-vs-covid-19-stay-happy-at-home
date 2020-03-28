@@ -50,13 +50,16 @@ public class PostResource {
 		this.postService = postService;
 	}
 
-    @GetMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity<List<Post>> getPosts(@PathVariable("id") String id) {
+    @GetMapping(path = "/user/{id}", produces = "application/json")
+    public ResponseEntity<ResponseEntity<List<Post>>> getPosts(@PathVariable("id") String id) {
         //		service.getPosts(user)
         // rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
 
-        userRepository.findById(id);
-        return postService.getPostsForUser();
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(postService.getPostsForUser(user.get()));
     }
 
     @PostMapping(path = "", produces = "application/json", consumes = "application/json")
