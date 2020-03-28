@@ -1,13 +1,6 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -36,7 +29,10 @@ public class Post {
   @OneToMany
   private List<PostReaction> postReactions;
 
-  @OneToMany
+  @ElementCollection(targetClass = TargetFeeling.class)
+  @CollectionTable(name = "target_feelings", joinColumns = @JoinColumn(name = "target_feeling_id"))
+  @Column(name = "target_feeling")
+  @Enumerated(EnumType.STRING)
   private Set<TargetFeeling> targetFeelings;
 
   private Post() {
