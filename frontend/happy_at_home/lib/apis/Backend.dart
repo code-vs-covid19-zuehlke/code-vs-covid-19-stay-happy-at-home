@@ -6,16 +6,9 @@ import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:http/http.dart' as http;
-import 'package:uuid/uuid.dart';
 
 class Backend {
   static const baseUrl = 'https://backend-sas4ozc6wa-ew.a.run.app/api/v1';
-
-  static Future<User> ensureTestUser() async {
-    final id = Uuid().v4();
-    await postUser(User(id: id, name: "hans12"));
-    return getUserById(id);
-  }
 
   static Future<User> getUserById(String id) async {
     return _get('user/$id');

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -51,9 +52,9 @@ public class UserResource {
         return ResponseEntity.ok(feelingRepository.save(feeling));
     }
 
-    @GetMapping(path = "/{name}/feeling", produces = "application/json")
-    public ResponseEntity<Set<Feeling>> getFeeling(@PathVariable String name) {
-        Optional<User> userEntity = userRepository.findByName(name);
+    @GetMapping(path = "/{id}/feeling", produces = "application/json")
+    public ResponseEntity<Set<Feeling>> getFeeling(@PathVariable String id) {
+        Optional<User> userEntity = userRepository.findById(id);
 //        userEntity.get().getFeelings()
         return ResponseEntity.ok(new HashSet<>());
     }
