@@ -12,7 +12,7 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<FeelingRecord> feelingRecords;
 
     private User() {
@@ -40,4 +40,7 @@ public class User {
         this.feelingRecords = feelingRecord;
     }
 
+    public void addFeelings(FeelingRecord feelingRecord) {
+        feelingRecords.add(feelingRecord);
+    }
 }

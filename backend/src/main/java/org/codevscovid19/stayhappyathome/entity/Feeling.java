@@ -2,6 +2,7 @@ package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "FEELINGS")
@@ -33,5 +34,19 @@ public class Feeling {
 
     public void setEmoji(Emoji emoji) {
         this.emoji = emoji;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Feeling feeling = (Feeling) o;
+        return Objects.equals(id, feeling.id) &&
+            emoji == feeling.emoji;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, emoji);
     }
 }
