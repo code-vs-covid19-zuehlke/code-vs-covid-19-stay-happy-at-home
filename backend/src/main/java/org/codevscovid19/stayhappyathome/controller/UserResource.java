@@ -86,11 +86,7 @@ public class UserResource {
   @GetMapping(path = "/{id}/feeling", produces = "application/json")
   public ResponseEntity<List<Feeling>> getFeelings(@PathVariable String id) {
     Optional<User> userEntity = userRepository.findById(id);
-    List<FeelingRecord> feelingRecords = userEntity.get().getFeelingRecords();
-    List<Feeling> latestFeelings = feelingRecords.stream()
-      .max(Comparator.comparing(FeelingRecord::getTime))
-      .map(FeelingRecord::getFeelings)
-      .orElse(Collections.emptyList());
+    List<Feeling> latestFeelings = userEntity.get().getFeelings();
     return ResponseEntity.ok(latestFeelings);
   }
 }
