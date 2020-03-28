@@ -59,6 +59,9 @@ class _ActualFeelingState extends State<ActualFeeling> {
                   onPressed: uploadFeelings,
                   label: Text(
                     "Go to Feed",
+                    style: TextStyle(
+                        fontFamily: "Comfortaa"
+                    ),
                   ),
                   icon: Icon(
                     Icons.edit,
@@ -71,6 +74,9 @@ class _ActualFeelingState extends State<ActualFeeling> {
                   },
                   label: Text(
                     "Go to Profile",
+                    style: TextStyle(
+                        fontFamily: "Comfortaa"
+                    ),
                   ),
                   icon: Icon(
                     Icons.edit,

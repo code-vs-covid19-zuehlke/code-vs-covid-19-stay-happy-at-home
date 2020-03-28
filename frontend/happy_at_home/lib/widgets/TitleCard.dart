@@ -22,7 +22,8 @@ class TitleCard extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(fontSize: 30,
+                  fontFamily: "Comfortaa"),
               textAlign: TextAlign.left,
             ),
             SizedBox(

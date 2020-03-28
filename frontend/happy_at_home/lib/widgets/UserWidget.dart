@@ -18,7 +18,8 @@ class UserWidget extends StatelessWidget {
               backgroundImage: AssetImage('assets/profile_picture.jpg'),
               radius: 70,),
             SizedBox(height: 15),
-            Text("Hi ${snapshot.data.name}", style: TextStyle(fontSize: 36)),
+            Text("Hi ${snapshot.data.name}", style: TextStyle(fontSize: 36,
+                fontFamily: "Comfortaa")),
             SizedBox(height: 15),
           ]);
         } else if (snapshot.hasError) {

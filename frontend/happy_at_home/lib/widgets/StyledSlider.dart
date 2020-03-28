@@ -43,6 +43,7 @@ class _StyledSliderState extends State<StyledSlider> {
         valueIndicatorColor: Colors.black,
         valueIndicatorTextStyle: TextStyle(
           color: Colors.white,
+            fontFamily: "Comfortaa"
         ),
       ),
       child: Slider(

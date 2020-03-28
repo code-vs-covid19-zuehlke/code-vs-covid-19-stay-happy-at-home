@@ -41,7 +41,8 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Reactions received", style: TextStyle(fontSize: 24)),
+                        Text("Reactions received", style: TextStyle(
+                            fontSize: 24, fontFamily: "Comfortaa")),
                         Row(
                           children: <Widget>[
                             Image.asset(
@@ -58,7 +59,8 @@ class _ProfileState extends State<Profile> {
                           ],
                         ),
                         SizedBox(height: 32),
-                        Text("Reactions given", style: TextStyle(fontSize: 24)),
+                        Text("Reactions given", style: TextStyle(fontSize: 24,
+                            fontFamily: "Comfortaa")),
                         Row(children: <Widget>[
                           Image.asset(
                             "assets/emoji/pile_of_poo.png",
@@ -74,6 +76,9 @@ class _ProfileState extends State<Profile> {
                   onPressed: () => _refresh(),
                   label: Text(
                     "Refresh",
+                    style: TextStyle(
+                        fontFamily: "Comfortaa"
+                    ),
                   ),
                   icon: Icon(
                     Icons.refresh,
@@ -84,6 +89,9 @@ class _ProfileState extends State<Profile> {
                   onPressed: () => UserRegistration.unregister(context),
                   label: Text(
                     "Unregister",
+                    style: TextStyle(
+                        fontFamily: "Comfortaa"
+                    ),
                   ),
                   icon: Icon(
                     Icons.delete,
