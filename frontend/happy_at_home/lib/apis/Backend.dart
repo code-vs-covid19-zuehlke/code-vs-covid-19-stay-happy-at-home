@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
@@ -24,6 +25,18 @@ class Backend {
 
   static Future<String> postUser(User user) async {
     return _postRaw('user', user);
+  }
+
+  static Future<User> getPostById(String id) async {
+    return _get('post/$id');
+  }
+
+  static Future<List<User>> getPosts() async {
+    return _get('post');
+  }
+
+  static Future<String> postPost(Post post) async {
+    return _postRaw('post', post);
   }
 
   // ------------------------------------------------------------------------------
