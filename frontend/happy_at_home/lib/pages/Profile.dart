@@ -28,6 +28,8 @@ class _ProfileState extends State<Profile> {
           child: Column(
             children: <Widget>[
               UserWidget(Backend.getUserById(UserState().user.id)),
+              Text("Reactions received", style: TextStyle(fontSize: 24)),
+              Text("Reactions given", style: TextStyle(fontSize: 24)),
               FlatButton.icon(
                 onPressed: () => _refresh(),
                 label: Text(

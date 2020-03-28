@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/UserWidget.dart';
 
 import '../UserState.dart';
 
@@ -17,8 +19,8 @@ class _ActualFeelingState extends State<ActualFeeling> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Text("Actual Feeling Page"),
-              Text("Hello ${userstate.user.name}\nHow do you feel?"),
+              UserWidget(UserRegistration.load()),
+              Text("Hello, how do you feel?"),
               FlatButton.icon(
                 onPressed: () {
                   Navigator.pushNamed(context, "/feed");
