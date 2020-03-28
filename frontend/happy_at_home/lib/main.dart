@@ -9,8 +9,8 @@ import 'package:happyathome/pages/StartUp.dart';
 import 'main.reflectable.dart' show initializeReflectable;
 
 void main() {
+  initializeReflectable();
   runApp(MaterialApp(
-      initializeReflectable();
       initialRoute: "/",
       routes: {
         "/": (context) => StartUp(),
