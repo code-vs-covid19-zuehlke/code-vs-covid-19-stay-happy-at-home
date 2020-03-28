@@ -8,17 +8,23 @@ class StartUp extends StatefulWidget {
 class _StartUpState extends State<StartUp> {
   void loadUser() async {
     //Todo: Load User here
-    Navigator.pushReplacementNamed(context, "/feeling");
+    Future(() {
+      Navigator.pushReplacementNamed(context, "/feeling");
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    //Todo: Check here if user is already registered
     var userRegistered = true;
     if (userRegistered) {
       loadUser();
     } else {
-      Navigator.pushReplacementNamed(context, "/profile");
+      Future(() {
+        Navigator.pushReplacementNamed(context, "/profile");
+      });
+
     }
   }
 
