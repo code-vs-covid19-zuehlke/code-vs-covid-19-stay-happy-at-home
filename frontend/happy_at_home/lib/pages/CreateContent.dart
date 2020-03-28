@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
-import 'package:happyathome/widgets/EmojiChooserWidget.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
+import 'package:happyathome/widgets/TargetFeelingChooserWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
 
 class CreateContent extends StatefulWidget {
@@ -121,7 +121,8 @@ class _CreateContentState extends State<CreateContent> {
               ),
               TitleCard(
                   title: "This makes me feel...",
-                  child: EmojiChooserWidget(3, updateFeelings, false)),
+                  child: TargetFeelingChooserWidget()
+              ),
               TitleCard(
                 title: "How much time does it need?",
                 child: StyledSlider(0, updateTimePeriod),
