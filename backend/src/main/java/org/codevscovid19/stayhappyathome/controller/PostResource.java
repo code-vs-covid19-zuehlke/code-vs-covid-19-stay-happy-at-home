@@ -11,6 +11,7 @@ import org.codevscovid19.stayhappyathome.repository.PostRepository;
 import org.codevscovid19.stayhappyathome.repository.ReplyReactionRepository;
 import org.codevscovid19.stayhappyathome.repository.ReplyRepository;
 import org.codevscovid19.stayhappyathome.repository.UserRepository;
+import org.codevscovid19.stayhappyathome.service.PhotoService;
 import org.codevscovid19.stayhappyathome.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -40,17 +42,19 @@ public class PostResource {
   private final PostService postService;
   private final PostReactionRepository postReactionRepository;
   private final ReplyReactionRepository replyReactionRepository;
+  private final PhotoService photoService;
 
   @Autowired
   public PostResource(PostRepository postRepository, ReplyRepository replyRepository,
                       PostReactionRepository postReactionRepository, ReplyReactionRepository replyReactionRepository,
-                      UserRepository userRepository, PostService postService) {
+                      UserRepository userRepository, PostService postService, PhotoService photoService) {
     this.postRepository = postRepository;
     this.replyRepository = replyRepository;
     this.userRepository = userRepository;
     this.postService = postService;
     this.postReactionRepository = postReactionRepository;
     this.replyReactionRepository = replyReactionRepository;
+    this.photoService = photoService;
   }
 
   @GetMapping(path = "", produces = "application/json")
@@ -62,11 +66,11 @@ public class PostResource {
 
   @PostMapping(path = "", produces = "application/json", consumes = "application/json")
   public ResponseEntity<Post> createPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
-                                          @RequestBody PostDto postDto) {
+                                          @RequestBody PostDto postDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
+    URL photoUrl = photoService.writeBytesToGcp("post-" + postDto.getId(), postDto.getPicture());
 
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, postDto.getTargetFeelings());
-
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), photoUrl, user, postDto.getTargetFeelings(), postDto.getPhotoContentType());
     Post newPost = postRepository.save(post);
     return ResponseEntity.ok(newPost);
   }
@@ -81,9 +85,11 @@ public class PostResource {
   @PostMapping(path = "/{postId}/reply", produces = "application/json", consumes = "application/json")
   public ResponseEntity<Reply> createReply(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                            @PathVariable("postId") Long postId,
-                                           @RequestBody ReplyDto replyDto) {
+                                           @RequestBody ReplyDto replyDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
-    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), replyDto.getPicture(), user, Collections.emptyList());
+    URL photoUrl = photoService.writeBytesToGcp("reply-" + replyDto.getId(), replyDto.getPicture());
+
+    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), photoUrl, user, Collections.emptyList(), replyDto.getPhotoContentType());
 
     Reply newReply = replyRepository.save(reply);
     return ResponseEntity.ok(newReply);

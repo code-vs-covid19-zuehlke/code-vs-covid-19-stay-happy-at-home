@@ -1,8 +1,13 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import java.util.Arrays;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,11 +17,12 @@ public class User {
 
   @Id
   private String id;
-
   @Column(name = "name")
   private String name;
-
-  private byte[] photo;
+  @Column(name = "photo")
+  private URL photo;
+  @Column(name = "photo_content_type")
+  private String photoContentType;
 
   @OneToMany(cascade = CascadeType.ALL)
   private List<FeelingRecord> feelingRecords;
@@ -25,10 +31,11 @@ public class User {
     // for Jackson
   }
 
-  public User(String id, String name, byte[] photo) {
+  public User(String id, String name, URL photo, String photoContentType) {
     this.id = id;
     this.name = name;
     this.photo = photo;
+    this.photoContentType = photoContentType;
   }
 
   public String getId() {
@@ -43,8 +50,12 @@ public class User {
     return feelingRecords;
   }
 
-  public byte[] getPhoto() {
+  public URL getPhoto() {
     return photo;
+  }
+
+  public String getPhotoContentType() {
+    return photoContentType;
   }
 
   public void addFeelings(FeelingRecord feelingRecord) {
@@ -58,14 +69,14 @@ public class User {
     User user = (User) o;
     return Objects.equals(id, user.id) &&
       Objects.equals(name, user.name) &&
-      Arrays.equals(photo, user.photo);
+      Objects.equals(photo, user.photo) &&
+      Objects.equals(photoContentType, user.photoContentType) &&
+      Objects.equals(feelingRecords, user.feelingRecords);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id, name);
-    result = 31 * result + Arrays.hashCode(photo);
-    return result;
+    return Objects.hash(id, name, photo, photoContentType, feelingRecords);
   }
 
   @Override
