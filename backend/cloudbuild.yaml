@@ -1,0 +1,23 @@
+substitutions:
+  _IMAGE_NAME: backend # Configure this
+
+steps:
+
+  -
+    name: openjdk:11-jdk-slim
+    dir: /workspace/backend
+    args:
+      - ./gradlew
+      - jib
+      - --image=gcr.io/${PROJECT_ID}/${_IMAGE_NAME}:$COMMIT_SHA
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'backend'
+      - '--image'
+      - 'gcr.io/${PROJECT_ID}/${_IMAGE_NAME}:$COMMIT_SHA'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
