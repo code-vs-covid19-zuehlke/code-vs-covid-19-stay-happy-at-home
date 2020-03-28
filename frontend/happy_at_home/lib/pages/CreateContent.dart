@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:happyathome/models/Emoji.dart';
+import 'package:happyathome/models/TargetFeeling.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
@@ -18,7 +18,7 @@ class _CreateContentState extends State<CreateContent> {
   final descriptionController = TextEditingController();
   final linkController = TextEditingController();
   File _image;
-  List<Emoji> chosenFeelings;
+  List<TargetFeeling> chosenFeelings;
   double timePeriod;
 
   void onChooseImage(image) {
@@ -38,6 +38,10 @@ class _CreateContentState extends State<CreateContent> {
   void postPost() {
     //Todo: Post the post to the backend
     Navigator.pop(context);
+  }
+
+  void updateTargetFeelings(targetFeelings) {
+    chosenFeelings = targetFeelings;
   }
 
   @override
@@ -121,7 +125,7 @@ class _CreateContentState extends State<CreateContent> {
               ),
               TitleCard(
                   title: "This makes me feel...",
-                  child: TargetFeelingChooserWidget()
+                  child: TargetFeelingChooserWidget(updateTargetFeelings)
               ),
               TitleCard(
                 title: "How much time does it need?",
