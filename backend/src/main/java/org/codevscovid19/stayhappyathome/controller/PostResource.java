@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +63,7 @@ public class PostResource {
     public ResponseEntity<Post> createPosts(@RequestBody PostDto postDto) {
 		User user = userRepository.findById(postDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-		Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user);
+		Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, Collections.emptyList());
 
         Post newPost = postRepository.save(post);
         return ResponseEntity.ok(newPost);
@@ -78,7 +79,7 @@ public class PostResource {
     @PostMapping(path = "/{postId}/reply", produces = "application/json", consumes = "application/json")
     public ResponseEntity<Reply> createReply(@PathVariable("postId") Long postId, @RequestBody ReplyDto replyDto) {
 		User user = userRepository.findById(replyDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
-		Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), replyDto.getPicture(), user);
+		Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), replyDto.getPicture(), user, Collections.emptyList());
 
         Reply newReply = replyRepository.save(reply);
         return ResponseEntity.ok(newReply);
@@ -89,7 +90,8 @@ public class PostResource {
 		Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Could not find Post"));
 		User user = userRepository.findById(reactionDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-		PostReaction postReaction = new PostReaction(post, user);
+		// TODO: add reaction to post
+		PostReaction postReaction = new PostReaction(user);
 
 		PostReaction newPostReaction = postReactionRepository.save(postReaction);
         return ResponseEntity.ok(newPostReaction);
@@ -100,7 +102,8 @@ public class PostResource {
 		Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new RuntimeException("Could not find Reply"));
 		User user = userRepository.findById(reactionDto.getUserId()).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-		ReplyReaction replyReaction = new ReplyReaction(reply, user);
+		// TODO: add reaction to reaction
+		ReplyReaction replyReaction = new ReplyReaction(user);
 
 		ReplyReaction newReplyReaction = replyReactionRepository.save(replyReaction);
         return ResponseEntity.ok(newReplyReaction);

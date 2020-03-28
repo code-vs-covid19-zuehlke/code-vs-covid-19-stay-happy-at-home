@@ -7,6 +7,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -43,10 +44,6 @@ public class User {
 
 	public List<FeelingRecord> getFeelingRecords() {
 		return feelingRecords;
-	}
-
-	public void addFeeling(Feeling feeling) {
-		this.feelings.add(feeling);
 	}
 
 	public byte[] getPhoto() {

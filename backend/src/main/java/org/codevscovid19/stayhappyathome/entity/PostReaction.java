@@ -17,16 +17,13 @@ public class PostReaction {
 	private Long id;
 
 	@ManyToOne
-	private Post post;
-	@ManyToOne
 	private User user;
 
 	private PostReaction() {
 		// for Jackson
 	}
 
-	public PostReaction(Post post, User user) {
-		this.post = post;
+	public PostReaction(User user) {
 		this.user = user;
 	}
 
@@ -36,14 +33,6 @@ public class PostReaction {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Post getPost() {
-		return post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
 	}
 
 	public User getUser() {
@@ -60,12 +49,11 @@ public class PostReaction {
 		if (o == null || getClass() != o.getClass()) return false;
 		PostReaction that = (PostReaction) o;
 		return Objects.equals(id, that.id) &&
-				Objects.equals(post, that.post) &&
 				Objects.equals(user, that.user);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, post, user);
+		return Objects.hash(id, user);
 	}
 }

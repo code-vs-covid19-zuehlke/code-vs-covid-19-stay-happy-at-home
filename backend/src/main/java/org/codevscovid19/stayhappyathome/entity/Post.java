@@ -6,10 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -30,16 +32,20 @@ public class Post {
 	@ManyToOne
 	private User user;
 
+	@OneToMany
+	private List<PostReaction> postReactions;
+
 	private Post() {
 		// for Jackson
 	}
 
-	public Post(String title, String description, URL link, byte[] picture, User user) {
+	public Post(String title, String description, URL link, byte[] picture, User user, List<PostReaction> postReactions) {
 		this.title = title;
 		this.description = description;
 		this.link = link;
 		this.picture = picture;
 		this.user = user;
+		this.postReactions = postReactions;
 	}
 
 	public Long getId() {
@@ -90,6 +96,14 @@ public class Post {
 		this.user = user;
 	}
 
+	public List<PostReaction> getPostReactions() {
+		return postReactions;
+	}
+
+	public void setPostReactions(List<PostReaction> postReactions) {
+		this.postReactions = postReactions;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -100,12 +114,13 @@ public class Post {
 				Objects.equals(description, post.description) &&
 				Objects.equals(link, post.link) &&
 				Arrays.equals(picture, post.picture) &&
-				Objects.equals(user, post.user);
+				Objects.equals(user, post.user) &&
+				Objects.equals(postReactions, post.postReactions);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(id, title, description, link, user);
+		int result = Objects.hash(id, title, description, link, user, postReactions);
 		result = 31 * result + Arrays.hashCode(picture);
 		return result;
 	}

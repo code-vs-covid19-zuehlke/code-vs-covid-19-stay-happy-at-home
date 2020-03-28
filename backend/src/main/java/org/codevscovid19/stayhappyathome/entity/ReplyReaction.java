@@ -16,16 +16,13 @@ public class ReplyReaction {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@ManyToOne
-	private Reply reply;
-	@ManyToOne
 	private User user;
 
 	private ReplyReaction() {
 		// for Jackson
 	}
 
-	public ReplyReaction(Reply reply, User user) {
-		this.reply = reply;
+	public ReplyReaction(User user) {
 		this.user = user;
 	}
 
@@ -35,14 +32,6 @@ public class ReplyReaction {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Reply getReply() {
-		return reply;
-	}
-
-	public void setReply(Reply reply) {
-		this.reply = reply;
 	}
 
 	public User getUser() {
@@ -59,12 +48,11 @@ public class ReplyReaction {
 		if (o == null || getClass() != o.getClass()) return false;
 		ReplyReaction that = (ReplyReaction) o;
 		return Objects.equals(id, that.id) &&
-				Objects.equals(reply, that.reply) &&
 				Objects.equals(user, that.user);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, reply, user);
+		return Objects.hash(id, user);
 	}
 }

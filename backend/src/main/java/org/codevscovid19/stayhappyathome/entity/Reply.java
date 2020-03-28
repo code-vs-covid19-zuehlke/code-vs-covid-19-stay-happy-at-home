@@ -6,14 +6,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "REPLYS")
+@Table(name = "REPLIES")
 public class Reply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,16 +32,20 @@ public class Reply {
 	@ManyToOne
 	private User user;
 
+	@OneToMany
+	private List<ReplyReaction> replyReactions;
+
 	private Reply() {
 		// for Jackson
 	}
 
-	public Reply(String title, String description, URL link, byte[] picture, User user) {
+	public Reply(String title, String description, URL link, byte[] picture, User user, List<ReplyReaction> replyReactions) {
 		this.title = title;
 		this.description = description;
 		this.link = link;
 		this.picture = picture;
 		this.user = user;
+		this.replyReactions = replyReactions;
 	}
 
 	public Long getId() {
@@ -90,6 +96,14 @@ public class Reply {
 		this.user = user;
 	}
 
+	public List<ReplyReaction> getReplyReactions() {
+		return replyReactions;
+	}
+
+	public void setReplyReactions(List<ReplyReaction> replyReactions) {
+		this.replyReactions = replyReactions;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -100,12 +114,13 @@ public class Reply {
 				Objects.equals(description, reply.description) &&
 				Objects.equals(link, reply.link) &&
 				Arrays.equals(picture, reply.picture) &&
-				Objects.equals(user, reply.user);
+				Objects.equals(user, reply.user) &&
+				Objects.equals(replyReactions, reply.replyReactions);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(id, title, description, link, user);
+		int result = Objects.hash(id, title, description, link, user, replyReactions);
 		result = 31 * result + Arrays.hashCode(picture);
 		return result;
 	}
