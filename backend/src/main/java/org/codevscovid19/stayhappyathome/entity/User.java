@@ -1,7 +1,7 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "USERS")
@@ -13,7 +13,7 @@ public class User {
     private String name;
 
     @OneToMany
-    private Set<Feeling> feelings;
+    private List<FeelingRecord> feelingRecords;
 
     private User() {
         // for Jackson
@@ -32,11 +32,12 @@ public class User {
         return name;
     }
 
-    public Set<Feeling> getFeelings() {
-        return feelings;
+    public List<FeelingRecord> getFeelingRecords() {
+        return feelingRecords;
     }
 
-    public void addFeeling(Feeling feeling) {
-        this.feelings.add(feeling);
+    public void setFeelingRecords(List<FeelingRecord> feelingRecord) {
+        this.feelingRecords = feelingRecord;
     }
+
 }

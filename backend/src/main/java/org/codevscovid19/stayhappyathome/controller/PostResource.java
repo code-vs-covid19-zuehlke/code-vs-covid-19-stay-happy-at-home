@@ -36,6 +36,8 @@ public class PostResource {
 
 	@GetMapping(path = "", produces = "application/json")
 	public ResponseEntity<List<Post>> getPosts() {
+//		service.getPosts(user)
+					// rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
 		return ResponseEntity.ok(postRepository.findAll());
 	}
 
