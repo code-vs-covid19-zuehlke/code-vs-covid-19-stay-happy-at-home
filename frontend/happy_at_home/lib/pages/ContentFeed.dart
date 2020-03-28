@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/PostWidget.dart';
 
 class ContentFeed extends StatefulWidget {
   @override
@@ -15,6 +16,9 @@ class _ContentFeedState extends State<ContentFeed> {
         child: Column(
           children: <Widget>[
             Text("Content Feed Page"),
+            PostWidget(
+                "Toilet paper tower wanted!", "Where to store all the rolls?",
+                null),
             FlatButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, "/detail");
