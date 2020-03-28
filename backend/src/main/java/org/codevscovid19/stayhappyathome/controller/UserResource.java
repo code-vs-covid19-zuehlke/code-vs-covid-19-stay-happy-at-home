@@ -46,7 +46,7 @@ public class UserResource {
     return ResponseEntity.ok(userRepository.save(user));
   }
 
-  @PostMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
+  @PutMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Void> addFeelings(@PathVariable String id, @RequestBody List<FeelingDto> feelingDtos) {
     Optional<User> userEntity = userRepository.findById(id);
     if (userEntity.isPresent()) {
