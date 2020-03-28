@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import java.net.URL;
@@ -26,16 +27,19 @@ public class Reply {
 
 	private byte[] picture;
 
+	@ManyToOne
+	private User user;
+
 	private Reply() {
 		// for Jackson
 	}
 
-	public Reply(Long id, String title, String description, URL link, byte[] picture) {
-		this.id = id;
+	public Reply(String title, String description, URL link, byte[] picture, User user) {
 		this.title = title;
 		this.description = description;
 		this.link = link;
 		this.picture = picture;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -78,6 +82,14 @@ public class Reply {
 		this.picture = picture;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -87,12 +99,13 @@ public class Reply {
 				Objects.equals(title, reply.title) &&
 				Objects.equals(description, reply.description) &&
 				Objects.equals(link, reply.link) &&
-				Arrays.equals(picture, reply.picture);
+				Arrays.equals(picture, reply.picture) &&
+				Objects.equals(user, reply.user);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(id, title, description, link);
+		int result = Objects.hash(id, title, description, link, user);
 		result = 31 * result + Arrays.hashCode(picture);
 		return result;
 	}

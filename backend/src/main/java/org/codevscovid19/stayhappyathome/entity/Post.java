@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import java.net.URL;
@@ -26,16 +27,19 @@ public class Post {
 
 	private byte[] picture;
 
+	@ManyToOne
+	private User user;
+
 	private Post() {
 		// for Jackson
 	}
 
-	public Post(Long id, String title, String description, URL link, byte[] picture) {
-		this.id = id;
+	public Post(String title, String description, URL link, byte[] picture, User user) {
 		this.title = title;
 		this.description = description;
 		this.link = link;
 		this.picture = picture;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -74,6 +78,18 @@ public class Post {
 		return picture;
 	}
 
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -83,12 +99,13 @@ public class Post {
 				Objects.equals(title, post.title) &&
 				Objects.equals(description, post.description) &&
 				Objects.equals(link, post.link) &&
-				Arrays.equals(picture, post.picture);
+				Arrays.equals(picture, post.picture) &&
+				Objects.equals(user, post.user);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(id, title, description, link);
+		int result = Objects.hash(id, title, description, link, user);
 		result = 31 * result + Arrays.hashCode(picture);
 		return result;
 	}
