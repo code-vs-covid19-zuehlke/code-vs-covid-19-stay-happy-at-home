@@ -57,11 +57,6 @@ public class PostResource {
   }
 
   @GetMapping(path = "", produces = "application/json")
-  public ResponseEntity<List<Post>> getAllPosts() {
-    return ResponseEntity.ok(postRepository.findAll());
-  }
-
-  @GetMapping(path = "", produces = "application/json")
   public ResponseEntity<Set<Post>> getPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId) {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
 
