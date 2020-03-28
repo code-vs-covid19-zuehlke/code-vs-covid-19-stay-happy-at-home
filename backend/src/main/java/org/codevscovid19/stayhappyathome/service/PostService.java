@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -22,7 +23,7 @@ public class PostService {
         Set<Post> posts = new HashSet<>();
         FeelingRecord latestFeelingRecord = new FeelingRecord();
         latestFeelingRecord.setTime(LocalDateTime.now());
-        latestFeelingRecord.setFeelings(Set.of(new Feeling(Emoji.DOWNCAST_FACE_WITH_SWEAT)));
+        latestFeelingRecord.setFeelings(List.of(new Feeling(Emoji.DOWNCAST_FACE_WITH_SWEAT)));
         /*user.getFeelingRecords().stream()
                 .max(Comparator.comparing(FeelingRecord::getTime))
                 .orElseThrow(() -> new IllegalStateException(String.format("User %s has no feelings", user)));*/
