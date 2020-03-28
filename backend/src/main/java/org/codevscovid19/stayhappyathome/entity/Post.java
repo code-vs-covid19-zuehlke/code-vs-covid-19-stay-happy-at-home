@@ -1,6 +1,7 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ public class Post {
   @OneToMany
   private List<PostReaction> postReactions;
 
+  @NotNull
   @ElementCollection(targetClass = TargetFeeling.class)
   @CollectionTable(name = "target_feelings", joinColumns = @JoinColumn(name = "target_feeling_id"))
   @Column(name = "target_feeling")
@@ -39,13 +41,12 @@ public class Post {
     // for Jackson
   }
 
-  public Post(String title, String description, URL link, byte[] picture, User user, List<PostReaction> postReactions, Set<TargetFeeling> targetFeelings) {
+  public Post(String title, String description, URL link, byte[] picture, User user, Set<TargetFeeling> targetFeelings) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
     this.user = user;
-    this.postReactions = postReactions;
     this.targetFeelings = targetFeelings;
   }
 
