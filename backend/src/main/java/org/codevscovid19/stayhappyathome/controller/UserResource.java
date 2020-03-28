@@ -47,13 +47,13 @@ public class UserResource {
   }
 
   @PostMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<Void> addFeelings(@PathVariable String id, @RequestBody Set<FeelingDto> feelingDtos) {
+  public ResponseEntity<Void> addFeelings(@PathVariable String id, @RequestBody List<FeelingDto> feelingDtos) {
     Optional<User> userEntity = userRepository.findById(id);
     if (userEntity.isPresent()) {
       User user = userEntity.get();
       user.addFeelings(new FeelingRecord(
           feelingDtos.stream().map(feelingDto -> new Feeling(feelingDto.getEmoji()))
-              .collect(Collectors.toSet())));
+              .collect(Collectors.toList())));
       userRepository.save(user);
       return ResponseEntity.ok().build();
     }
@@ -61,13 +61,13 @@ public class UserResource {
   }
 
   @GetMapping(path = "/{id}/feeling", produces = "application/json")
-  public ResponseEntity<Set<Feeling>> getFeelings(@PathVariable String id) {
+  public ResponseEntity<List<Feeling>> getFeelings(@PathVariable String id) {
     Optional<User> userEntity = userRepository.findById(id);
     List<FeelingRecord> feelingRecords = userEntity.get().getFeelingRecords();
-    Set<Feeling> latestFeelings = feelingRecords.stream()
+    List<Feeling> latestFeelings = feelingRecords.stream()
         .max(Comparator.comparing(FeelingRecord::getTime))
         .map(FeelingRecord::getFeelings)
-        .orElse(new HashSet<>());
+        .orElse(Collections.emptyList());
     return ResponseEntity.ok(latestFeelings);
   }
 }
