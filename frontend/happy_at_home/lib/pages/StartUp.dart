@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/apis/Backend.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../UserState.dart';
@@ -10,8 +11,10 @@ class StartUp extends StatefulWidget {
 
 class _StartUpState extends State<StartUp> {
   void loadUser() async {
-    //Todo: Load User here and put values in the userstate
-    UserState().username = "Hans12";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final user = await Backend.getUserById(prefs.getString("USER_ID"));
+    UserState().userId = user.id;
+    UserState().username = user.name;
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, "/feeling");
     });

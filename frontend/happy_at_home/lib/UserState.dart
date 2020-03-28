@@ -3,6 +3,7 @@ class UserState {
 
   factory UserState() => _instance;
   String username;
+  String userId;
 
   UserState._internal() {
     // init things inside this
