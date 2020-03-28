@@ -16,7 +16,7 @@ public class UserResource {
 	}
 
 	@GetMapping(path = "/user", produces = "application/json")
-	public ResponseEntity<User> getUser(){
+	public ResponseEntity<User> getUser() {
 		return ResponseEntity.ok(new User("Hans12"));
 	}
 }
