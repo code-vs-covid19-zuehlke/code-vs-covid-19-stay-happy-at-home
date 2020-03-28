@@ -1,8 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.6.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'java'
-	id 'com.google.cloud.tools.jib' version '2.1.0'
+  id 'org.springframework.boot' version '2.2.6.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+  id 'java'
+  id 'com.google.cloud.tools.jib' version '2.1.0'
 }
 
 group = 'org.codevscovid19'
@@ -10,43 +10,43 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 ext {
-	set('springCloudVersion', "Hoxton.SR3")
+  set('springCloudVersion', "Hoxton.SR3")
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage'
-	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-sql-postgresql'
-	implementation 'org.springframework.session:spring-session-core'
-	runtimeOnly 'org.postgresql:postgresql'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage'
+  implementation 'org.springframework.cloud:spring-cloud-gcp-starter-sql-postgresql'
+  implementation 'org.springframework.session:spring-session-core'
+  runtimeOnly 'org.postgresql:postgresql'
+  testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+  }
 
-	implementation 'org.springdoc:springdoc-openapi-core:1.1.49'
+  implementation 'org.springdoc:springdoc-openapi-core:1.1.49'
 
-	// Local dev DB
-	runtimeOnly('com.h2database:h2')
+  // Local dev DB
+  runtimeOnly('com.h2database:h2')
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
+  imports {
+    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+  }
 }
 
 test {
-	useJUnitPlatform()
+  useJUnitPlatform()
 }
 
 jib {
-	to {
-		image = 'gcr.io/stayhappyathome/backend'
-	}
+  to {
+    image = 'gcr.io/stayhappyathome/backend'
+  }
 }
