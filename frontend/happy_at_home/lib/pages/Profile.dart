@@ -27,35 +27,7 @@ class _ProfileState extends State<Profile> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Image.asset('assets/profile_picture.jpg'),
-              Text("Hans12", style: TextStyle(fontSize: 36)),
-              Text("Reactions received", style: TextStyle(fontSize: 24)),
-              Text("Reactions given", style: TextStyle(fontSize: 24)),
-              FlatButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/feeling");
-                },
-                label: Text(
-                  "Go to Feeling page",
-                ),
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.blue,
-                ),
-              ),
-              FlatButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/create");
-                },
-                label: Text(
-                  "Create Content",
-                ),
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.blue,
-                ),
-              ),
-
+              UserWidget(Backend.getUserById(UserState().user.id)),
               FlatButton.icon(
                 onPressed: () => _refresh(),
                 label: Text(
@@ -76,7 +48,6 @@ class _ProfileState extends State<Profile> {
                   color: Colors.blue,
                 ),
               ),
-              UserWidget(Backend.getUserById(UserState().user.id)),
             ],
           ),
         ),
