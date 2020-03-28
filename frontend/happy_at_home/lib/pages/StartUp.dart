@@ -36,7 +36,7 @@ class _StartUpState extends State<StartUp> {
   void initState() {
     super.initState();
 
-    //loadState();
+    loadState();
   }
 
   @override
