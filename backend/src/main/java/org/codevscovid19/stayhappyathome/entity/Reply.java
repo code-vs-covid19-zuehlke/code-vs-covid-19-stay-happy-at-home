@@ -1,13 +1,6 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -17,13 +10,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "REPLIES")
 public class Reply {
+
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reply_sequence_generator")
+  @SequenceGenerator(name = "reply_sequence_generator", sequenceName = "reply_id_sequence")
   private Long id;
+
   @Column(name = "title", nullable = false)
   private String title;
+
   @Column(name = "description", nullable = false)
   private String description;
+
   @Column(name = "link")
   private URL link;
 

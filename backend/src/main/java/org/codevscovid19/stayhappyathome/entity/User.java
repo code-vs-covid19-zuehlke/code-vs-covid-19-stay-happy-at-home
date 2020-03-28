@@ -9,6 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "USERS")
 public class User {
+
   @Id
   private String id;
 
@@ -65,5 +66,14 @@ public class User {
     int result = Objects.hash(id, name);
     result = 31 * result + Arrays.hashCode(photo);
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+      "id='" + id + '\'' +
+      ", name='" + name + '\'' +
+      ", feelingRecords=" + feelingRecords +
+      '}';
   }
 }

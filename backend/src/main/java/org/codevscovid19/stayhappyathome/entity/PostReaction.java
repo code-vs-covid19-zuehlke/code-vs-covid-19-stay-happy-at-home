@@ -1,19 +1,16 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "REACTIONS")
 public class PostReaction {
+
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_reaction_sequence_generator")
+  @SequenceGenerator(name = "post_reaction_sequence_generator", sequenceName = "post_reaction_id_sequence")
   private Long id;
 
   @ManyToOne

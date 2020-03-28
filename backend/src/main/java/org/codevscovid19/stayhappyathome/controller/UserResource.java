@@ -7,6 +7,8 @@ import org.codevscovid19.stayhappyathome.entity.FeelingRecord;
 import org.codevscovid19.stayhappyathome.entity.User;
 import org.codevscovid19.stayhappyathome.repository.FeelingRepository;
 import org.codevscovid19.stayhappyathome.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserResource {
+
+  private static final Logger logger = LoggerFactory.getLogger(UserResource.class);
 
   private final UserRepository userRepository;
   private final FeelingRepository feelingRepository;
@@ -32,7 +36,7 @@ public class UserResource {
   public ResponseEntity<User> getUser(@PathVariable("id") String id) {
     Optional<User> user = userRepository.findById(id);
     return user.map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+      .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
   @GetMapping(produces = "application/json")
@@ -51,10 +55,15 @@ public class UserResource {
     Optional<User> userEntity = userRepository.findById(id);
     if (userEntity.isPresent()) {
       User user = userEntity.get();
-      user.addFeelings(new FeelingRecord(
-          feelingDtos.stream().map(feelingDto -> new Feeling(feelingDto.getEmoji()))
-              .collect(Collectors.toList())));
-      userRepository.save(user);
+      List<Feeling> feelings = feelingDtos.stream()
+        .map(feelingDto -> new Feeling(feelingDto.getEmoji()))
+        .collect(Collectors.toList());
+      feelings.forEach(feeling -> logger.debug("adding feeling [" + feeling + "] to user [" + user + "]"));
+      FeelingRecord feelingRecord = new FeelingRecord(feelings);
+      logger.debug("adding feeling record [" + feelingRecord + "] to user [" + user + "]");
+      user.addFeelings(feelingRecord);
+      User saved = userRepository.save(user);
+      logger.debug("user after save: " + saved);
       return ResponseEntity.ok().build();
     }
     return ResponseEntity.notFound().build();
@@ -65,9 +74,9 @@ public class UserResource {
     Optional<User> userEntity = userRepository.findById(id);
     List<FeelingRecord> feelingRecords = userEntity.get().getFeelingRecords();
     List<Feeling> latestFeelings = feelingRecords.stream()
-        .max(Comparator.comparing(FeelingRecord::getTime))
-        .map(FeelingRecord::getFeelings)
-        .orElse(Collections.emptyList());
+      .max(Comparator.comparing(FeelingRecord::getTime))
+      .map(FeelingRecord::getFeelings)
+      .orElse(Collections.emptyList());
     return ResponseEntity.ok(latestFeelings);
   }
 }

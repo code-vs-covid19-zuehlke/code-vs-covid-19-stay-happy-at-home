@@ -61,10 +61,11 @@ public class PostResource {
   }
 
   @PostMapping(path = "", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<Post> createPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId, @RequestBody PostDto postDto) {
+  public ResponseEntity<Post> createPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
+                                          @RequestBody PostDto postDto) {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, Collections.emptyList(), Set.of(TargetFeeling.ACCOMPLISHED));
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, postDto.getTargetFeelings());
 
     Post newPost = postRepository.save(post);
     return ResponseEntity.ok(newPost);
@@ -78,7 +79,9 @@ public class PostResource {
   }
 
   @PostMapping(path = "/{postId}/reply", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<Reply> createReply(@RequestHeader(name = USER_ID_HEADER_NAME) String userId, @PathVariable("postId") Long postId, @RequestBody ReplyDto replyDto) {
+  public ResponseEntity<Reply> createReply(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
+                                           @PathVariable("postId") Long postId,
+                                           @RequestBody ReplyDto replyDto) {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
     Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), replyDto.getPicture(), user, Collections.emptyList());
 
@@ -87,7 +90,9 @@ public class PostResource {
   }
 
   @PostMapping(path = "/{postId}/reaction", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<PostReaction> createPostReaction(@RequestHeader(name = USER_ID_HEADER_NAME) String userId, @PathVariable("postId") Long postId, @RequestBody PostReactionDto reactionDto) {
+  public ResponseEntity<PostReaction> createPostReaction(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
+                                                         @PathVariable("postId") Long postId,
+                                                         @RequestBody PostReactionDto reactionDto) {
     Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Could not find Post"));
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
 
@@ -99,7 +104,10 @@ public class PostResource {
   }
 
   @PostMapping(path = "/{postId}/reply/{replyId}/reaction", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<ReplyReaction> createReplyReaction(@RequestHeader(name = USER_ID_HEADER_NAME) String userId, @PathVariable("postId") Long postId, @PathVariable("replyId") Long replyId, @RequestBody ReplyReactionDto reactionDto) {
+  public ResponseEntity<ReplyReaction> createReplyReaction(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
+                                                           @PathVariable("postId") Long postId,
+                                                           @PathVariable("replyId") Long replyId,
+                                                           @RequestBody ReplyReactionDto reactionDto) {
     Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new RuntimeException("Could not find Reply"));
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
 

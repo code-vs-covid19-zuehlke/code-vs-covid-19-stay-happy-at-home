@@ -4,7 +4,7 @@ import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
-import 'package:happyathome/widgets/FeelingChooserWidget.dart';
+import 'package:happyathome/widgets/EmojiChooserWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
@@ -54,7 +54,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
                 ),
                 TitleCard(
                     title: "How do you feel?",
-                    child: FeelingChooserWidget(3, updateFeelings)),
+                    child: EmojiChooserWidget(3, updateFeelings, true)),
                 FlatButton.icon(
                   onPressed: uploadFeelings,
                   label: Text(

@@ -10,3 +10,10 @@ jpa:
       event:
         merge:
           entity_copy_observer: allow
+
+logging:
+  level:
+    org:
+      codevscovid19:
+        stayhappyathome:
+          controller: debug
