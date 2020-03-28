@@ -8,7 +8,7 @@ class StartUp extends StatefulWidget {
 class _StartUpState extends State<StartUp> {
   void loadUser() async {
     //Todo: Load User here
-    Future(() {
+    Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, "/feeling");
     });
   }
@@ -17,11 +17,11 @@ class _StartUpState extends State<StartUp> {
   void initState() {
     super.initState();
     //Todo: Check here if user is already registered
-    var userRegistered = true;
+    var userRegistered = false;
     if (userRegistered) {
       loadUser();
     } else {
-      Future(() {
+      Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushReplacementNamed(context, "/profile");
       });
 
