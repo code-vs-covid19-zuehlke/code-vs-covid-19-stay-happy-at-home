@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/FeelingChooserWidget.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
@@ -12,7 +13,7 @@ class ActualFeeling extends StatefulWidget {
 
 class _ActualFeelingState extends State<ActualFeeling> {
   final userstate = UserState();
-  List<String> chosenFeelings;
+  List<Emoji> chosenFeelings;
 
   void updateFeelings(feelingList) {
     chosenFeelings = feelingList;

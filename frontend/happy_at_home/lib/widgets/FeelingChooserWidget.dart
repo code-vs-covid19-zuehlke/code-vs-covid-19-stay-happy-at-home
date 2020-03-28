@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/models/Emoji.dart';
 
 import 'FeelingWidget.dart';
 
@@ -14,7 +15,7 @@ class FeelingChooserWidget extends StatefulWidget {
 }
 
 class _FeelingChooserWidgetState extends State<FeelingChooserWidget> {
-  var addedFeelings = new List<String>();
+  var addedFeelings = new List<Emoji>();
   var maxFeelings = 0;
   final Function updateFeelings;
 
@@ -47,65 +48,87 @@ class _FeelingChooserWidgetState extends State<FeelingChooserWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FeelingWidget("thinking_face", getBadgeCount("thinking_face"),
+            FeelingWidget(
+                Emoji.THINKING_FACE, getBadgeCount(Emoji.THINKING_FACE),
                 addFeelingToList, removeFeelingFromList),
-            FeelingWidget("smiling", getBadgeCount("smiling"), addFeelingToList,
+            FeelingWidget(Emoji.GRINNING_FACE_WITH_SMILING_EYES,
+                getBadgeCount(Emoji.GRINNING_FACE_WITH_SMILING_EYES),
+                addFeelingToList,
                 removeFeelingFromList),
-            FeelingWidget("heart-eyes", getBadgeCount("heart-eyes"),
+            FeelingWidget(Emoji.SMILING_FACE_WITH_HEART_EYES,
+                getBadgeCount(Emoji.SMILING_FACE_WITH_HEART_EYES),
                 addFeelingToList, removeFeelingFromList),
-            FeelingWidget("monkey", getBadgeCount("monkey"), addFeelingToList,
+            FeelingWidget(Emoji.HEAR_NO_EVIL_MONKEY,
+                getBadgeCount(Emoji.HEAR_NO_EVIL_MONKEY), addFeelingToList,
                 removeFeelingFromList),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FeelingWidget("unamused", getBadgeCount("unamused"),
+            FeelingWidget(
+                Emoji.UNAMUSED_FACE, getBadgeCount(Emoji.UNAMUSED_FACE),
                 addFeelingToList, removeFeelingFromList),
-            FeelingWidget("drool", getBadgeCount("drool"), addFeelingToList,
+            FeelingWidget(
+                Emoji.DROOLING_FACE, getBadgeCount(Emoji.DROOLING_FACE),
+                addFeelingToList,
                 removeFeelingFromList),
-            FeelingWidget("crying", getBadgeCount("crying"), addFeelingToList,
+            FeelingWidget(Emoji.LOUDLY_CRYING_FACE,
+                getBadgeCount(Emoji.LOUDLY_CRYING_FACE), addFeelingToList,
                 removeFeelingFromList),
-            FeelingWidget("sleepy", getBadgeCount("sleepy"), addFeelingToList,
+            FeelingWidget(
+                Emoji.SLEEPING_FACE, getBadgeCount(Emoji.SLEEPING_FACE),
+                addFeelingToList,
                 removeFeelingFromList),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FeelingWidget("yawning", getBadgeCount("yawning"), addFeelingToList,
+            FeelingWidget(Emoji.YAWNING_FACE, getBadgeCount(Emoji.YAWNING_FACE),
+                addFeelingToList,
                 removeFeelingFromList),
-            FeelingWidget("laughing", getBadgeCount("laughing"),
+            FeelingWidget(Emoji.FACE_WITH_TEARS_OF_JOY,
+                getBadgeCount(Emoji.FACE_WITH_TEARS_OF_JOY),
                 addFeelingToList, removeFeelingFromList),
-            FeelingWidget("cold_sweat", getBadgeCount("cold_sweat"),
+            FeelingWidget(Emoji.DOWNCAST_FACE_WITH_SWEAT,
+                getBadgeCount(Emoji.DOWNCAST_FACE_WITH_SWEAT),
                 addFeelingToList, removeFeelingFromList),
-            FeelingWidget("angry", getBadgeCount("angry"), addFeelingToList,
+            FeelingWidget(Emoji.POUTING_FACE, getBadgeCount(Emoji.POUTING_FACE),
+                addFeelingToList,
                 removeFeelingFromList),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FeelingWidget("poo", getBadgeCount("poo"), addFeelingToList,
+            FeelingWidget(Emoji.PILE_OF_POO, getBadgeCount(Emoji.PILE_OF_POO),
+                addFeelingToList,
                 removeFeelingFromList),
-            FeelingWidget("nerd-face", getBadgeCount("nerd-face"),
+            FeelingWidget(Emoji.NERD_FACE, getBadgeCount(Emoji.NERD_FACE),
                 addFeelingToList, removeFeelingFromList),
-            FeelingWidget("medical_mask", getBadgeCount("medical_mask"),
+            FeelingWidget(Emoji.FACE_WITH_MEDICAL_MASK,
+                getBadgeCount(Emoji.FACE_WITH_MEDICAL_MASK),
                 addFeelingToList, removeFeelingFromList),
-            FeelingWidget("screaming", getBadgeCount("screaming"),
+            FeelingWidget(Emoji.FACE_SCREAMING_IN_FEAR,
+                getBadgeCount(Emoji.FACE_SCREAMING_IN_FEAR),
                 addFeelingToList, removeFeelingFromList),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FeelingWidget("panda", getBadgeCount("panda"), addFeelingToList,
+            FeelingWidget(
+                Emoji.PANDA, getBadgeCount(Emoji.PANDA), addFeelingToList,
                 removeFeelingFromList),
-            FeelingWidget("yoga", getBadgeCount("yoga"), addFeelingToList,
+            FeelingWidget(Emoji.PERSON_IN_LOTUS_POSITION,
+                getBadgeCount(Emoji.PERSON_IN_LOTUS_POSITION), addFeelingToList,
                 removeFeelingFromList),
-            FeelingWidget("sports", getBadgeCount("sports"), addFeelingToList,
+            FeelingWidget(Emoji.PERSON_LIFTING_WEIGHTS,
+                getBadgeCount(Emoji.PERSON_LIFTING_WEIGHTS), addFeelingToList,
                 removeFeelingFromList),
-            FeelingWidget("exploding_head", getBadgeCount("exploding_head"),
+            FeelingWidget(
+                Emoji.EXPLODING_HEAD, getBadgeCount(Emoji.EXPLODING_HEAD),
                 addFeelingToList, removeFeelingFromList),
           ],
         ),

@@ -57,7 +57,7 @@ class _StartUpState extends State<StartUp> {
               "😀😷🐼",
               style: TextStyle(fontSize: 50),
             ),
-            Image(image: AssetImage("assets/emoji/laughing.png")),
+            Image(image: AssetImage("assets/emoji/face_with_tears_of_joy.png")),
           ],
         ),
       ),

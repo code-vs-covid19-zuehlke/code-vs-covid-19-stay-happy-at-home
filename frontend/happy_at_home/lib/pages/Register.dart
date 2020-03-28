@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/ProfileImgWidget.dart';
+
+import '../UserState.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -23,7 +26,7 @@ class _RegisterState extends State<Register> {
 
   void createUser() async {
     var name = nameController.text;
-    //UserState().user = await UserRegistration.register(name);
+    UserState().user = await UserRegistration.register(name);
     Navigator.pushReplacementNamed(context, "/feeling");
   }
 
