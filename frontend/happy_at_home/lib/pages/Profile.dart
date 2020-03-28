@@ -50,7 +50,7 @@ class _ProfileState extends State<Profile> {
                             Text("12"),
                             SizedBox(width: 10),
                             Image.asset(
-                              "assets/emoji/drool.png",
+                              "assets/emoji/drooling_face.png",
                               scale: 5,
                             ),
                             Text("27"),
@@ -60,7 +60,7 @@ class _ProfileState extends State<Profile> {
                         Text("Reactions given", style: TextStyle(fontSize: 24)),
                         Row(children: <Widget>[
                           Image.asset(
-                            "assets/emoji/poo.png",
+                            "assets/emoji/pile_of_poo.png",
                             scale: 5,
                           ),
                           Text("11"),

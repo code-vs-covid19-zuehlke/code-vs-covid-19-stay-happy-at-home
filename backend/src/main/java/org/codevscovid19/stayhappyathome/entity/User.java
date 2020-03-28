@@ -1,10 +1,6 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +17,7 @@ public class User {
 
   private byte[] photo;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   private List<FeelingRecord> feelingRecords;
 
   private User() {
@@ -48,6 +44,10 @@ public class User {
 
   public byte[] getPhoto() {
     return photo;
+  }
+
+  public void addFeelings(FeelingRecord feelingRecord) {
+    feelingRecords.add(feelingRecord);
   }
 
   @Override
