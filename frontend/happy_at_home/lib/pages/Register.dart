@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ProfileImgWidget.dart';
 
 import '../UserState.dart';
@@ -40,6 +41,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
         child: Center(
           child: Column(

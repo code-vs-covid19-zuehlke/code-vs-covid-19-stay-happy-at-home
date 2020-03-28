@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
 
 import '../UserState.dart';
@@ -23,7 +24,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent[100],
+      backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.0),

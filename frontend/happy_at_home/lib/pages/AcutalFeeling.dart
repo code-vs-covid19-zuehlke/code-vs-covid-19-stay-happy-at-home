@@ -3,6 +3,7 @@ import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/FeelingChooserWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
@@ -31,6 +32,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(

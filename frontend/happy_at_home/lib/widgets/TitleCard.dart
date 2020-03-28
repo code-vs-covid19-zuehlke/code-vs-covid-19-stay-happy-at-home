@@ -18,10 +18,12 @@ class TitleCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
               title,
               style: TextStyle(fontSize: 30),
+              textAlign: TextAlign.left,
             ),
             SizedBox(
               height: 25,

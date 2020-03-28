@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/CustomColors.dart';
 
 import '../UserState.dart';
 
@@ -47,7 +48,7 @@ class _StartUpState extends State<StartUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: CustomColors.BackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
