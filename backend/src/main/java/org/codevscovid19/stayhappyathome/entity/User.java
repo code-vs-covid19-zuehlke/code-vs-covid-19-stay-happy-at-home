@@ -8,7 +8,6 @@ import javax.persistence.Table;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -22,7 +21,7 @@ public class User {
 	private byte[] photo;
 
 	@OneToMany
-	private Set<Feeling> feelings;
+	private List<FeelingRecord> feelingRecords;
 
 	private User() {
 		// for Jackson
@@ -42,8 +41,8 @@ public class User {
 		return name;
 	}
 
-	public Set<Feeling> getFeelings() {
-		return feelings;
+	public List<FeelingRecord> getFeelingRecords() {
+		return feelingRecords;
 	}
 
 	public void addFeeling(Feeling feeling) {

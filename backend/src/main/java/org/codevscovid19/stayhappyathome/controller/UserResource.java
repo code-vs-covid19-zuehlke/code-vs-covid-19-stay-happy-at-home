@@ -12,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -51,18 +53,19 @@ public class UserResource {
 		return ResponseEntity.ok(userRepository.save(user));
 	}
 
-	@PostMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Feeling> createFeeling(@PathVariable String id, @RequestBody FeelingDto feelingDto) {
+	@PutMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<Feeling> addFeeling(@PathVariable String id, @RequestBody FeelingDto feelingDto) {
 		Feeling feeling = new Feeling(feelingDto.getEmoji());
 
 		Optional<User> userEntity = userRepository.findById(id);
-		userEntity.ifPresent(user -> user.addFeeling(feeling));
+		//userEntity.ifPresent(user -> user.addFeeling(feeling));
 		return ResponseEntity.ok(feelingRepository.save(feeling));
 	}
 
 	@GetMapping(path = "/{id}/feeling", produces = "application/json")
 	public ResponseEntity<Set<Feeling>> getFeeling(@PathVariable String id) {
 		Optional<User> userEntity = userRepository.findById(id);
-		return ResponseEntity.ok(userEntity.get().getFeelings());
-	}
+		//        userEntity.get().getFeelings()
+	return ResponseEntity.ok(new HashSet<>());
+    }
 }
