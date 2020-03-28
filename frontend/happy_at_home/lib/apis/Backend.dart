@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:happyathome/models/Post.dart';
+import 'package:happyathome/models/Reaction.dart';
+import 'package:happyathome/models/Reply.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
@@ -23,20 +25,32 @@ class Backend {
     return _get('user');
   }
 
-  static Future<String> postUser(User user) async {
-    return _postRaw('user', user);
+  static Future<User> postUser(User user) async {
+    return _post('user', user);
   }
 
-  static Future<User> getPostById(String id) async {
+  static Future<Post> getPostById(String id) async {
     return _get('post/$id');
   }
 
-  static Future<List<User>> getPosts() async {
+  static Future<List<Post>> getPosts() async {
     return _get('post');
   }
 
-  static Future<String> postPost(Post post) async {
-    return _postRaw('post', post);
+  static Future<Post> postPost(Post post) async {
+    return _post('post', post);
+  }
+
+  static Future<Reply> postReply(Post post, Reply reply) async {
+    return _post('post/${post.id}/reply', reply);
+  }
+
+  static Future<Reaction> postReactionToPost(Post post, Reaction reaction) async {
+    return _post('post/${post.id}/reaction', reaction);
+  }
+
+  static Future<Reaction> postReactionToReply(Post post, Reply reply, Reaction reaction) async {
+    return _post('post/${post.id}/reply/${reply.id}/reaction', reaction);
   }
 
   // ------------------------------------------------------------------------------
