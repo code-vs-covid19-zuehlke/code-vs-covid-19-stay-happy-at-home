@@ -1,14 +1,11 @@
 package org.codevscovid19.stayhappyathome.controller;
 
+import com.google.common.collect.Lists;
 import org.codevscovid19.stayhappyathome.dto.PostDto;
 import org.codevscovid19.stayhappyathome.dto.PostReactionDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyReactionDto;
-import org.codevscovid19.stayhappyathome.entity.Post;
-import org.codevscovid19.stayhappyathome.entity.PostReaction;
-import org.codevscovid19.stayhappyathome.entity.Reply;
-import org.codevscovid19.stayhappyathome.entity.ReplyReaction;
-import org.codevscovid19.stayhappyathome.entity.User;
+import org.codevscovid19.stayhappyathome.entity.*;
 import org.codevscovid19.stayhappyathome.repository.PostReactionRepository;
 import org.codevscovid19.stayhappyathome.repository.PostRepository;
 import org.codevscovid19.stayhappyathome.repository.ReplyReactionRepository;
@@ -67,7 +64,7 @@ public class PostResource {
   public ResponseEntity<Post> createPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId, @RequestBody PostDto postDto) {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, Collections.emptyList());
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, Collections.emptyList(), Set.of(TargetFeeling.ACCOMPLISHED));
 
     Post newPost = postRepository.save(post);
     return ResponseEntity.ok(newPost);
