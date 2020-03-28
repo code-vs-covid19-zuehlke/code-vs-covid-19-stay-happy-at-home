@@ -30,7 +30,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
   }
 
   void uploadFeelings() async {
-    var feelings = chosenFeelings.map((emoji) => Feeling(emoji: emoji)).toList();
+    var feelings = chosenFeelings.map((emoji) => Feeling(emoji)).toList();
     await Backend.setFeelings(UserState().user, feelings);
     Navigator.pushNamed(context, "/feed");
   }
