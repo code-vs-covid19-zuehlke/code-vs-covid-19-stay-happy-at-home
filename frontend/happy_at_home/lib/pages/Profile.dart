@@ -19,6 +19,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
+    futureUser = Backend.fetchUser();
   }
 
   void onChooseImage(image) {
@@ -32,52 +33,51 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: <Widget>[
-              Text("Profile Page"),
-              FlatButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/feeling");
-                },
-                label: Text(
-                  "Go to Feeling page",
-                ),
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.blue,
-                ),
+            child: Column(
+          children: <Widget>[
+            Text("Profile Page"),
+            FlatButton.icon(
+              onPressed: () {
+                Navigator.pushNamed(context, "/feeling");
+              },
+              label: Text(
+                "Go to Feeling page",
               ),
-              FlatButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/create");
-                },
-                label: Text(
-                  "Create Content",
-                ),
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.blue,
-                ),
+              icon: Icon(
+                Icons.edit,
+                color: Colors.blue,
               ),
-              FlatButton.icon(
-                onPressed: () {
-                  setState(() {
-                    futureUser = Backend.fetchUser(Random().nextInt(5) + 1);
-                  });
-                },
-                label: Text(
-                  "Fetch user",
-                ),
-                icon: Icon(
-                  Icons.file_download,
-                  color: Colors.blue,
-                ),
+            ),
+            FlatButton.icon(
+              onPressed: () {
+                Navigator.pushNamed(context, "/create");
+              },
+              label: Text(
+                "Create Content",
               ),
-              UserWidget(futureUser),
-              ProfileImgWidget(_image, onChooseImage),
-            ],
-          ),
-        ),
+              icon: Icon(
+                Icons.edit,
+                color: Colors.blue,
+              ),
+            ),
+            FlatButton.icon(
+              onPressed: () {
+                setState(() {
+                  futureUser = Backend.fetchUser();
+                });
+              },
+              label: Text(
+                "Re-fetch user",
+              ),
+              icon: Icon(
+                Icons.file_download,
+                color: Colors.blue,
+              ),
+            ),
+            UserWidget(futureUser),
+            ProfileImgWidget(_image, onChooseImage),
+          ],
+        )),
       ),
     );
   }
