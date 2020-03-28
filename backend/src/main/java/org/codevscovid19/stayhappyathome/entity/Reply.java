@@ -10,7 +10,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,8 +25,10 @@ public class Reply {
   private String description;
   @Column(name = "link")
   private URL link;
-
-  private byte[] picture;
+  @Column(name = "picture")
+  private URL picture;
+  @Column(name = "photo_content_type")
+  private String photoContentType;
 
   @ManyToOne
   private User user;
@@ -39,13 +40,14 @@ public class Reply {
     // for Jackson
   }
 
-  public Reply(String title, String description, URL link, byte[] picture, User user, List<ReplyReaction> replyReactions) {
+  public Reply(String title, String description, URL link, URL picture, User user, List<ReplyReaction> replyReactions, String photoContentType) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
     this.user = user;
     this.replyReactions = replyReactions;
+    this.photoContentType = photoContentType;
   }
 
   public Long getId() {
@@ -80,11 +82,11 @@ public class Reply {
     this.link = link;
   }
 
-  public byte[] getPicture() {
+  public URL getPicture() {
     return picture;
   }
 
-  public void setPicture(byte[] picture) {
+  public void setPicture(URL picture) {
     this.picture = picture;
   }
 
@@ -104,6 +106,14 @@ public class Reply {
     this.replyReactions = replyReactions;
   }
 
+  public String getPhotoContentType() {
+    return photoContentType;
+  }
+
+  public void setPhotoContentType(String photoContentType) {
+    this.photoContentType = photoContentType;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -113,15 +123,14 @@ public class Reply {
       Objects.equals(title, reply.title) &&
       Objects.equals(description, reply.description) &&
       Objects.equals(link, reply.link) &&
-      Arrays.equals(picture, reply.picture) &&
+      Objects.equals(picture, reply.picture) &&
+      Objects.equals(photoContentType, reply.photoContentType) &&
       Objects.equals(user, reply.user) &&
       Objects.equals(replyReactions, reply.replyReactions);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id, title, description, link, user, replyReactions);
-    result = 31 * result + Arrays.hashCode(picture);
-    return result;
+    return Objects.hash(id, title, description, link, picture, photoContentType, user, replyReactions);
   }
 }

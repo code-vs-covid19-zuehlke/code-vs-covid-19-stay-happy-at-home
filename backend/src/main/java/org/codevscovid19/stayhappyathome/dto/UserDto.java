@@ -4,15 +4,17 @@ public class UserDto {
   private String id;
   private String name;
   private byte[] photo;
+  private String photoContentType;
 
   private UserDto() {
     // for Jackson
   }
 
-  public UserDto(String id, String name, byte[] photo) {
+  public UserDto(String id, String name, byte[] photo, String photoContentType) {
     this.id = id;
     this.name = name;
     this.photo = photo;
+    this.photoContentType = photoContentType;
   }
 
   public String getId() {
@@ -25,5 +27,9 @@ public class UserDto {
 
   public byte[] getPhoto() {
     return photo;
+  }
+
+  public String getPhotoContentType() {
+    return photoContentType;
   }
 }
