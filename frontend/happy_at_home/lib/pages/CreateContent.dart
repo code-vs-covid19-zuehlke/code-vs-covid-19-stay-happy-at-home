@@ -35,6 +35,11 @@ class _CreateContentState extends State<CreateContent> {
     this.timePeriod = time;
   }
 
+  void postPost() {
+    //Todo: Post the post to the backend
+    Navigator.pop(context);
+  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -128,7 +133,7 @@ class _CreateContentState extends State<CreateContent> {
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(15),
                   ),
-                  onPressed: () {},
+                  onPressed: postPost,
                   color: Colors.black,
                   child: Text(
                     "POST!",
