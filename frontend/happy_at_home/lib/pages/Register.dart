@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
-import 'package:happyathome/widgets/ProfileImgWidget.dart';
+import 'package:happyathome/widgets/ImagePickerWidget.dart';
 
 import '../UserState.dart';
 
@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
                   decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Enter your name'),
                 ),
               ),
-              ProfileImgWidget(context, _image, onChooseImage),
+              ImagePickerWidget(context, _image, onChooseImage),
               FlatButton.icon(
                 onPressed: createUser,
                 label: Text(

@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:happyathome/widgets/TitleCard.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProfileImgWidget extends StatelessWidget {
+class ImagePickerWidget extends StatelessWidget {
   final File image;
   final Function onChooseImage;
   final BuildContext context;
 
-  ProfileImgWidget(this.context, this.image, this.onChooseImage);
+  ImagePickerWidget(this.context, this.image, this.onChooseImage);
 
   Future getImage(isCamera) async {
     var image = isCamera
@@ -49,34 +50,28 @@ class ProfileImgWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return image == null
-        ? Container(
-            color: Colors.greenAccent,
-      width: 250,
-      height: 250,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('No image selected.'),
-                FlatButton.icon(
-                  onPressed: showModal,
-                  label: Text(
-                    "Choose profile picture",
-                  ),
-                  icon: Icon(
-                    Icons.add_a_photo,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
+        ? TitleCard(
+      title: "Upload Picture",
+      child: FlatButton.icon(
+        label: Text(""),
+        onPressed: showModal,
+        color: Colors.greenAccent,
+        icon: Icon(
+          Icons.file_upload,
+          color: Colors.black,
+          size: 70,
+        ),
             ),
           )
-        : Container(
-      width: 250,
-      height: 250,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: FileImage(image),
-                fit: BoxFit.cover,
+        : TitleCard(
+      title: "Your Picture",
+      child: Container(
+        height: 300,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: FileImage(image),
+            fit: BoxFit.cover,
+          ),
               ),
             ),
           );
