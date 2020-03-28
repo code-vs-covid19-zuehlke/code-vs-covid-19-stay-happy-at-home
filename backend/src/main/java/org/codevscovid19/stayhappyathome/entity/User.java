@@ -1,9 +1,7 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -13,6 +11,9 @@ public class User {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany
+    private Set<Feeling> feelings;
 
     private User() {
         // for Jackson
@@ -29,5 +30,13 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public Set<Feeling> getFeelings() {
+        return feelings;
+    }
+
+    public void addFeeling(Feeling feeling) {
+        this.feelings.add(feeling);
     }
 }
