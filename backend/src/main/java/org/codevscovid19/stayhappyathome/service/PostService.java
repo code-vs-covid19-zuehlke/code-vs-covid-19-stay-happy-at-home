@@ -1,6 +1,10 @@
 package org.codevscovid19.stayhappyathome.service;
 
-import org.codevscovid19.stayhappyathome.entity.*;
+import org.codevscovid19.stayhappyathome.entity.Emoji;
+import org.codevscovid19.stayhappyathome.entity.Feeling;
+import org.codevscovid19.stayhappyathome.entity.FeelingRecord;
+import org.codevscovid19.stayhappyathome.entity.Post;
+import org.codevscovid19.stayhappyathome.entity.User;
 import org.codevscovid19.stayhappyathome.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

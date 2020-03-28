@@ -16,3 +16,4 @@ spring:
       sql:
         database-name: stayhappyathome
         instance-connection-name: stayhappyathome:europe-west6:backend-db
+      photo-bucket: stay-happy-at-home-eu-prod
