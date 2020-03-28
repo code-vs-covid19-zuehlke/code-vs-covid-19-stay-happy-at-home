@@ -43,6 +43,9 @@ public class PostResource {
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<List<Post>> getPosts(@PathVariable("id") String id) {
+        //		service.getPosts(user)
+        // rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
+
         userRepository.findById(id);
         return postService.getPostsForUser();
     }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happyathome/apis/Backend.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:happyathome/usecases/UserRegistration.dart';
 
 import '../UserState.dart';
 
@@ -10,26 +9,32 @@ class StartUp extends StatefulWidget {
 }
 
 class _StartUpState extends State<StartUp> {
-  void loadUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final user = await Backend.getUserById(prefs.getString("USER_ID"));
-    UserState().user = user;
+
+  void _loadUser() async {
+    UserState().user = await UserRegistration.load();
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, "/feeling");
     });
   }
 
   void loadState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool registered = (prefs.getBool("REGISTERED") ?? false);
-
+    final registered = await UserRegistration.hasRegisteredUser();
     if (registered) {
-      loadUser();
+      try {
+        _loadUser();
+      } catch (e) {
+        print("Warning, can not load user: $e");
+        _register();
+      }
     } else {
-      Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushReplacementNamed(context, "/register");
-      });
+      _register();
     }
+  }
+
+  void _register() {
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacementNamed(context, "/register");
+    });
   }
 
   @override

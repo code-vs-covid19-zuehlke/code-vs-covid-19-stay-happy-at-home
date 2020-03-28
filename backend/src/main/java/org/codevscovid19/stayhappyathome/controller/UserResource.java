@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -43,16 +45,17 @@ public class UserResource {
         return ResponseEntity.ok(userRepository.save(user));
     }
 
-    @PostMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Feeling> createFeeling(@PathVariable String id, @RequestBody Feeling feeling) {
+    @PutMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Feeling> addFeeling(@PathVariable String id, @RequestBody Feeling feeling) {
         Optional<User> userEntity = userRepository.findById(id);
-        userEntity.ifPresent(user -> user.addFeeling(feeling));
+//        userEntity.ifPresent(user -> user.addFeeling(feeling));
         return ResponseEntity.ok(feelingRepository.save(feeling));
     }
 
     @GetMapping(path = "/{id}/feeling", produces = "application/json")
     public ResponseEntity<Set<Feeling>> getFeeling(@PathVariable String id) {
         Optional<User> userEntity = userRepository.findById(id);
-        return ResponseEntity.ok(userEntity.get().getFeelings());
+//        userEntity.get().getFeelings()
+        return ResponseEntity.ok(new HashSet<>());
     }
 }
