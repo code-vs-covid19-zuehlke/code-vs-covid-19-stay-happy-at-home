@@ -1,12 +1,9 @@
+import 'package:dart_json_mapper/dart_json_mapper.dart';
+
+@jsonSerializable
 class User {
-//  final int id;
+  final String id;
   final String name;
 
-  User({this.name});
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      name: json['name'],
-    );
-  }
+  User({this.id, this.name});
 }

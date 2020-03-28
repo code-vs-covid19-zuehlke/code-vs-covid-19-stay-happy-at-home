@@ -19,14 +19,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http:
+  http: any
   cupertino_icons: ^0.1.2
   image_picker: ^0.6.4
   shared_preferences: ^0.5.6+3
+  dart_json_mapper: any
+  uuid: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
 
 
 # For information on the generic Dart part of this file, see the
