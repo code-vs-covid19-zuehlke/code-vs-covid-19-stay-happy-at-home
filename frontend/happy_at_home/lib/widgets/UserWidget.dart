@@ -15,8 +15,6 @@ class UserWidget extends StatelessWidget {
           return Column(children: <Widget>[
             Image.asset('assets/profile_picture.jpg'),
             Text(snapshot.data.name, style: TextStyle(fontSize: 36)),
-            Text("Reactions received", style: TextStyle(fontSize: 24)),
-            Text("Reactions given", style: TextStyle(fontSize: 24)),
           ]);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
