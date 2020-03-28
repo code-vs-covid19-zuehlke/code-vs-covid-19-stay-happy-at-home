@@ -2,6 +2,8 @@ package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,6 +15,7 @@ import java.util.Objects;
 @Table(name = "POSTS")
 public class Post {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@Column(name = "title", nullable = false)
 	private String title;

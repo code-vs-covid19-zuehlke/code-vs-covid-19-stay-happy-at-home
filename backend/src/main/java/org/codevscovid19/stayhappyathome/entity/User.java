@@ -11,31 +11,31 @@ import java.util.Objects;
 @Entity
 @Table(name = "USERS")
 public class User {
-    @Id
-    private String id;
+	@Id
+	private String id;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-    private byte[] photo;
+	private byte[] photo;
 
-    private User() {
-        // for Jackson
-    }
+	private User() {
+		// for Jackson
+	}
 
-    public User(String id, String name, byte[] photo) {
-        this.id = id;
-        this.name = name;
+	public User(String id, String name, byte[] photo) {
+		this.id = id;
+		this.name = name;
 		this.photo = photo;
 	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
 	public byte[] getPhoto() {
 		return photo;
