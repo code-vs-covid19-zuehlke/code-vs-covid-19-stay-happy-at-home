@@ -23,34 +23,74 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightBlueAccent[100],
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              UserWidget(Backend.getUserById(UserState().user.id)),
-              Text("Reactions received", style: TextStyle(fontSize: 24)),
-              Text("Reactions given", style: TextStyle(fontSize: 24)),
-              FlatButton.icon(
-                onPressed: () => _refresh(),
-                label: Text(
-                  "Refresh",
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                UserWidget(Backend.getUserById(UserState().user.id)),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Reactions received", style: TextStyle(fontSize: 24)),
+                        Row(
+                          children: <Widget>[
+                            Image.asset(
+                              "assets/emoji/panda.png",
+                              scale: 5,
+                            ),
+                            Text("12"),
+                            SizedBox(width: 10),
+                            Image.asset(
+                              "assets/emoji/drool.png",
+                              scale: 5,
+                            ),
+                            Text("27"),
+                          ],
+                        ),
+                        SizedBox(height: 32),
+                        Text("Reactions given", style: TextStyle(fontSize: 24)),
+                        Row(children: <Widget>[
+                          Image.asset(
+                            "assets/emoji/poo.png",
+                            scale: 5,
+                          ),
+                          Text("11"),
+                        ]),
+                      ],
+                    ),
+                  ),
                 ),
-                icon: Icon(
-                  Icons.refresh,
-                  color: Colors.blue,
+                FlatButton.icon(
+                  onPressed: () => _refresh(),
+                  label: Text(
+                    "Refresh",
+                  ),
+                  icon: Icon(
+                    Icons.refresh,
+                    color: Colors.blue,
+                  ),
                 ),
-              ),
-              FlatButton.icon(
-                onPressed: () => UserRegistration.unregister(context),
-                label: Text(
-                  "Unregister",
+                FlatButton.icon(
+                  onPressed: () => UserRegistration.unregister(context),
+                  label: Text(
+                    "Unregister",
+                  ),
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.blue,
+                  ),
                 ),
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.blue,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
