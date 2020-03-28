@@ -29,7 +29,7 @@ public class PostResource {
   private final ReplyReactionRepository replyReactionRepository;
 
   @Autowired
-  public PostResource(PostRepository postRepository, ReplyRepository replyRepository, ReactionRepository reactionRepository,
+  public PostResource(PostRepository postRepository, ReplyRepository replyRepository,
                       PostReactionRepository postReactionRepository, ReplyReactionRepository replyReactionRepository,
                       UserRepository userRepository, PostService postService) {
     this.postRepository = postRepository;
