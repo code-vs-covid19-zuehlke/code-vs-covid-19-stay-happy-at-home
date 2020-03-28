@@ -3,6 +3,7 @@ package org.codevscovid19.stayhappyathome.controller;
 import org.codevscovid19.stayhappyathome.entity.Post;
 import org.codevscovid19.stayhappyathome.entity.Reaction;
 import org.codevscovid19.stayhappyathome.entity.Reply;
+import org.codevscovid19.stayhappyathome.entity.User;
 import org.codevscovid19.stayhappyathome.repository.PostRepository;
 import org.codevscovid19.stayhappyathome.repository.ReactionRepository;
 import org.codevscovid19.stayhappyathome.repository.ReplyRepository;
@@ -41,13 +42,16 @@ public class PostResource {
         this.postService = postService;
     }
 
-    @GetMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity<List<Post>> getPosts(@PathVariable("id") String id) {
+    @GetMapping(path = "/user/{id}", produces = "application/json")
+    public ResponseEntity<ResponseEntity<List<Post>>> getPosts(@PathVariable("id") String id) {
         //		service.getPosts(user)
         // rausfinden welche feelings user hat -> Record: 1..3 Feelings & timestamp
 
-        userRepository.findById(id);
-        return postService.getPostsForUser();
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(postService.getPostsForUser(user.get()));
     }
 
     @PostMapping(path = "", produces = "application/json", consumes = "application/json")
