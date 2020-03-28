@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/User.dart';
@@ -17,6 +15,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
+    futureUser = Backend.fetchUser();
   }
 
   @override
@@ -53,11 +52,11 @@ class _ProfileState extends State<Profile> {
           FlatButton.icon(
             onPressed: () {
               setState(() {
-                futureUser = Backend.fetchUser(Random().nextInt(5)+1);
+                futureUser = Backend.fetchUser();
               });
             },
             label: Text(
-              "Fetch user",
+              "Re-fetch user",
             ),
             icon: Icon(
               Icons.file_download,
