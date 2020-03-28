@@ -36,7 +36,7 @@ class _StartUpState extends State<StartUp> {
   void initState() {
     super.initState();
 
-    loadState();
+    //loadState();
   }
 
   @override
@@ -48,10 +48,11 @@ class _StartUpState extends State<StartUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text("Stay Happy @ Home"),
-            Text("😀😷🐼",
-              style: TextStyle(
-                  fontSize: 50
-              ),),
+            Text(
+              "😀😷🐼",
+              style: TextStyle(fontSize: 50),
+            ),
+            Image(image: AssetImage("assets/emoji/laughing.png")),
           ],
         ),
       ),
