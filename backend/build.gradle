@@ -47,9 +47,5 @@ test {
 jib {
 	to {
 		image = 'gcr.io/stayhappyathome/backend'
-//		auth {
-//			username = '_json_key'
-//			password = file(System.getenv('GOOGLE_APPLICATION_CREDENTIALS')).text
-//		}
 	}
 }
