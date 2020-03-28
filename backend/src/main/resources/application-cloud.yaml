@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    name: stayhappyathome
+    username: postgres
+    password: gvfba2iDFwzewlql
+    initialization-mode: always
+    driver-class-name: org.postgresql.Driver
+
+  cloud:
+    gcp:
+      sql:
+        database-name: stayhappyathome
+        instance-connection-name: stayhappyathome:europe-west6:backend-db
