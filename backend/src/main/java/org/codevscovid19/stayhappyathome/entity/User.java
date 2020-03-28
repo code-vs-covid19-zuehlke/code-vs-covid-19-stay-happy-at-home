@@ -1,46 +1,69 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.*;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "USERS")
 public class User {
-    @Id
-    private String id;
+  @Id
+  private String id;
 
-    @Column(name = "name")
-    private String name;
+  @Column(name = "name")
+  private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<FeelingRecord> feelingRecords;
+  private byte[] photo;
 
-    private User() {
-        // for Jackson
-    }
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<FeelingRecord> feelingRecords;
 
-    public User(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+  private User() {
+    // for Jackson
+  }
 
-    public String getId() {
-        return id;
-    }
+  public User(String id, String name, byte[] photo) {
+    this.id = id;
+    this.name = name;
+    this.photo = photo;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public List<FeelingRecord> getFeelingRecords() {
-        return feelingRecords;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setFeelingRecords(List<FeelingRecord> feelingRecord) {
-        this.feelingRecords = feelingRecord;
-    }
+  public List<FeelingRecord> getFeelingRecords() {
+    return feelingRecords;
+  }
 
-    public void addFeelings(FeelingRecord feelingRecord) {
-        feelingRecords.add(feelingRecord);
-    }
+  public byte[] getPhoto() {
+    return photo;
+  }
+
+  public void addFeelings(FeelingRecord feelingRecord) {
+    feelingRecords.add(feelingRecord);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return Objects.equals(id, user.id) &&
+      Objects.equals(name, user.name) &&
+      Arrays.equals(photo, user.photo);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hash(id, name);
+    result = 31 * result + Arrays.hashCode(photo);
+    return result;
+  }
 }

@@ -1,5 +1,7 @@
 package org.codevscovid19.stayhappyathome.controller;
 
+import org.codevscovid19.stayhappyathome.dto.FeelingDto;
+import org.codevscovid19.stayhappyathome.dto.UserDto;
 import org.codevscovid19.stayhappyathome.entity.Feeling;
 import org.codevscovid19.stayhappyathome.entity.FeelingRecord;
 import org.codevscovid19.stayhappyathome.entity.User;
@@ -10,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,17 +40,29 @@ public class UserResource {
     return ResponseEntity.ok(userRepository.findAll());
   }
 
-  @PostMapping(produces = "application/json")
-  public ResponseEntity<User> createUser(@RequestBody User user) {
+  @PostMapping(consumes = "application/json", produces = "application/json")
+  public ResponseEntity<User> createUser(@RequestBody UserDto userDto) {
+    User user = new User(userDto.getId(), userDto.getName(), userDto.getPhoto());
     return ResponseEntity.ok(userRepository.save(user));
   }
 
+  @PutMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<Feeling> addFeeling(@PathVariable String id, @RequestBody FeelingDto feelingDto) {
+    Feeling feeling = new Feeling(feelingDto.getEmoji());
+
+    Optional<User> userEntity = userRepository.findById(id);
+    //userEntity.ifPresent(user -> user.addFeeling(feeling));
+    return ResponseEntity.ok(feelingRepository.save(feeling));
+  }
+
   @PostMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<Void> addFeelings(@PathVariable String id, @RequestBody Set<Feeling> feelings) {
+  public ResponseEntity<Void> addFeelings(@PathVariable String id, @RequestBody Set<FeelingDto> feelingDtos) {
     Optional<User> userEntity = userRepository.findById(id);
     if (userEntity.isPresent()) {
       User user = userEntity.get();
-      user.addFeelings(new FeelingRecord(feelings));
+      user.addFeelings(new FeelingRecord(
+          feelingDtos.stream().map(feelingDto -> new Feeling(feelingDto.getEmoji()))
+              .collect(Collectors.toSet())));
       userRepository.save(user);
       return ResponseEntity.ok().build();
     }

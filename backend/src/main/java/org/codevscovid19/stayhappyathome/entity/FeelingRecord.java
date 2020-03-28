@@ -1,6 +1,7 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -55,8 +56,8 @@ public class FeelingRecord {
     if (o == null || getClass() != o.getClass()) return false;
     FeelingRecord that = (FeelingRecord) o;
     return Objects.equals(id, that.id) &&
-        Objects.equals(feelings, that.feelings) &&
-        Objects.equals(time, that.time);
+      Objects.equals(feelings, that.feelings) &&
+      Objects.equals(time, that.time);
   }
 
   @Override
