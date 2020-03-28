@@ -66,4 +66,13 @@ public class User {
     result = 31 * result + Arrays.hashCode(photo);
     return result;
   }
+
+  @Override
+  public String toString() {
+    return "User{" +
+      "id='" + id + '\'' +
+      ", name='" + name + '\'' +
+      ", feelingRecords=" + feelingRecords +
+      '}';
+  }
 }

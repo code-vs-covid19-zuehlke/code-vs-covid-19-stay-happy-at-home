@@ -12,7 +12,8 @@ import java.util.Set;
 public class FeelingRecord {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feeling_record_sequence_generator")
+  @SequenceGenerator(name = "feeling_record_sequence_generator", sequenceName = "feeling_record_id_sequence")
   private Long id;
 
   @OneToMany(cascade = CascadeType.ALL)
@@ -63,5 +64,14 @@ public class FeelingRecord {
   @Override
   public int hashCode() {
     return Objects.hash(id, feelings, time);
+  }
+
+  @Override
+  public String toString() {
+    return "FeelingRecord{" +
+      "id=" + id +
+      ", feelings=" + feelings +
+      ", time=" + time +
+      '}';
   }
 }

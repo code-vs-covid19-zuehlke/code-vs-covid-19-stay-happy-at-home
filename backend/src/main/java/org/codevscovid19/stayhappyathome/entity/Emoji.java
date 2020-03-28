@@ -31,4 +31,11 @@ public enum Emoji {
   public String getUnicode() {
     return unicode;
   }
+
+  @Override
+  public String toString() {
+    return "Emoji{" +
+      "unicode='" + unicode + '\'' +
+      '}';
+  }
 }
