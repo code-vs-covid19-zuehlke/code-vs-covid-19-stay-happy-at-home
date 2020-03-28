@@ -23,8 +23,8 @@ class Backend {
     return _post('user', user);
   }
 
-  static Future<String> setFeelings(User user, Set<Feeling> feelings) async {
-    return _postRaw('user/${user.id}/feeling', feelings);
+  static Future<String> setFeelings(User user, List<Feeling> feelings) async {
+    return _putRaw('user/${user.id}/feeling', feelings);
   }
 
   static Future<Post> getPostById(String id) async {
@@ -89,10 +89,26 @@ class Backend {
     }
   }
 
+  static Future<String> _putRaw<T>(String path, Object object) async {
+    final url = '$baseUrl/$path';
+
+    final response = await http.put(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JsonMapper.serialize(object));
+
+    if (response.statusCode >= 200 && response.statusCode < 400) {
+      return response.body;
+    } else {
+      throw Exception('Failed to load $url with status code ${response.statusCode}');
+    }
+  }
+
   static void init(){
     JsonMapper().useAdapter(JsonMapperAdapter(
         valueDecorators: {
-          typeOf<Set<Feeling>>(): (value) => value.cast<Feeling>()
+          typeOf<List<Feeling>>(): (value) => value.cast<Feeling>()
         })
     );
   }

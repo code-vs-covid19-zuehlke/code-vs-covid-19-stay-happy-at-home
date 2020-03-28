@@ -4,7 +4,7 @@ import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
-import 'package:happyathome/widgets/FeelingChooserWidget.dart';
+import 'package:happyathome/widgets/EmojiChooserWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
@@ -29,9 +29,9 @@ class _ActualFeelingState extends State<ActualFeeling> {
     this.timePeriod = time;
   }
 
-  void uploadFeelings() {
-    var feelings = chosenFeelings.map((emoji) => Feeling(emoji: emoji)).toSet();
-    Backend.setFeelings(UserState().user, feelings);
+  void uploadFeelings() async {
+    var feelings = chosenFeelings.map((emoji) => Feeling(emoji: emoji)).toList();
+    await Backend.setFeelings(UserState().user, feelings);
     Navigator.pushNamed(context, "/feed");
   }
 
@@ -54,7 +54,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
                 ),
                 TitleCard(
                     title: "How do you feel?",
-                    child: FeelingChooserWidget(3, updateFeelings)),
+                    child: EmojiChooserWidget(3, updateFeelings, true)),
                 FlatButton.icon(
                   onPressed: uploadFeelings,
                   label: Text(
