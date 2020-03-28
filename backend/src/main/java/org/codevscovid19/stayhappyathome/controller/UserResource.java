@@ -74,9 +74,7 @@ public class UserResource {
       List<Feeling> feelings = feelingDtos.stream()
         .map(feelingDto -> new Feeling(feelingDto.getEmoji()))
         .collect(Collectors.toList());
-      feelings.forEach(feeling -> logger.debug("adding feeling [" + feeling + "] to user [" + user + "]"));
       FeelingRecord feelingRecord = new FeelingRecord(feelings);
-      logger.debug("adding feeling record [" + feelingRecord + "] to user [" + user + "]");
       user.addFeelings(feelingRecord);
       User saved = userRepository.save(user);
       logger.debug("user after save: " + saved);
