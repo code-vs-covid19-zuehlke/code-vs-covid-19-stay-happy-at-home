@@ -14,7 +14,7 @@ class _RegisterState extends State<Register> {
 
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final myController = TextEditingController();
+  final nameController = TextEditingController();
 
   void onChooseImage(image) {
     setState(() {
@@ -23,7 +23,7 @@ class _RegisterState extends State<Register> {
   }
 
   void createUser() async {
-    var name = myController.text;
+    var name = nameController.text;
     //Todo: Save Name and Image here
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("REGISTERED", true);
@@ -33,7 +33,7 @@ class _RegisterState extends State<Register> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    myController.dispose();
+    nameController.dispose();
     super.dispose();
   }
 
@@ -48,7 +48,7 @@ class _RegisterState extends State<Register> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
-                  controller: myController,
+                  controller: nameController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Enter your name'),
