@@ -54,7 +54,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
                 ),
                 TitleCard(
                     title: "How do you feel?",
-                    child: FeelingChooserWidget(3, updateFeelings)),
+                    child: FeelingChooserWidget(3, updateFeelings, true)),
                 FlatButton.icon(
                   onPressed: uploadFeelings,
                   label: Text(

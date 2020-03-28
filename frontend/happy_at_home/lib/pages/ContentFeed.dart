@@ -30,6 +30,18 @@ class _ContentFeedState extends State<ContentFeed> {
                 Icons.edit,
                 color: Colors.blue,
               ),
+            ),
+            FlatButton.icon(
+              onPressed: () {
+                Navigator.pushNamed(context, "/create");
+              },
+              label: Text(
+                "Create Content",
+              ),
+              icon: Icon(
+                Icons.edit,
+                color: Colors.blue,
+              ),
             )
           ],
         ),
