@@ -46,15 +46,6 @@ public class UserResource {
     return ResponseEntity.ok(userRepository.save(user));
   }
 
-  @PutMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<Feeling> addFeeling(@PathVariable String id, @RequestBody FeelingDto feelingDto) {
-    Feeling feeling = new Feeling(feelingDto.getEmoji());
-
-    Optional<User> userEntity = userRepository.findById(id);
-    //userEntity.ifPresent(user -> user.addFeeling(feeling));
-    return ResponseEntity.ok(feelingRepository.save(feeling));
-  }
-
   @PostMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Void> addFeelings(@PathVariable String id, @RequestBody Set<FeelingDto> feelingDtos) {
     Optional<User> userEntity = userRepository.findById(id);
