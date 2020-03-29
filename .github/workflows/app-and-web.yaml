@@ -52,4 +52,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BASE_BRANCH: master
           BRANCH: gh-pages
-          FOLDER: ./frontend/happy_at_home/build/web
+          FOLDER: frontend/happy_at_home/build/web
