@@ -3,10 +3,7 @@ package org.codevscovid19.stayhappyathome.controller;
 import org.codevscovid19.stayhappyathome.dto.PostDto;
 import org.codevscovid19.stayhappyathome.dto.PostReactionDto;
 import org.codevscovid19.stayhappyathome.dto.ReactionSummaryDto;
-import org.codevscovid19.stayhappyathome.entity.Post;
-import org.codevscovid19.stayhappyathome.entity.PostReaction;
-import org.codevscovid19.stayhappyathome.entity.TargetFeeling;
-import org.codevscovid19.stayhappyathome.entity.User;
+import org.codevscovid19.stayhappyathome.entity.*;
 import org.codevscovid19.stayhappyathome.login.HansNotFoundException;
 import org.codevscovid19.stayhappyathome.repository.PostReactionRepository;
 import org.codevscovid19.stayhappyathome.repository.PostRepository;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -111,10 +109,19 @@ public class PostResource {
   }
 
   private Post enrichPostWithReactionSummary(Post post) {
-    ReactionSummaryDto reactionSummary = new ReactionSummaryDto();
-    post.getPostReactions().stream().forEach(postReaction -> reactionSummary.addReaction(postReaction.getEmoji()));
-    post.setReactionSummary(reactionSummary);
+    ReactionSummaryDto postReactionSummary = reactionService.getReactionSummaryForPost(post.getId());
+    post.setReactionSummary(postReactionSummary);
+    List<Reply> replies = enrichRepliesWithReactionSummaries(post.getReplies());
+    post.setReplies(replies);
     return post;
+  }
+
+  private List<Reply> enrichRepliesWithReactionSummaries(List<Reply> replies) {
+    for (Reply reply : replies) {
+      ReactionSummaryDto reactionSummary = reactionService.getReactionSummaryForReply(reply.getId());
+      reply.setReactionSummary(reactionSummary);
+    }
+    return replies;
   }
 
 }
