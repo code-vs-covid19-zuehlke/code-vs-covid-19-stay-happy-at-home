@@ -40,16 +40,18 @@ class _TargetFeelingChooserWidgetState
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        TargetFeelingItem("Happy =D", Emotion.HAPPY,
+        TargetFeelingItem("Laughing =D", Emotion.HAPPY,
             isChecked(Emotion.HAPPY), toggleFeeling),
         TargetFeelingItem("Relaxed", Emotion.RELAXED,
             isChecked(Emotion.RELAXED), toggleFeeling),
-        TargetFeelingItem("Accomplished", Emotion.ACCOMPLISHED,
+        TargetFeelingItem("Fulfilled", Emotion.ACCOMPLISHED,
             isChecked(Emotion.ACCOMPLISHED), toggleFeeling),
         TargetFeelingItem("Informed", Emotion.INFORMED,
             isChecked(Emotion.INFORMED), toggleFeeling),
         TargetFeelingItem("Energized", Emotion.ENERGIZED,
             isChecked(Emotion.ENERGIZED), toggleFeeling),
+        TargetFeelingItem("Aaaaaaaaw", Emotion.AWWW,
+            isChecked(Emotion.AWWW), toggleFeeling),
         TargetFeelingItem("Inspired", Emotion.INSPIRED,
             isChecked(Emotion.INSPIRED), toggleFeeling),
         TargetFeelingItem("Entertained", Emotion.ENTERTAINED,
