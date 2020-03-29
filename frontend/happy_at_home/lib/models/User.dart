@@ -2,6 +2,7 @@ import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:uuid/uuid.dart';
 
 import 'Feeling.dart';
+import 'Time.dart';
 
 @jsonSerializable
 class User {
@@ -10,8 +11,9 @@ class User {
   final String photo;
   final String photoContentType;
   final List<Feeling> feelings;
+  final Time timeRecord;
 
-  const User(this.id, this.name, this.photo,this.photoContentType, this.feelings);
+  const User(this.id, this.name, this.photo,this.photoContentType, this.feelings, this.timeRecord);
 }
 
 @jsonSerializable
