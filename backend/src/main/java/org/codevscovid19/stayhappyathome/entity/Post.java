@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "POSTS")
@@ -46,12 +45,11 @@ public class Post {
     // for Jackson
   }
 
-  public Post(String title, String description, URL link, User user, Set<TargetFeeling> targetFeelings) {
+  public Post(String title, String description, URL link, User user) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.user = user;
-    this.targetFeelings = targetFeelings;
   }
 
   public Post(String title, String description, URL link, URL picture, User user, String photoContentType) {
@@ -171,12 +169,11 @@ public class Post {
       Objects.equals(photoContentType, post.photoContentType) &&
       Objects.equals(user, post.user) &&
       Objects.equals(postReactions, post.postReactions) &&
-      Objects.equals(targetFeelings, post.targetFeelings) &&
       Objects.equals(replies, post.replies);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions, targetFeelings, replies);
+    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions, replies);
   }
 }
