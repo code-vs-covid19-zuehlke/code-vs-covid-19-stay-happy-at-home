@@ -5,6 +5,7 @@ import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
 import 'package:happyathome/models/TargetFeeling.dart';
+import 'package:happyathome/models/Time.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:happyathome/utils/LogClient.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +28,10 @@ class Backend {
 
   static Future<String> setFeelings(User user, List<Feeling> feelings) async {
     return _putRaw('feeling', feelings);
+  }
+
+  static Future<String> setTime(User user, int time) async {
+    return _putRaw('user/${user.id}/time', CreateTime(time));
   }
 
   static Future<Post> getPostById(String id) async {
@@ -112,14 +117,12 @@ class Backend {
     return headers;
   }
 
-  static void init(){
-    JsonMapper().useAdapter(JsonMapperAdapter(
-        valueDecorators: {
-          typeOf<List<Feeling>>(): (value) => value.cast<Feeling>(),
-          typeOf<Set<TargetFeeling>>(): (value) => value.cast<TargetFeeling>(),
-          typeOf<List<Post>>(): (value) => value.cast<Post>(),
-          typeOf<List<Reaction>>(): (value) => value.cast<Reaction>(),
-        })
-    );
+  static void init() {
+    JsonMapper().useAdapter(JsonMapperAdapter(valueDecorators: {
+      typeOf<List<Feeling>>(): (value) => value.cast<Feeling>(),
+      typeOf<Set<TargetFeeling>>(): (value) => value.cast<TargetFeeling>(),
+      typeOf<List<Post>>(): (value) => value.cast<Post>(),
+      typeOf<List<Reaction>>(): (value) => value.cast<Reaction>(),
+    }));
   }
 }
