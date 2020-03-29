@@ -1,6 +1,5 @@
 package org.codevscovid19.stayhappyathome.controller;
 
-import com.google.common.collect.Lists;
 import org.codevscovid19.stayhappyathome.dto.PostDto;
 import org.codevscovid19.stayhappyathome.dto.PostReactionDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyDto;
@@ -68,7 +67,7 @@ public class PostResource {
   public ResponseEntity<Post> createPost(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                           @RequestBody PostDto postDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
-    URL photoUrl = photoService.writeBytesToGcp("post-" + postDto.getId(), postDto.getPicture());
+    URL photoUrl = photoService.writeBytesToGcp("post-" + postDto.getId(), postDto.getPicture(), postDto.getPhotoContentType());
 
     Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), photoUrl, user, postDto.getTargetFeelings(), postDto.getPhotoContentType());
     Post newPost = postRepository.save(post);
@@ -87,7 +86,7 @@ public class PostResource {
                                            @PathVariable("postId") Long postId,
                                            @RequestBody ReplyDto replyDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
-    URL photoUrl = photoService.writeBytesToGcp("reply-" + replyDto.getId(), replyDto.getPicture());
+    URL photoUrl = photoService.writeBytesToGcp("reply-" + replyDto.getId(), replyDto.getPicture(), replyDto.getPhotoContentType());
 
     Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), photoUrl, user, Collections.emptyList(), replyDto.getPhotoContentType());
 

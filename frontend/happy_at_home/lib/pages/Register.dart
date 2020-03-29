@@ -27,7 +27,7 @@ class _RegisterState extends State<Register> {
 
   void createUser() async {
     var name = nameController.text;
-    UserState().user = await UserRegistration.register(name);
+    UserState().user = await UserRegistration.register(name, _image);
     Navigator.pushReplacementNamed(context, "/feeling");
   }
 
