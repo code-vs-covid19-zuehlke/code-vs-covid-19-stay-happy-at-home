@@ -12,17 +12,19 @@ public class PostDto {
   private URL link;
   private byte[] picture;
   private Set<TargetFeeling> targetFeelings;
+  private String photoContentType;
 
   private PostDto() {
     // for Jackson
   }
 
-  public PostDto(String title, String description, URL link, byte[] picture, Set<TargetFeeling> targetFeelings) {
+  public PostDto(String title, String description, URL link, byte[] picture, Set<TargetFeeling> targetFeelings, String photoContentType) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
     this.targetFeelings = targetFeelings;
+    this.photoContentType = photoContentType;
   }
 
   public Long getId() {
@@ -71,5 +73,9 @@ public class PostDto {
 
   public Set<TargetFeeling> getTargetFeelings() {
     return this.targetFeelings;
+  }
+
+  public String getPhotoContentType() {
+    return photoContentType;
   }
 }

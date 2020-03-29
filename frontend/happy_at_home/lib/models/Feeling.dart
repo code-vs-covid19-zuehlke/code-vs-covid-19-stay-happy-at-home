@@ -7,5 +7,5 @@ class Feeling {
   @JsonProperty(converter: EnumStringConverter(Emoji.values))
   final Emoji emoji;
 
-  Feeling({this.emoji});
+  const Feeling(this.emoji);
 }

@@ -14,12 +14,14 @@ class PostWidget extends StatelessWidget {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-              bottom: BorderSide(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(
             color: Colors.grey,
             width: 1,
-          ))),
+          ),
+        ),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

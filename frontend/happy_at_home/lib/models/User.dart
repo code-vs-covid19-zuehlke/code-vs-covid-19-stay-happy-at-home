@@ -8,12 +8,23 @@ class User {
   final String id;
   final String name;
   final String photo;
-  final List<Feeling> feelingRecords;
+  final String photoContentType;
+  final List<Feeling> feelings;
 
-  User({this.id, this.name, this.photo, this.feelingRecords});
+  const User(this.id, this.name, this.photo,this.photoContentType, this.feelings);
+}
 
-  static User createUser(String name) {
+@jsonSerializable
+class CreateUser {
+  final String id;
+  final String name;
+  final String photo;
+  final String photoContentType;
+
+  const CreateUser(this.id, this.name, this.photo, this.photoContentType);
+
+  static CreateUser createUser(String name, String photoAsBase64, String contentType) {
     final id = Uuid().v4();
-    return User(id: id, name: name, photo: null, feelingRecords: []);
+    return CreateUser(id, name, photoAsBase64, contentType);
   }
 }

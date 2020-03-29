@@ -17,3 +17,4 @@ spring:
       sql:
         database-name: irrelevant
         instance-connection-name: irrelevant:in-this:profile
+      photo-bucket: stay-happy-at-home-eu

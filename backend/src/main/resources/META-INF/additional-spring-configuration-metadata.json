@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.cloud.gcp.photo-bucket",
+      "type": "java.lang.String",
+      "description": "Bucket to use for storage of images."
+  }
+] }

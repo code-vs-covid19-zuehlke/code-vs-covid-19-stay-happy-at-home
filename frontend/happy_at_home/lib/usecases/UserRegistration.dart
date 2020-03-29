@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happyathome/apis/Backend.dart';
@@ -9,6 +13,7 @@ class UserRegistration {
   static final userId = "USER_ID";
 
   static Future<bool> hasRegisteredUser() async {
+//    return false;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final registered = prefs.getBool(userRegistered) ?? false;
     return registered;
@@ -19,8 +24,15 @@ class UserRegistration {
     return Backend.getUserById(prefs.getString(userId));
   }
 
-  static Future<User> register(String userName) async {
-    final user = await Backend.postUser(User.createUser(userName));
+  static Future<User> register(String userName, File image) async {
+    Uint8List binaryData;
+    if (image == null){
+      binaryData = (await rootBundle.load('assets/profile_picture.jpg')).buffer.asUint8List();
+    }else{
+      binaryData = await image.readAsBytes();
+    }
+
+    final user = await Backend.postUser(CreateUser.createUser(userName, base64.encode(binaryData), "image/png"));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(userRegistered, true);
     await prefs.setString(userId, user.id);

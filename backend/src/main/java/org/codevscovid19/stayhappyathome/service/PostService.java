@@ -5,7 +5,10 @@ import org.codevscovid19.stayhappyathome.repository.TargetFeelingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class PostService {

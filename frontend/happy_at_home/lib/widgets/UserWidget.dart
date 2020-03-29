@@ -12,6 +12,7 @@ class UserWidget extends StatelessWidget {
       future: futureUser,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          print(snapshot.data.photo);
           return Column(children: <Widget>[
             SizedBox(height: 15),
             CircleAvatar(
