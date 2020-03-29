@@ -65,6 +65,7 @@ class _ContentDetailState extends State<ContentDetail> {
           onRefresh: onRefresh,
           child: TitleCard(
             title: post.title,
+            subtitle: post.description,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
