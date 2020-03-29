@@ -3,6 +3,7 @@ import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/ButtonWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/EmojiChooserWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
@@ -38,56 +39,31 @@ class _ActualFeelingState extends State<ActualFeeling> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.BackgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                UserWidget(UserRegistration.load()),
-                TitleCard(
-                  title: "How much time do you want to invest?",
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: StyledSlider(timePeriod, updateTimePeriod),
-                  ),
-                ),
-                TitleCard(
-                    title: "How do you feel?",
-                    child: EmojiChooserWidget(3, updateFeelings, true)),
-                FlatButton.icon(
-                  onPressed: uploadFeelings,
-                  label: Text(
-                    "Go to Feed",
-                    style: TextStyle(
-                        fontFamily: "Comfortaa"
+        backgroundColor: CustomColors.BackgroundColor,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  UserWidget(UserRegistration.load()),
+                  TitleCard(
+                    title: "How much time do you want to invest?",
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: StyledSlider(timePeriod, updateTimePeriod),
                     ),
                   ),
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.blue,
+                  TitleCard(
+                      title: "How do you feel?",
+                      child: EmojiChooserWidget(3, updateFeelings, true)),
+                  ButtonWidget(
+                    title: "Make me Happy!",
+                    onPress: uploadFeelings,
                   ),
-                ),
-                FlatButton.icon(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/profile");
-                  },
-                  label: Text(
-                    "Go to Profile",
-                    style: TextStyle(
-                        fontFamily: "Comfortaa"
-                    ),
-                  ),
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

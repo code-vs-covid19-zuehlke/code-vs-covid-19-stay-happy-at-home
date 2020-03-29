@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/ButtonWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
 
@@ -51,19 +52,15 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
                   controller: nameController,
-                  decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Enter your name'),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter your name'),
                 ),
               ),
               ImagePickerWidget(context, _image, onChooseImage),
-              FlatButton.icon(
-                onPressed: createUser,
-                label: Text(
-                  "Register now",
-                ),
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.blue,
-                ),
+              ButtonWidget(
+                onPress: createUser,
+                title: "Register now",
               )
             ],
           ),
