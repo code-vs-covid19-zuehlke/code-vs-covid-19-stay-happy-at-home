@@ -9,6 +9,8 @@ import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/PostRatingWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
 
+import '../UserState.dart';
+
 class ContentDetail extends StatefulWidget {
   @override
   _ContentDetailState createState() => _ContentDetailState();
@@ -102,7 +104,8 @@ class ReplyWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: CircleAvatar( //Todo: Replace with new UserWidget
-              backgroundImage: AssetImage("assets/profile_picture.jpg"),
+              backgroundImage: GoogleCloudImage.get(
+                  isReply ? reply.user.photo : UserState().user.photo),
             ),
           ),
         ],
