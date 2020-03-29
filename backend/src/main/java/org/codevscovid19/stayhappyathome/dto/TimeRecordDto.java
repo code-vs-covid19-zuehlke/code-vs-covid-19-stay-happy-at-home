@@ -1,7 +1,5 @@
 package org.codevscovid19.stayhappyathome.dto;
 
-import javax.validation.constraints.NotNull;
-
 public class TimeRecordDto {
 
   private Integer availableTime;

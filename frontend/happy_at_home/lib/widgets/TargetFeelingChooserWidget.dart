@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happyathome/models/TargetFeeling.dart';
+import 'package:happyathome/models/Emotion.dart';
 
 class TargetFeelingChooserWidget extends StatefulWidget {
   final Function updateTargetFeelings;
@@ -14,7 +14,7 @@ class TargetFeelingChooserWidget extends StatefulWidget {
 
 class _TargetFeelingChooserWidgetState
     extends State<TargetFeelingChooserWidget> {
-  List<TargetFeeling> chosenFeelings = List();
+  List<Emotion> chosenFeelings = List();
   final Function updateTargetFeelings;
 
   _TargetFeelingChooserWidgetState(this.updateTargetFeelings);
@@ -40,20 +40,20 @@ class _TargetFeelingChooserWidgetState
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        TargetFeelingItem("Happy =D", TargetFeeling.HAPPY,
-            isChecked(TargetFeeling.HAPPY), toggleFeeling),
-        TargetFeelingItem("Relaxed", TargetFeeling.RELAXED,
-            isChecked(TargetFeeling.RELAXED), toggleFeeling),
-        TargetFeelingItem("Accomplished", TargetFeeling.ACCOMPLISHED,
-            isChecked(TargetFeeling.ACCOMPLISHED), toggleFeeling),
-        TargetFeelingItem("Informed", TargetFeeling.INFORMED,
-            isChecked(TargetFeeling.INFORMED), toggleFeeling),
-        TargetFeelingItem("Energized", TargetFeeling.ENERGIZED,
-            isChecked(TargetFeeling.ENERGIZED), toggleFeeling),
-        TargetFeelingItem("Inspired", TargetFeeling.INSPIRED,
-            isChecked(TargetFeeling.INSPIRED), toggleFeeling),
-        TargetFeelingItem("Entertained", TargetFeeling.ENTERTAINED,
-            isChecked(TargetFeeling.ENTERTAINED), toggleFeeling),
+        TargetFeelingItem("Happy =D", Emotion.HAPPY,
+            isChecked(Emotion.HAPPY), toggleFeeling),
+        TargetFeelingItem("Relaxed", Emotion.RELAXED,
+            isChecked(Emotion.RELAXED), toggleFeeling),
+        TargetFeelingItem("Accomplished", Emotion.ACCOMPLISHED,
+            isChecked(Emotion.ACCOMPLISHED), toggleFeeling),
+        TargetFeelingItem("Informed", Emotion.INFORMED,
+            isChecked(Emotion.INFORMED), toggleFeeling),
+        TargetFeelingItem("Energized", Emotion.ENERGIZED,
+            isChecked(Emotion.ENERGIZED), toggleFeeling),
+        TargetFeelingItem("Inspired", Emotion.INSPIRED,
+            isChecked(Emotion.INSPIRED), toggleFeeling),
+        TargetFeelingItem("Entertained", Emotion.ENTERTAINED,
+            isChecked(Emotion.ENTERTAINED), toggleFeeling),
       ],
     );
   }
@@ -61,7 +61,7 @@ class _TargetFeelingChooserWidgetState
 
 class TargetFeelingItem extends StatelessWidget {
   final String title;
-  final TargetFeeling feeling;
+  final Emotion feeling;
   final bool checked;
   final Function toggleFeeling;
 

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:happyathome/models/TargetFeeling.dart';
+import 'package:happyathome/models/Emotion.dart';
 import 'package:happyathome/usecases/PostCreation.dart';
 import 'package:happyathome/widgets/ButtonWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
@@ -20,7 +20,7 @@ class _CreateContentState extends State<CreateContent> {
   final descriptionController = TextEditingController();
   final linkController = TextEditingController();
   File _image;
-  List<TargetFeeling> chosenFeelings;
+  List<Emotion> chosenFeelings;
   double timePeriod;
 
   void onChooseImage(image) {

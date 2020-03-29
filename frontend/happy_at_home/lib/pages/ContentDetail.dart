@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
@@ -13,10 +14,15 @@ class ContentDetail extends StatefulWidget {
 class _ContentDetailState extends State<ContentDetail> {
   String title = "Toilet paper towers wanted!";
   String description = "Where to store all the rolls?";
-  List<String> input = ["Test 1", "Test 2", "Test 3"];
+  Post post;
 
   @override
   Widget build(BuildContext context) {
+    post ??= ModalRoute
+        .of(context)
+        .settings
+        .arguments;
+
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
@@ -28,10 +34,10 @@ class _ContentDetailState extends State<ContentDetail> {
               Container(
                 height: 400,
                 child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: 2,
                   itemBuilder: (BuildContext context, int index) {
-                    if (index < 2) {
-                      return ReplyWidget();
+                    if (index < 1) {
+                      return ReplyWidget(post);
                     } else {
                       return ImagePickerWidget(context, null, () {});
                     }
@@ -48,9 +54,9 @@ class _ContentDetailState extends State<ContentDetail> {
 }
 
 class ReplyWidget extends StatelessWidget {
-  const ReplyWidget({
-    Key key,
-  }) : super(key: key);
+  Post post;
+
+  ReplyWidget(this.post);
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +82,7 @@ class ReplyWidget extends StatelessWidget {
                 ),
                 height: 100,
               ),
-              PostRatingWidget(null, true),
+              PostRatingWidget(context, null, post, true),
             ],
           ),
         ],

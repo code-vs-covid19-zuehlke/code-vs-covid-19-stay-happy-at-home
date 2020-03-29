@@ -3,7 +3,6 @@ package org.codevscovid19.stayhappyathome.dto;
 import java.net.URL;
 
 public class ReplyDto {
-  private Long id;
   private String title;
   private String description;
   private URL link;
@@ -20,14 +19,6 @@ public class ReplyDto {
     this.link = link;
     this.picture = picture;
     this.photoContentType = photoContentType;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getTitle() {

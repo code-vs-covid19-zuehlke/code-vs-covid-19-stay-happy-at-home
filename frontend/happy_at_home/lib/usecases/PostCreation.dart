@@ -3,13 +3,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:happyathome/apis/Backend.dart';
+import 'package:happyathome/models/Emotion.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/TargetFeeling.dart';
 import 'package:happyathome/utils/FallbackImage.dart';
 
 class PostCreation {
   static Future<Post> create(String title, String description, String link,
-      File image, Set<TargetFeeling> targetFeeling) async {
+      File image, Set<Emotion> emotions) async {
     Uint8List binaryData;
     if (image == null) {
       binaryData = await FallbackImage.bytes();
@@ -18,11 +19,8 @@ class PostCreation {
     }
 
     final post = await Backend.postPost(CreatePost(title, description, link,
-        base64.encode(binaryData), "image/jpg", targetFeeling.map((tf) =>
-        tf
-            .toString()
-            .split(".")
-            .last).toSet()));
+        base64.encode(binaryData), "image/jpg",
+        emotions.map((em) => TargetFeeling(em)).toSet()));
     return post;
   }
 }
