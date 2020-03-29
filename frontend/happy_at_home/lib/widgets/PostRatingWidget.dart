@@ -72,7 +72,7 @@ class PostRatingWidget extends StatelessWidget {
             onTap: showReactions,
             child: Container(
               color: Colors.black,
-              width: 30,
+              width: 40,
               child: Icon(
                 Icons.add,
                 color: Colors.white,

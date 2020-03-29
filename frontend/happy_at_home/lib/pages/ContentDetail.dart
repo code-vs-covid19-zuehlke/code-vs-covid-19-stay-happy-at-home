@@ -88,6 +88,7 @@ class ReplyWidget extends StatelessWidget {
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Image(
                 image: GoogleCloudImage.get(
