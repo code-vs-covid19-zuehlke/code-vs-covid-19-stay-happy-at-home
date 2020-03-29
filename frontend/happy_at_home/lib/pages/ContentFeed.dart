@@ -55,16 +55,65 @@ class _ContentFeedState extends State<ContentFeed> {
                 ),
               ),
             ),
-            SizedBox(height: 50,)
+            SizedBox(
+              height: 50,
+            )
           ],
         ),
       ),
-      bottomNavigationBar: BottomBarWidget(() {
-        Navigator.pushNamed(context, "/create");
-      }, () {
-        Navigator.pushNamed(context, "/profile");
-        ;
-      }),
+      bottomNavigationBar: ContentFeedBottomBar(),
+    );
+  }
+}
+
+class ContentFeedBottomBar extends StatelessWidget {
+  const ContentFeedBottomBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomBarWidget(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.greenAccent,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "00:24:30",
+                style: TextStyle(
+                  fontFamily: "Comfortaa",
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, "/create");
+            },
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            color: Colors.black,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, "/profile");
+            },
+            child: CircleAvatar(
+              backgroundImage: AssetImage("assets/profile_picture.jpg"),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
