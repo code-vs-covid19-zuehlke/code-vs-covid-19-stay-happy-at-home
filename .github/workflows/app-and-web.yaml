@@ -30,7 +30,7 @@ jobs:
       # run code generation
       - run: cd ./frontend/happy_at_home && flutter pub run build_runner build --delete-conflicting-outputs
       # build macOS desktop version
-      - run: cd ./frontend/happy_at_home && flutter build macos --release
+      #- run: cd ./frontend/happy_at_home && flutter build macos --release
       # build Android version
       - run: cd ./frontend/happy_at_home && flutter build apk --debug --split-per-abi
       # This action will create a github release and optionally upload an artifact to it.
