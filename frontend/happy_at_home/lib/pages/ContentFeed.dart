@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/PostWidget.dart';
 
@@ -8,7 +9,6 @@ class ContentFeed extends StatefulWidget {
 }
 
 class _ContentFeedState extends State<ContentFeed> {
-
   @override
   void initState() {
     super.initState();
@@ -31,9 +31,11 @@ class _ContentFeedState extends State<ContentFeed> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             Expanded(
-              flex: 10,
+              flex: 1,
               child: Card(
                 margin: const EdgeInsets.all(16),
                 elevation: 2,
@@ -53,21 +55,16 @@ class _ContentFeedState extends State<ContentFeed> {
                 ),
               ),
             ),
-            FlatButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, "/create");
-              },
-              label: Text(
-                "Create Content",
-              ),
-              icon: Icon(
-                Icons.edit,
-                color: Colors.blue,
-              ),
-            )
+            SizedBox(height: 50,)
           ],
         ),
       ),
+      bottomNavigationBar: BottomBarWidget(() {
+        Navigator.pushNamed(context, "/create");
+      }, () {
+        Navigator.pushNamed(context, "/profile");
+        ;
+      }),
     );
   }
 }
