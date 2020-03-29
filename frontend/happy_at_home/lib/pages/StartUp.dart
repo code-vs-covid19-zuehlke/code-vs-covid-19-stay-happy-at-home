@@ -58,10 +58,12 @@ class _StartUpState extends State<StartUp> {
               "Stay Happy @ Home",
               style: TextStyle(fontFamily: "Comfortaa", fontSize: 35)
             ),
+            SizedBox(height: 15),
             Text(
               "😀😷🐼",
               style: TextStyle(fontSize: 50),
             ),
+            SizedBox(height: 15),
             EmojiImage(Emoji.FACE_WITH_TEARS_OF_JOY),
           ],
         ),
