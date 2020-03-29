@@ -43,7 +43,7 @@ class PostWidget extends StatelessWidget {
                   ),
                 ),
                 Text("$description"),
-                PostRatingWidget(reactions),
+                PostRatingWidget(reactions, false),
               ],
             ),
             SizedBox(

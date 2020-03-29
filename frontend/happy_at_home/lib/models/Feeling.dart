@@ -1,5 +1,5 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
-import 'package:happyathome/apis/EnumStringConverter.dart';
+import 'package:happyathome/utils/EnumStringConverter.dart';
 import 'package:happyathome/models/Emoji.dart';
 
 @jsonSerializable

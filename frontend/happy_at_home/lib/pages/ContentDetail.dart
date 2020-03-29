@@ -76,7 +76,7 @@ class ReplyWidget extends StatelessWidget {
                 ),
                 height: 100,
               ),
-              PostRatingWidget(null),
+              PostRatingWidget(null, true),
             ],
           ),
         ],

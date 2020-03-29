@@ -1,8 +1,10 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:happyathome/UserState.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
+import 'package:happyathome/models/TargetFeeling.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,7 +35,7 @@ class Backend {
     return _get('post');
   }
 
-  static Future<Post> postPost(Post post) async {
+  static Future<Post> postPost(CreatePost post) async {
     return _post('post', post);
   }
 
@@ -63,7 +65,7 @@ class Backend {
 
   static Future<String> _getRaw(String path) async {
     final url = '$baseUrl/$path';
-    final response = await http.get(url);
+    final response = await http.get(url, headers: _createHeaders());
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
@@ -74,11 +76,7 @@ class Backend {
   static Future<String> _postRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await http.post(url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JsonMapper.serialize(object));
+    final response = await http.post(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
@@ -90,11 +88,7 @@ class Backend {
   static Future<String> _putRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await http.put(url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JsonMapper.serialize(object));
+    final response = await http.put(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
@@ -103,10 +97,22 @@ class Backend {
     }
   }
 
+  static Map<String, String> _createHeaders() {
+    var headers = <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+    final user = UserState().user;
+    if (user != null && user.id != null) {
+      headers.putIfAbsent('X-User-Id', () => user.id);
+    }
+    return headers;
+  }
+
   static void init(){
     JsonMapper().useAdapter(JsonMapperAdapter(
         valueDecorators: {
-          typeOf<List<Feeling>>(): (value) => value.cast<Feeling>()
+          typeOf<List<Feeling>>(): (value) => value.cast<Feeling>(),
+          typeOf<Set<TargetFeeling>>(): (value) => value.cast<TargetFeeling>(),
         })
     );
   }
