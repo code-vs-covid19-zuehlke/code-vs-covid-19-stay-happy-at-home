@@ -26,7 +26,7 @@ class Backend {
   }
 
   static Future<String> setFeelings(User user, List<Feeling> feelings) async {
-    return _putRaw('user/${user.id}/feeling', feelings);
+    return _putRaw('feeling', feelings);
   }
 
   static Future<Post> getPostById(String id) async {
