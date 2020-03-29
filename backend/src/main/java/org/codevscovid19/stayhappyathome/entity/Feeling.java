@@ -2,6 +2,7 @@ package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 @Entity

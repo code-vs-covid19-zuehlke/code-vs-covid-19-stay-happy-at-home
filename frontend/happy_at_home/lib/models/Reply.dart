@@ -4,5 +4,5 @@ import 'package:dart_json_mapper/dart_json_mapper.dart';
 class Reply {
   final String id;
 
-  Reply({this.id});
+  const Reply(this.id);
 }

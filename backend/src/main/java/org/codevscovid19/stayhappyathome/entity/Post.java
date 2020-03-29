@@ -2,24 +2,30 @@ package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.*;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "POSTS")
 public class Post {
+
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_sequence_generator")
+  @SequenceGenerator(name = "post_sequence_generator", sequenceName = "post_id_sequence")
   private Long id;
+
   @Column(name = "title", nullable = false)
   private String title;
+
   @Column(name = "description", nullable = false)
   private String description;
+
   @Column(name = "link")
   private URL link;
-
-  private byte[] picture;
+  @Column(name = "picture")
+  private URL picture;
+  @Column(name = "photo_content_type")
+  private String photoContentType;
 
   @ManyToOne
   private User user;
@@ -31,12 +37,13 @@ public class Post {
     // for Jackson
   }
 
-  public Post(String title, String description, URL link, byte[] picture, User user) {
+  public Post(String title, String description, URL link, URL picture, User user, String photoContentType) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
     this.user = user;
+    this.photoContentType = photoContentType;
   }
 
   public Long getId() {
@@ -71,11 +78,11 @@ public class Post {
     this.link = link;
   }
 
-  public byte[] getPicture() {
+  public URL getPicture() {
     return picture;
   }
 
-  public void setPicture(byte[] picture) {
+  public void setPicture(URL picture) {
     this.picture = picture;
   }
 
@@ -95,6 +102,14 @@ public class Post {
     this.postReactions = postReactions;
   }
 
+  public String getPhotoContentType() {
+    return photoContentType;
+  }
+
+  public void setPhotoContentType(String photoContentType) {
+    this.photoContentType = photoContentType;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -104,15 +119,14 @@ public class Post {
       Objects.equals(title, post.title) &&
       Objects.equals(description, post.description) &&
       Objects.equals(link, post.link) &&
-      Arrays.equals(picture, post.picture) &&
+      Objects.equals(picture, post.picture) &&
+      Objects.equals(photoContentType, post.photoContentType) &&
       Objects.equals(user, post.user) &&
       Objects.equals(postReactions, post.postReactions);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id, title, description, link, user, postReactions);
-    result = 31 * result + Arrays.hashCode(picture);
-    return result;
+    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions);
   }
 }

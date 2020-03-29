@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/models/Post.dart';
@@ -19,7 +17,7 @@ class Backend {
     return _get('user');
   }
 
-  static Future<User> postUser(User user) async {
+  static Future<User> postUser(CreateUser user) async {
     return _post('user', user);
   }
 
@@ -55,12 +53,12 @@ class Backend {
 
   static Future<T> _get<T>(String path) async {
     final response = await _getRaw(path);
-    return JsonMapper.deserialize<T>(json.decode(response));
+    return JsonMapper.deserialize<T>(response);
   }
 
   static Future<T> _post<T>(String path, Object object) async {
     final response = await _postRaw(path, object);
-    return JsonMapper.deserialize<T>(json.decode(response));
+    return JsonMapper.deserialize<T>(response);
   }
 
   static Future<String> _getRaw(String path) async {

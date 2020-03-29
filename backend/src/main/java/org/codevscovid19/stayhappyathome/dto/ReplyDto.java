@@ -8,16 +8,18 @@ public class ReplyDto {
   private String description;
   private URL link;
   private byte[] picture;
+  private String photoContentType;
 
   private ReplyDto() {
     // for Jackson
   }
 
-  public ReplyDto(String title, String description, URL link, byte[] picture) {
+  public ReplyDto(String title, String description, URL link, byte[] picture, String photoContentType) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
+    this.photoContentType = photoContentType;
   }
 
   public Long getId() {
@@ -58,5 +60,13 @@ public class ReplyDto {
 
   public void setPicture(byte[] picture) {
     this.picture = picture;
+  }
+
+  public String getPhotoContentType() {
+    return photoContentType;
+  }
+
+  public void setPhotoContentType(String photoContentType) {
+    this.photoContentType = photoContentType;
   }
 }

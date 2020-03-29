@@ -4,5 +4,5 @@ import 'package:dart_json_mapper/dart_json_mapper.dart';
 class Post {
   final String id;
 
-  Post({this.id});
+  const Post(this.id);
 }
