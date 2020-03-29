@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reply.dart';
+import 'package:happyathome/models/User.dart';
 import 'package:happyathome/usecases/ReplyCreation.dart';
 import 'package:happyathome/utils/GoogleCloudImage.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/EmojiImage.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
+import 'package:happyathome/widgets/NewUserWidget.dart';
 import 'package:happyathome/widgets/PostRatingWidget.dart';
 import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
@@ -37,10 +41,7 @@ class _ContentDetailState extends State<ContentDetail> {
 
   @override
   Widget build(BuildContext context) {
-    post ??= ModalRoute
-        .of(context)
-        .settings
-        .arguments;
+    post ??= ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
@@ -101,12 +102,8 @@ class ReplyWidget extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: CircleAvatar( //Todo: Replace with new UserWidget
-              backgroundImage: GoogleCloudImage.get(
-                  isReply ? reply.user.photo : post.user.photo),
-            ),
-          ),
+              padding: const EdgeInsets.all(16.0),
+              child: NewUserWidget(isReply ? reply.user : post.user)),
         ],
       ),
     );
