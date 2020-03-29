@@ -3,7 +3,7 @@
 
 import 'dart:core';
 import 'package:dart_json_mapper/src/model/annotations.dart' as prefix0;
-import 'package:happyathome/apis/EnumStringConverter.dart' as prefix8;
+import 'package:happyathome/utils/EnumStringConverter.dart' as prefix8;
 import 'package:happyathome/models/Emoji.dart' as prefix7;
 import 'package:happyathome/models/Feeling.dart' as prefix3;
 import 'package:happyathome/models/Post.dart' as prefix5;

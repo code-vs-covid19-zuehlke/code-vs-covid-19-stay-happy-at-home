@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:happyathome/models/User.dart';
+import 'package:happyathome/utils/GoogleCloudImage.dart';
 
 class UserWidget extends StatelessWidget {
   final Future<User> futureUser;
@@ -12,16 +13,14 @@ class UserWidget extends StatelessWidget {
       future: futureUser,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print(snapshot.data.photo);
           return Column(children: <Widget>[
             SizedBox(height: 15),
             CircleAvatar(
-              backgroundImage: AssetImage("assets/profile_picture.jpg"),
+              backgroundImage: GoogleCloudImage.get(snapshot.data.photo),
               radius: 70,
             ),
             SizedBox(height: 15),
-            Text("Hi ${snapshot.data.name}",
-                style: TextStyle(fontSize: 36, fontFamily: "Comfortaa")),
+            Text("Hi ${snapshot.data.name}", style: TextStyle(fontSize: 36, fontFamily: "Comfortaa")),
             SizedBox(height: 15),
           ]);
         } else if (snapshot.hasError) {

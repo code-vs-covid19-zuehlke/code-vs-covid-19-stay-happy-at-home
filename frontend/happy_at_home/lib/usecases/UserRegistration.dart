@@ -32,7 +32,7 @@ class UserRegistration {
       binaryData = await image.readAsBytes();
     }
 
-    final user = await Backend.postUser(CreateUser.createUser(userName, base64.encode(binaryData), "image/png"));
+    final user = await Backend.postUser(CreateUser.createUser(userName, base64.encode(binaryData), "image/jpg"));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(userRegistered, true);
     await prefs.setString(userId, user.id);
