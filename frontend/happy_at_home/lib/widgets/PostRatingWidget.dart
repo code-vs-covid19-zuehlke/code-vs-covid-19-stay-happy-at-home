@@ -39,7 +39,7 @@ class PostRatingWidget extends StatelessWidget {
 
   void addReaction(Emoji reaction) async {
     if (isReply) {
-      //await Backend.postReactionToReply(post, reply, Reaction(reaction));
+      await Backend.postReactionToReply(post, reply, Reaction(reaction));
     } else {
       await Backend.postReactionToPost(post, Reaction(reaction));
     }

@@ -55,7 +55,7 @@ class Backend {
   }
 
   static Future<Reaction> postReactionToReply(Post post, Reply reply, Reaction reaction) async {
-    return _post('post/${post.id}/reply/${reply.id}/reaction', reaction);
+    return _post('reply/${reply.id}/reaction', reaction);
   }
 
   // ------------------------------------------------------------------------------
