@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
+import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Post.dart';
+import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
 import 'package:happyathome/usecases/ReplyCreation.dart';
 import 'package:happyathome/utils/GoogleCloudImage.dart';
@@ -25,29 +27,40 @@ class _ContentDetailState extends State<ContentDetail> {
 
   void createReply(image) async {
     await ReplyCreation.create(post, "dummy", "dummy", null, image);
-    setState(() {
-      post = post;
-    });
+    reload();
   }
 
   List<Widget> createContent() {
     List<Widget> widgetList = List();
-    widgetList.add(ReplyWidget(post, null, false));
+    widgetList.add(ReplyWidget(post, null, false, addReaction));
     for (Reply reply in post.replies) {
-      widgetList.add(ReplyWidget(post, reply, true));
+      widgetList.add(ReplyWidget(post, reply, true, addReaction));
     }
     widgetList.add(ImagePickerWidget(context, null, createReply));
     return widgetList;
   }
 
-  void onRefresh() async {
+  void reload() async {
     Post post = await Backend.getPostById(this.post.id);
     setState(() {
       this.post = post;
     });
+  }
+
+  void onRefresh() async {
+    reload();
     _refreshController.refreshCompleted();
   }
-  
+
+  void addReaction(Post post, Reply reply, Emoji reaction, bool isReply) async {
+    if (isReply) {
+      await Backend.postReactionToReply(post, reply, Reaction(reaction));
+    } else {
+      await Backend.postReactionToPost(post, Reaction(reaction));
+    }
+    reload();
+  }
+
   @override
   Widget build(BuildContext context) {
     post ??= ModalRoute
@@ -89,8 +102,9 @@ class ReplyWidget extends StatelessWidget {
   Post post;
   Reply reply;
   bool isReply;
+  Function addReaction;
 
-  ReplyWidget(this.post, this.reply, this.isReply);
+  ReplyWidget(this.post, this.reply, this.isReply, this.addReaction);
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +131,8 @@ class ReplyWidget extends StatelessWidget {
                     isReply ? reply.picture : post.picture),
                 height: 100,
               ),
-              PostRatingWidget(context, reply, post, true, isReply),
+              PostRatingWidget(
+                  context, reply, post, true, isReply, addReaction),
             ],
           ),
           Padding(
