@@ -1,13 +1,6 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +13,10 @@ public class ReplyReaction {
   private Long id;
 
   @ManyToOne
+  @JoinColumn(name = "reply_id")
+  private Reply reply;
+
+  @ManyToOne
   private User user;
 
   private Emoji emoji;
@@ -28,9 +25,10 @@ public class ReplyReaction {
     // for Jackson
   }
 
-  public ReplyReaction(User user, Emoji emoji) {
+  public ReplyReaction(User user, Emoji emoji, Reply reply) {
     this.user = user;
     this.emoji = emoji;
+    this.reply = reply;
   }
 
   public Long getId() {
@@ -57,6 +55,14 @@ public class ReplyReaction {
     this.emoji = emoji;
   }
 
+  public Reply getReply() {
+    return reply;
+  }
+
+  public void setReply(Reply reply) {
+    this.reply = reply;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -64,12 +70,13 @@ public class ReplyReaction {
     ReplyReaction that = (ReplyReaction) o;
     return Objects.equals(id, that.id) &&
       Objects.equals(user, that.user) &&
-      emoji == that.emoji;
+      emoji == that.emoji &&
+      Objects.equals(reply, that.reply);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, user, emoji);
+    return Objects.hash(id, user, emoji, reply);
   }
 
   @Override
@@ -78,6 +85,7 @@ public class ReplyReaction {
       "id=" + id +
       ", user=" + user +
       ", emoji=" + emoji +
+      ", reply=" + reply +
       '}';
   }
 }

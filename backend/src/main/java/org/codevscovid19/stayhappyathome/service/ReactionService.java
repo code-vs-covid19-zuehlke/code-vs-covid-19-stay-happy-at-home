@@ -1,17 +1,9 @@
 package org.codevscovid19.stayhappyathome.service;
 
 import org.codevscovid19.stayhappyathome.dto.ReactionSummaryDto;
-import org.codevscovid19.stayhappyathome.entity.Post;
-import org.codevscovid19.stayhappyathome.entity.PostReaction;
-import org.codevscovid19.stayhappyathome.entity.Reply;
-import org.codevscovid19.stayhappyathome.entity.ReplyReaction;
-import org.codevscovid19.stayhappyathome.entity.User;
+import org.codevscovid19.stayhappyathome.entity.*;
 import org.codevscovid19.stayhappyathome.login.HansNotFoundException;
-import org.codevscovid19.stayhappyathome.repository.PostReactionRepository;
-import org.codevscovid19.stayhappyathome.repository.PostRepository;
-import org.codevscovid19.stayhappyathome.repository.ReplyReactionRepository;
-import org.codevscovid19.stayhappyathome.repository.ReplyRepository;
-import org.codevscovid19.stayhappyathome.repository.UserRepository;
+import org.codevscovid19.stayhappyathome.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -85,5 +77,34 @@ public class ReactionService {
     }
 
     return reactionSummary;
+  }
+
+  public ReactionSummaryDto getReactionSummaryForReply(Long replyId) {
+    Reply reply = replyRepository.findById(replyId)
+      .orElseThrow(() -> new HansNotFoundException(String.format("Reply", replyId)));
+    ReactionSummaryDto reactionSummary = new ReactionSummaryDto();
+
+    List<ReplyReaction> replyReactions = replyReactionRepository.findAllByReplyEquals(reply);
+    for (ReplyReaction replyReaction : replyReactions) {
+      reactionSummary.addReaction(replyReaction.getEmoji());
+    }
+
+    return reactionSummary;
+  }
+
+  public Post enrichPostWithReactionSummary(Post post) {
+    ReactionSummaryDto postReactionSummary = getReactionSummaryForPost(post.getId());
+    post.setReactionSummary(postReactionSummary);
+    List<Reply> replies = enrichRepliesWithReactionSummaries(post.getReplies());
+    post.setReplies(replies);
+    return post;
+  }
+
+  private List<Reply> enrichRepliesWithReactionSummaries(List<Reply> replies) {
+    for (Reply reply : replies) {
+      ReactionSummaryDto reactionSummary = getReactionSummaryForReply(reply.getId());
+      reply.setReactionSummary(reactionSummary);
+    }
+    return replies;
   }
 }

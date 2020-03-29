@@ -1,18 +1,9 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import org.codevscovid19.stayhappyathome.dto.ReactionSummaryDto;
 
+import javax.persistence.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +36,16 @@ public class Reply {
   @ManyToOne
   private User user;
 
+  @JsonIgnore
   @OneToMany
   private List<ReplyReaction> replyReactions;
 
   @ManyToOne
   @JoinColumn(name = "post_id")
   private Post post;
+
+  @Transient
+  private ReactionSummaryDto reactionSummary;
 
   private Reply() {
     // for Jackson
@@ -147,7 +142,7 @@ public class Reply {
     this.photoContentType = photoContentType;
   }
 
-  public void updatePhoto(URL photoUrl, String photoContentType){
+  public void updatePhoto(URL photoUrl, String photoContentType) {
     this.picture = photoUrl;
     this.photoContentType = photoContentType;
   }
@@ -160,6 +155,14 @@ public class Reply {
   @JsonIgnore
   public void setPost(Post post) {
     this.post = post;
+  }
+
+  public ReactionSummaryDto getReactionSummary() {
+    return reactionSummary;
+  }
+
+  public void setReactionSummary(ReactionSummaryDto reactionSummary) {
+    this.reactionSummary = reactionSummary;
   }
 
   @Override
