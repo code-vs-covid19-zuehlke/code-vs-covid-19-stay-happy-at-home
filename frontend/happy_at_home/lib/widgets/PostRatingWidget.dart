@@ -2,7 +2,6 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Post.dart';
-import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
 
 import 'EmojiImage.dart';
@@ -41,14 +40,14 @@ class PostRatingWidget extends StatelessWidget {
   List<Widget> getContent() {
     List<Widget> widgetList = List();
     if (isReply) {
-      for (Reaction reaction in reply.replyReactions) {
+      reply.reactionSummary.reactions.forEach((emoji, count) {
         widgetList.add(Container(
           height: 25,
           child: Row(
             children: <Widget>[
-              EmojiImage(reaction.emoji),
+              EmojiImage(EnumToString.fromString(Emoji.values, emoji)),
               Text(
-                "1",
+                count.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -57,16 +56,16 @@ class PostRatingWidget extends StatelessWidget {
             ],
           ),
         ));
-      }
+      });
     } else {
-      post.reactionSummary.reactions.forEach((key, value) {
+      post.reactionSummary.reactions.forEach((emoji, count) {
         widgetList.add(Container(
           height: 25,
           child: Row(
             children: <Widget>[
-              EmojiImage(EnumToString.fromString(Emoji.values, key)),
+              EmojiImage(EnumToString.fromString(Emoji.values, emoji)),
               Text(
-                value.toString(),
+                count.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(

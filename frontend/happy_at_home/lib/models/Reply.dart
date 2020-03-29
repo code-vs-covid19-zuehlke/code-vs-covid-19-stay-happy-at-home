@@ -1,6 +1,6 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 
-import 'Reaction.dart';
+import 'ReactionSummary.dart';
 import 'User.dart';
 
 @jsonSerializable
@@ -11,11 +11,11 @@ class Reply {
   final String link;
   final String picture;
   final String photoContentType;
-  final List<Reaction> replyReactions;
+  final ReactionSummary reactionSummary;
   final User user;
 
   const Reply(this.id, this.title, this.description, this.link, this.picture,
-      this.photoContentType, this.replyReactions, this.user);
+      this.photoContentType, this.reactionSummary, this.user);
 }
 
 @jsonSerializable
