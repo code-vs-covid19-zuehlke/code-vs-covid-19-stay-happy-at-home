@@ -1,7 +1,7 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:happyathome/models/ReactionSummary.dart';
 import 'package:happyathome/models/TargetFeeling.dart';
 
-import 'Reaction.dart';
 import 'Reply.dart';
 import 'User.dart';
 
@@ -13,12 +13,12 @@ class Post {
   final String link;
   final String picture;
   final String photoContentType;
-  final List<Reaction> postReactions;
+  final ReactionSummary reactionSummary;
   final List<Reply> replies;
   final User user;
 
   const Post(this.id, this.title, this.description, this.link, this.picture,
-      this.photoContentType, this.postReactions, this.replies, this.user);
+      this.photoContentType, this.replies, this.user, this.reactionSummary);
 }
 
 @jsonSerializable
