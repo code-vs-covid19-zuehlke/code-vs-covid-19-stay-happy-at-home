@@ -4,7 +4,11 @@ import org.codevscovid19.stayhappyathome.dto.PostDto;
 import org.codevscovid19.stayhappyathome.dto.PostReactionDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyReactionDto;
-import org.codevscovid19.stayhappyathome.entity.*;
+import org.codevscovid19.stayhappyathome.entity.Post;
+import org.codevscovid19.stayhappyathome.entity.PostReaction;
+import org.codevscovid19.stayhappyathome.entity.Reply;
+import org.codevscovid19.stayhappyathome.entity.ReplyReaction;
+import org.codevscovid19.stayhappyathome.entity.User;
 import org.codevscovid19.stayhappyathome.login.HansNotFoundException;
 import org.codevscovid19.stayhappyathome.repository.PostReactionRepository;
 import org.codevscovid19.stayhappyathome.repository.PostRepository;
@@ -24,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
@@ -69,10 +72,12 @@ public class PostResource {
   public ResponseEntity<Post> createPost(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                          @RequestBody PostDto postDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
-
-    URL photoUrl = photoService.writeBytesToGcp("post-" + postDto.getId(), postDto.getPicture(), postDto.getPhotoContentType());
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), photoUrl, user, postDto.getTargetFeelings(), postDto.getPhotoContentType());
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), user, postDto.getTargetFeelings());
     Post newPost = postRepository.save(post);
+
+    URL photoUrl = photoService.writeBytesToStorage("post-" + newPost.getId(), postDto.getPicture(), postDto.getPhotoContentType());
+    newPost.updatePhoto(photoUrl, postDto.getPhotoContentType());
+    postRepository.save(newPost);
     return ResponseEntity.ok(newPost);
   }
 
@@ -89,10 +94,13 @@ public class PostResource {
                                            @RequestBody ReplyDto replyDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
     Post post = postRepository.findById(postId).orElseThrow(() -> new HansNotFoundException("Post", postId));
-    URL photoUrl = photoService.writeBytesToGcp("reply-" + replyDto.getId(), replyDto.getPicture(), replyDto.getPhotoContentType());
-
-    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), photoUrl, user, Collections.emptyList(), replyDto.getPhotoContentType());
+    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), user, Collections.emptyList());
     Reply newReply = replyRepository.save(reply);
+
+    URL photoUrl = photoService.writeBytesToStorage("reply-" + newReply.getId(), replyDto.getPicture(), replyDto.getPhotoContentType());
+    newReply.updatePhoto(photoUrl, replyDto.getPhotoContentType());
+    replyRepository.save(reply);
+
     post.addReply(reply);
     postRepository.save(post);
     return ResponseEntity.ok(newReply);

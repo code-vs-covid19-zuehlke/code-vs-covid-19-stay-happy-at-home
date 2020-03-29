@@ -10,9 +10,9 @@ import org.codevscovid19.stayhappyathome.entity.User;
 import org.codevscovid19.stayhappyathome.login.HansNotFoundException;
 import org.codevscovid19.stayhappyathome.repository.FeelingRepository;
 import org.codevscovid19.stayhappyathome.repository.UserRepository;
+import org.codevscovid19.stayhappyathome.service.PhotoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.codevscovid19.stayhappyathome.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +61,7 @@ public class UserResource {
 
   @PostMapping(consumes = "application/json", produces = "application/json")
   public ResponseEntity<User> createUser(@RequestBody UserDto userDto) throws IOException {
-    URL photoUrl = photoService.writeBytesToGcp("user-" + userDto.getId(), userDto.getPhoto(), userDto.getPhotoContentType());
+    URL photoUrl = photoService.writeBytesToStorage("user-" + userDto.getId(), userDto.getPhoto(), userDto.getPhotoContentType());
 
     User user = new User(userDto.getId(), userDto.getName(), photoUrl, userDto.getPhotoContentType());
     return ResponseEntity.ok(userRepository.save(user));

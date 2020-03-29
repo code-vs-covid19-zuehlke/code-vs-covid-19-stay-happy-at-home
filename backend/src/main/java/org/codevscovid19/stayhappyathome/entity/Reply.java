@@ -1,8 +1,18 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import javax.persistence.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +54,14 @@ public class Reply {
 
   private Reply() {
     // for Jackson
+  }
+
+  public Reply(String title, String description, URL link, User user, List<ReplyReaction> replyReactions) {
+    this.title = title;
+    this.description = description;
+    this.link = link;
+    this.user = user;
+    this.replyReactions = replyReactions;
   }
 
   public Reply(String title, String description, URL link, URL picture, User user, List<ReplyReaction> replyReactions, String photoContentType) {
@@ -126,6 +144,11 @@ public class Reply {
   }
 
   public void setPhotoContentType(String photoContentType) {
+    this.photoContentType = photoContentType;
+  }
+
+  public void updatePhoto(URL photoUrl, String photoContentType){
+    this.picture = photoUrl;
     this.photoContentType = photoContentType;
   }
 

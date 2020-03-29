@@ -1,12 +1,28 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "POSTS")
@@ -50,6 +66,14 @@ public class Post {
 
   private Post() {
     // for Jackson
+  }
+
+  public Post(String title, String description, URL link, User user, Set<TargetFeeling> targetFeelings) {
+    this.title = title;
+    this.description = description;
+    this.link = link;
+    this.user = user;
+    this.targetFeelings = targetFeelings;
   }
 
   public Post(String title, String description, URL link, URL picture, User user, Set<TargetFeeling> targetFeelings, String photoContentType) {
@@ -149,6 +173,11 @@ public class Post {
   }
 
   public void setPhotoContentType(String photoContentType) {
+    this.photoContentType = photoContentType;
+  }
+
+  public void updatePhoto(URL photoUrl, String photoContentType){
+    this.picture = photoUrl;
     this.photoContentType = photoContentType;
   }
 
