@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/ImagePickerWidget.dart';
+import 'package:happyathome/widgets/TitleCard.dart';
 
 class ContentDetail extends StatefulWidget {
   @override
@@ -8,15 +10,32 @@ class ContentDetail extends StatefulWidget {
 }
 
 class _ContentDetailState extends State<ContentDetail> {
+  String title = "Toilet paper towers wanted!";
+  String description = "Where to store all the rolls?";
+  List<String> input = ["Test 1", "Test 2", "Test 3"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Text("Content Detail Page"),
-          ],
+        child: TitleCard(
+          title: title,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                height: 240,
+                child: ListView.builder(
+                  itemCount: 20,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Text("Toilet paper tower wanted!");
+                  },
+                ),
+              ),
+              ImagePickerWidget(context, null, () {}),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: ContentDetailBottomBar(),
