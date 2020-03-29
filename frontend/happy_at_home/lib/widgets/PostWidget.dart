@@ -44,7 +44,7 @@ class PostWidget extends StatelessWidget {
                       ),
                     ),
                     Text(post.description),
-                    PostRatingWidget(post, null, false),
+                    PostRatingWidget(context, post, null, false),
                   ],
                 ),
               ],
