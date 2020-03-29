@@ -11,7 +11,7 @@ class StartUp extends StatefulWidget {
 
 class _StartUpState extends State<StartUp> {
 
-  void _loadUser() async {
+  Future<void> _loadUser() async {
     UserState().user = await UserRegistration.load();
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, "/feeling");
@@ -22,7 +22,7 @@ class _StartUpState extends State<StartUp> {
     final registered = await UserRegistration.hasRegisteredUser();
     if (registered) {
       try {
-        _loadUser();
+        await _loadUser();
       } catch (e) {
         print("Warning, can not load user: $e");
         _register();
