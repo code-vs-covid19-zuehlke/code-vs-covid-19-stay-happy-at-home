@@ -4,6 +4,7 @@ import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
+import 'package:happyathome/models/TargetFeeling.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,7 +35,7 @@ class Backend {
     return _get('post');
   }
 
-  static Future<Post> postPost(Post post) async {
+  static Future<Post> postPost(CreatePost post) async {
     return _post('post', post);
   }
 
@@ -110,7 +111,8 @@ class Backend {
   static void init(){
     JsonMapper().useAdapter(JsonMapperAdapter(
         valueDecorators: {
-          typeOf<List<Feeling>>(): (value) => value.cast<Feeling>()
+          typeOf<List<Feeling>>(): (value) => value.cast<Feeling>(),
+          typeOf<Set<TargetFeeling>>(): (value) => value.cast<TargetFeeling>(),
         })
     );
   }

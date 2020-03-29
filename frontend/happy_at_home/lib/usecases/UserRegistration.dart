@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/User.dart';
+import 'package:happyathome/utils/FallbackImage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRegistration {
@@ -27,7 +28,7 @@ class UserRegistration {
   static Future<User> register(String userName, File image) async {
     Uint8List binaryData;
     if (image == null){
-      binaryData = (await rootBundle.load('assets/profile_picture.jpg')).buffer.asUint8List();
+      binaryData = await FallbackImage.bytes();
     }else{
       binaryData = await image.readAsBytes();
     }

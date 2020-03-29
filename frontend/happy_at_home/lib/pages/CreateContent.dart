@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:happyathome/models/TargetFeeling.dart';
+import 'package:happyathome/usecases/PostCreation.dart';
 import 'package:happyathome/widgets/ButtonWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
@@ -36,8 +37,10 @@ class _CreateContentState extends State<CreateContent> {
     this.timePeriod = time;
   }
 
-  void postPost() {
-    //Todo: Post the post to the backend
+  void postPost() async {
+    await PostCreation.create(
+        titleController.text, descriptionController.text, linkController.text,
+        _image, chosenFeelings.toSet());
     Navigator.pop(context);
   }
 
