@@ -74,14 +74,15 @@ class PostImage extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: Colors.greenAccent,
+            borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               "${duration} MIN",
               style: TextStyle(
                 fontFamily: "Comfortaa",
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
             ),
