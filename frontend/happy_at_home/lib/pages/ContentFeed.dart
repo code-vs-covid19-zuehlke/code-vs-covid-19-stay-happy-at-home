@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/apis/Backend.dart';
+import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/PostWidget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ContentFeed extends StatefulWidget {
   @override
@@ -9,19 +12,31 @@ class ContentFeed extends StatefulWidget {
 }
 
 class _ContentFeedState extends State<ContentFeed> {
+  List<Post> posts;
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
+
   @override
   void initState() {
     super.initState();
+    posts = List();
     loadPosts();
   }
 
   void loadPosts() async {
-    //TODO: Load posts and use them in the listview
-    //List<Post> posts = await Backend.getPosts();
+    List<Post> posts = await Backend.getPosts();
+    setState(() {
+      this.posts = posts;
+    });
   }
 
   void postSelected(id) {
     Navigator.pushNamed(context, "/detail");
+  }
+
+  void onRefresh() async {
+    await loadPosts();
+    _refreshController.refreshCompleted();
   }
 
   @override
@@ -29,36 +44,41 @@ class _ContentFeedState extends State<ContentFeed> {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 30,
-            ),
-            Expanded(
-              flex: 1,
-              child: Card(
-                margin: const EdgeInsets.all(16),
-                elevation: 2,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (BuildContext context, int index) {
-                      return PostWidget("Toilet paper tower wanted!",
-                          "Where to store all the rolls?", null, postSelected);
-                    },
+        child: SmartRefresher(
+          enablePullDown: true,
+          header: WaterDropMaterialHeader(),
+          controller: _refreshController,
+          onRefresh: onRefresh,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 30,
+              ),
+              Expanded(
+                flex: 1,
+                child: Card(
+                  margin: const EdgeInsets.all(16),
+                  elevation: 2,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ListView.builder(
+                      itemCount: posts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return PostWidget(posts[index], postSelected);
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 50,
-            )
-          ],
+              SizedBox(
+                height: 50,
+              )
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: ContentFeedBottomBar(),

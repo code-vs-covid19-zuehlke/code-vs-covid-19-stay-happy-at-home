@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/models/Post.dart';
+import 'package:happyathome/utils/GoogleCloudImage.dart';
 import 'package:happyathome/widgets/PostRatingWidget.dart';
 
 class PostWidget extends StatelessWidget {
-  final String title;
-  final String description;
-  final dynamic reactions;
+  final Post post;
   final Function postSelected;
 
-  //Todo: replace with post
-  PostWidget(this.title, this.description, this.reactions, this.postSelected);
+  PostWidget(this.post, this.postSelected);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        //Todo: Replace with ID
-        postSelected(title);
+        postSelected(post.id);
       },
       child: Container(
         height: 100,
@@ -31,19 +29,19 @@ class PostWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            PostImage(7),
+            PostImage(post.picture, 7),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "$title",
+                  post.title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text("$description"),
-                PostRatingWidget(reactions, false),
+                Text(post.description),
+                PostRatingWidget(null, false),
               ],
             ),
             SizedBox(
@@ -59,8 +57,9 @@ class PostWidget extends StatelessWidget {
 
 class PostImage extends StatelessWidget {
   final int duration;
+  final String photoUrl;
 
-  PostImage(this.duration);
+  PostImage(this.photoUrl, this.duration);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,7 @@ class PostImage extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         CircleAvatar(
-          backgroundImage: AssetImage("assets/profile_picture.jpg"),
+          backgroundImage: GoogleCloudImage.get(photoUrl),
           radius: 45,
         ),
         Container(
