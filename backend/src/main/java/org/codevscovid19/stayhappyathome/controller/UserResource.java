@@ -60,7 +60,7 @@ public class UserResource {
 
   @PostMapping(consumes = "application/json", produces = "application/json")
   public ResponseEntity<User> createUser(@RequestBody UserDto userDto) throws IOException {
-    URL photoUrl = photoService.writeBytesToGcp("user-" + userDto.getId(), userDto.getPhoto());
+    URL photoUrl = photoService.writeBytesToGcp("user-" + userDto.getId(), userDto.getPhoto(), userDto.getPhotoContentType());
 
     User user = new User(userDto.getId(), userDto.getName(), photoUrl, userDto.getPhotoContentType());
     return ResponseEntity.ok(userRepository.save(user));

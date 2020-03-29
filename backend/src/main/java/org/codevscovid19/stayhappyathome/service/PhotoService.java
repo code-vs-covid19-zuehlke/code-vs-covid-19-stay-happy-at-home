@@ -4,7 +4,6 @@ import com.google.cloud.storage.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gcp.storage.GoogleStorageResource;
-import org.springframework.core.io.WritableResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,11 +24,16 @@ public class PhotoService {
     this.bucketName = bucketName;
   }
 
-  public URL writeBytesToGcp(String id, byte[] bytes) throws IOException {
-    WritableResource resource = new GoogleStorageResource(gcStorage, "gs://" + bucketName + "/" + id);
+  public URL writeBytesToGcp(String id, byte[] bytes, String photoContentType) throws IOException {
+    GoogleStorageResource resource = new GoogleStorageResource(gcStorage, "gs://" + bucketName + "/" + id);
     try (OutputStream os = resource.getOutputStream()) {
       os.write(bytes);
     }
+
+    resource.getBlob().toBuilder()
+      .setContentType(photoContentType)
+      .build().update();
+
     URI uri = resource.getURI();
     // transforming gs://bucket-name/id --> https://storage.cloud.google.com/bucket-name/id
     return new URL(HTTPS, STORAGE_CLOUD_GOOGLE_COM, "/" + uri.getHost() + uri.getPath());
