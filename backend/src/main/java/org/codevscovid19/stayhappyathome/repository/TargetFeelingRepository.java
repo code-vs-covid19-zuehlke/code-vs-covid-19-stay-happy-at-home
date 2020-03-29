@@ -5,9 +5,10 @@ import org.codevscovid19.stayhappyathome.entity.TargetFeeling;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TargetFeelingRepository extends CrudRepository<TargetFeeling, Long> {
-  Optional<TargetFeeling> findByEmotion(Emotion emotion);
+  Optional<List<TargetFeeling>> findAllByEmotion(Emotion emotion);
 }

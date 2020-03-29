@@ -5,10 +5,7 @@ import org.codevscovid19.stayhappyathome.repository.TargetFeelingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class PostService {
@@ -31,10 +28,21 @@ public class PostService {
   private Collection<Post> getPostsForFeeling(Feeling feeling) {
     Collection<Post> postsForFeeling = new HashSet<>();
     Set<Emotion> emotions = FeelingMatcherMap.getEmotionToEmotionMatrix().get(feeling.getEmoji());
-    emotions.forEach(emotion -> {
-      targetFeelingRepository.findByEmotion(emotion)
-        .map(targetFeeling -> postsForFeeling.add(targetFeeling.getPost()));
-    });
+    for (Emotion emotion : emotions) {
+      postsForFeeling.addAll(getPostsForEmotion(emotion));
+    }
+    return postsForFeeling;
+  }
+
+  private Collection<Post> getPostsForEmotion(Emotion emotion) {
+    Collection<Post> postsForFeeling = new ArrayList<>();
+    Optional<List<TargetFeeling>> targetFeelingsByEmotion = targetFeelingRepository.findAllByEmotion(emotion);
+    if (targetFeelingsByEmotion.isPresent()) {
+      List<TargetFeeling> targetFeelings = targetFeelingsByEmotion.get();
+      for (TargetFeeling targetFeeling : targetFeelings) {
+        postsForFeeling.add(targetFeeling.getPost());
+      }
+    }
     return postsForFeeling;
   }
 }
