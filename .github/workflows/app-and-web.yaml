@@ -36,13 +36,6 @@ jobs:
       #- run: cd ./frontend/happy_at_home && flutter build macos --release
       # build Android version
       - run: cd ./frontend/happy_at_home && flutter build apk --debug --split-per-abi
-      # This action will create a github release and optionally upload an artifact to it.
-      # https://github.com/ncipollo/release-action
-      #- name: Create a Release APK
-      #  uses: ncipollo/release-action@v1
-      #  with:
-      #    artifacts: "build/app/outputs/apk/debug/*.apk"
-      #    token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
       # build Flutter web version
       - run: cd ./frontend/happy_at_home && flutter build web
       # Handle the deploy process of your project to GitHub Pages.
@@ -53,3 +46,10 @@ jobs:
           BASE_BRANCH: master
           BRANCH: gh-pages
           FOLDER: frontend/happy_at_home/build/web
+      # This action will create a github release and optionally upload an artifact to it.
+      # https://github.com/ncipollo/release-action
+      - name: Create a Release APK
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "frontend/happy_at_home/build/app/outputs/apk/debug/*.apk"
+          token: ${{ secrets.GITHUB_TOKEN }}
