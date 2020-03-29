@@ -1,6 +1,7 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codevscovid19.stayhappyathome.dto.ReactionSummaryDto;
 
 import javax.persistence.*;
 import java.net.URL;
@@ -36,8 +37,12 @@ public class Post {
   @JoinColumn(name = "user_id")
   private User user;
 
+  @JsonIgnore
   @OneToMany
   private List<PostReaction> postReactions;
+
+  @Transient
+  private ReactionSummaryDto reactionSummary;
 
   @OneToMany
   private List<Reply> replies;
@@ -176,5 +181,13 @@ public class Post {
   @Override
   public int hashCode() {
     return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions, replies);
+  }
+
+  public ReactionSummaryDto getReactionSummary() {
+    return reactionSummary;
+  }
+
+  public void setReactionSummary(ReactionSummaryDto reactionSummary) {
+    this.reactionSummary = reactionSummary;
   }
 }

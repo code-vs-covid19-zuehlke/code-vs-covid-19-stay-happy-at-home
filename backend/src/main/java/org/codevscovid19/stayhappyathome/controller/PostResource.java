@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.codevscovid19.stayhappyathome.login.Contants.USER_ID_HEADER_NAME;
 
@@ -55,8 +56,10 @@ public class PostResource {
   @GetMapping(path = "", produces = "application/json")
   public ResponseEntity<Set<Post>> getPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId) {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
-
-    return ResponseEntity.ok(postService.getPostsForUser(user));
+    Set<Post> postsForUser = postService.getPostsForUser(user).stream()
+      .map(post -> enrichPostWithReactionSummary(post))
+      .collect(Collectors.toSet());
+    return ResponseEntity.ok(postsForUser);
   }
 
   @PostMapping(path = "", produces = "application/json", consumes = "application/json")
@@ -77,9 +80,13 @@ public class PostResource {
 
   @GetMapping(path = "/{id}", produces = "application/json")
   public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
-    Optional<Post> post = postRepository.findById(id);
-    return post.map(ResponseEntity::ok)
-      .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    Optional<Post> optionalPost = postRepository.findById(id);
+    if (optionalPost.isPresent()) {
+      Post post = optionalPost.get();
+      post = enrichPostWithReactionSummary(post);
+      return ResponseEntity.ok(post);
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
   @PostMapping(path = "/{postId}/reaction", produces = "application/json", consumes = "application/json")
@@ -101,6 +108,13 @@ public class PostResource {
   public ResponseEntity<ReactionSummaryDto> getReactionSummary(@PathVariable("postId") Long postId) {
     ReactionSummaryDto reactionSummary = reactionService.getReactionSummaryForPost(postId);
     return ResponseEntity.ok(reactionSummary);
+  }
+
+  private Post enrichPostWithReactionSummary(Post post) {
+    ReactionSummaryDto reactionSummary = new ReactionSummaryDto();
+    post.getPostReactions().stream().forEach(postReaction -> reactionSummary.addReaction(postReaction.getEmoji()));
+    post.setReactionSummary(reactionSummary);
+    return post;
   }
 
 }
