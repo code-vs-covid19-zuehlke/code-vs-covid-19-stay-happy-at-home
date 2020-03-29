@@ -85,6 +85,7 @@ class ReplyWidget extends StatelessWidget {
       height: 150,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -97,6 +98,12 @@ class ReplyWidget extends StatelessWidget {
               ),
               PostRatingWidget(context, reply, post, true, isReply),
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: CircleAvatar( //Todo: Replace with new UserWidget
+              backgroundImage: AssetImage("assets/profile_picture.jpg"),
+            ),
           ),
         ],
       ),
