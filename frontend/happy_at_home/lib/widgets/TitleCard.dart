@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class TitleCard extends StatelessWidget {
   String title;
+  String subtitle;
   Widget child;
 
-  TitleCard({this.title, this.child});
+  TitleCard({this.title, this.child, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,11 @@ class TitleCard extends StatelessWidget {
                   fontFamily: "Comfortaa"),
               textAlign: TextAlign.left,
             ),
+            if (subtitle != null)
+              Text(
+                subtitle,
+                textAlign: TextAlign.left,
+              ),
             SizedBox(
               height: 25,
             ),

@@ -34,7 +34,7 @@ class Backend {
     return _putRaw('user/${user.id}/time', CreateTime(time));
   }
 
-  static Future<Post> getPostById(String id) async {
+  static Future<Post> getPostById(int id) async {
     return _get('post/$id');
   }
 

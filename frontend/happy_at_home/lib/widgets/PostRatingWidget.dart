@@ -1,5 +1,5 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
-import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
@@ -14,9 +14,10 @@ class PostRatingWidget extends StatelessWidget {
   final Post post;
   final bool showAdd;
   final bool isReply;
+  final Function addReaction;
 
   PostRatingWidget(this.context, this.reply, this.post, this.showAdd,
-      this.isReply);
+      this.isReply, this.addReaction);
 
   void showReactions() {
     showModalBottomSheet(
@@ -29,7 +30,7 @@ class PostRatingWidget extends StatelessWidget {
                   return new ListTile(
                       leading: EmojiImage(emoji),
                       onTap: () async {
-                        addReaction(emoji);
+                        addReaction(post, reply, emoji, isReply);
                         Navigator.pop(context);
                       });
                 }).toList()),
@@ -37,34 +38,46 @@ class PostRatingWidget extends StatelessWidget {
         });
   }
 
-  void addReaction(Emoji reaction) async {
-    if (isReply) {
-      await Backend.postReactionToReply(post, reply, Reaction(reaction));
-    } else {
-      await Backend.postReactionToPost(post, Reaction(reaction));
-    }
-  }
-
   List<Widget> getContent() {
     List<Widget> widgetList = List();
-    var reactions = isReply ? reply.replyReactions : post.postReactions;
-    for (Reaction reaction in reactions) {
-      widgetList.add(Container(
-        height: 25,
-        child: Row(
-          children: <Widget>[
-            EmojiImage(reaction.emoji),
-            Text(
-              "1",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              width: 10,
-            )
-          ],
-        ),
-      ));
+    if (isReply) {
+      for (Reaction reaction in reply.replyReactions) {
+        widgetList.add(Container(
+          height: 25,
+          child: Row(
+            children: <Widget>[
+              EmojiImage(reaction.emoji),
+              Text(
+                "1",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                width: 10,
+              )
+            ],
+          ),
+        ));
+      }
+    } else {
+      post.reactionSummary.reactions.forEach((key, value) {
+        widgetList.add(Container(
+          height: 25,
+          child: Row(
+            children: <Widget>[
+              EmojiImage(EnumToString.fromString(Emoji.values, key)),
+              Text(
+                value.toString(),
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                width: 10,
+              )
+            ],
+          ),
+        ));
+      });
     }
+
     if (showAdd) {
       widgetList.add(
         Container(

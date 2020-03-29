@@ -2,11 +2,16 @@ package org.codevscovid19.stayhappyathome.controller;
 
 import org.codevscovid19.stayhappyathome.dto.ReplyDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyReactionDto;
-import org.codevscovid19.stayhappyathome.entity.*;
+import org.codevscovid19.stayhappyathome.entity.Post;
+import org.codevscovid19.stayhappyathome.entity.Reply;
+import org.codevscovid19.stayhappyathome.entity.ReplyReaction;
+import org.codevscovid19.stayhappyathome.entity.User;
 import org.codevscovid19.stayhappyathome.login.HansNotFoundException;
-import org.codevscovid19.stayhappyathome.repository.*;
+import org.codevscovid19.stayhappyathome.repository.PostRepository;
+import org.codevscovid19.stayhappyathome.repository.ReplyReactionRepository;
+import org.codevscovid19.stayhappyathome.repository.ReplyRepository;
+import org.codevscovid19.stayhappyathome.repository.UserRepository;
 import org.codevscovid19.stayhappyathome.service.PhotoService;
-import org.codevscovid19.stayhappyathome.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,7 +66,7 @@ public class ReplyResource {
     Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new HansNotFoundException("Reply", replyId));
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
 
-    ReplyReaction replyReaction = new ReplyReaction(user, reactionDto.getEmoji());
+    ReplyReaction replyReaction = new ReplyReaction(user, reactionDto.getEmoji(), reply);
     ReplyReaction newReplyReaction = replyReactionRepository.save(replyReaction);
     reply.addReaction(newReplyReaction);
     replyRepository.save(reply);

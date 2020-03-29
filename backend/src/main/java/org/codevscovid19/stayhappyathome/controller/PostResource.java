@@ -57,7 +57,7 @@ public class PostResource {
   public ResponseEntity<Set<Post>> getPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId) {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
     Set<Post> postsForUser = postService.getPostsForUser(user).stream()
-      .map(post -> enrichPostWithReactionSummary(post))
+      .map(post -> reactionService.enrichPostWithReactionSummary(post))
       .collect(Collectors.toSet());
     return ResponseEntity.ok(postsForUser);
   }
@@ -83,7 +83,7 @@ public class PostResource {
     Optional<Post> optionalPost = postRepository.findById(id);
     if (optionalPost.isPresent()) {
       Post post = optionalPost.get();
-      post = enrichPostWithReactionSummary(post);
+      post = reactionService.enrichPostWithReactionSummary(post);
       return ResponseEntity.ok(post);
     }
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -108,13 +108,6 @@ public class PostResource {
   public ResponseEntity<ReactionSummaryDto> getReactionSummary(@PathVariable("postId") Long postId) {
     ReactionSummaryDto reactionSummary = reactionService.getReactionSummaryForPost(postId);
     return ResponseEntity.ok(reactionSummary);
-  }
-
-  private Post enrichPostWithReactionSummary(Post post) {
-    ReactionSummaryDto reactionSummary = new ReactionSummaryDto();
-    post.getPostReactions().stream().forEach(postReaction -> reactionSummary.addReaction(postReaction.getEmoji()));
-    post.setReactionSummary(reactionSummary);
-    return post;
   }
 
 }
