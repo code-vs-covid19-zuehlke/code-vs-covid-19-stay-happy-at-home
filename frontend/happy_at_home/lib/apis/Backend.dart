@@ -17,7 +17,7 @@ class Backend {
     return _get('user');
   }
 
-  static Future<User> postUser(User user) async {
+  static Future<User> postUser(CreateUser user) async {
     return _post('user', user);
   }
 
