@@ -10,11 +10,15 @@ public class TargetFeeling {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   private Post post;
 
   @Column
   private Emotion emotion;
+
+  public TargetFeeling() {
+//for Jackson
+  }
 
   public TargetFeeling(Post post, Emotion emotion) {
     this.post = post;

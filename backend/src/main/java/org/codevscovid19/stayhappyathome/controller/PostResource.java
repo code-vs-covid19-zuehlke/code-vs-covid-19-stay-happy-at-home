@@ -6,23 +6,12 @@ import org.codevscovid19.stayhappyathome.dto.ReplyDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyReactionDto;
 import org.codevscovid19.stayhappyathome.entity.*;
 import org.codevscovid19.stayhappyathome.repository.*;
-import org.codevscovid19.stayhappyathome.repository.PostReactionRepository;
-import org.codevscovid19.stayhappyathome.repository.PostRepository;
-import org.codevscovid19.stayhappyathome.repository.ReplyReactionRepository;
-import org.codevscovid19.stayhappyathome.repository.ReplyRepository;
-import org.codevscovid19.stayhappyathome.repository.UserRepository;
 import org.codevscovid19.stayhappyathome.service.PhotoService;
 import org.codevscovid19.stayhappyathome.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -76,9 +65,6 @@ public class PostResource {
     postDto.getTargetFeelings().forEach(targetFeeling -> targetFeelingRepository.save(new TargetFeeling(post, targetFeeling.getEmotion())));
 
     Post newPost = postRepository.save(post);
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user);
-    postDto.getTargetFeelings().forEach(targetFeeling -> targetFeelingRepository.save(new TargetFeeling(post, targetFeeling.getEmotion())));
-
     return ResponseEntity.ok(newPost);
   }
 
