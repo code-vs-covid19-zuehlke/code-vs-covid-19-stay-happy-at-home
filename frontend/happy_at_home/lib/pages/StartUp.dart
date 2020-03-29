@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/EmojiImage.dart';
 
 import '../UserState.dart';
 
@@ -58,7 +60,7 @@ class _StartUpState extends State<StartUp> {
               "😀😷🐼",
               style: TextStyle(fontSize: 50),
             ),
-            Image(image: AssetImage("assets/emoji/face_with_tears_of_joy.png")),
+            EmojiImage(Emoji.FACE_WITH_TEARS_OF_JOY),
           ],
         ),
       ),

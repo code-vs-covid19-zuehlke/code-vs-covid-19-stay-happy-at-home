@@ -4,6 +4,8 @@ import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
 
+import 'EmojiImage.dart';
+
 //Todo: This content should be loaded dynamically
 class PostRatingWidget extends StatelessWidget {
   final BuildContext context;
@@ -22,14 +24,7 @@ class PostRatingWidget extends StatelessWidget {
             child: new ListView(
                 children: Emoji.values.map((emoji) {
                   return new ListTile(
-                      leading: Image(
-                        image: AssetImage(
-                            "assets/emoji/${emoji
-                                .toString()
-                                .split(".")
-                                .last
-                                .toLowerCase()}.png"),
-                      ),
+                      leading: EmojiImage(emoji),
                       onTap: () async {
                         addReaction(emoji);
                         Navigator.pop(context);
