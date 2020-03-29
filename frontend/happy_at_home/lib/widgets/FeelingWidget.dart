@@ -25,8 +25,10 @@ class FeelingWidget extends StatelessWidget {
               longPressFeeling(feelingEmoji);
             },
             child: Badge(
-              badgeContent: Text("${feelingCount}",
-                style: TextStyle(fontWeight: FontWeight.bold),),
+              badgeContent: Text(
+                "${feelingCount}",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               showBadge: feelingCount > 0,
               position: BadgePosition.bottomRight(),
               shape: BadgeShape.square,
@@ -35,11 +37,12 @@ class FeelingWidget extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
               animationType: BadgeAnimationType.scale,
               child: Image(
-                image: AssetImage("assets/emoji/${feelingEmoji
-                    .toString()
-                    .split(".")
-                    .last
-                    .toLowerCase()}.png"),
+                image: AssetImage(
+                    "assets/emoji/${feelingEmoji
+                        .toString()
+                        .split(".")
+                        .last
+                        .toLowerCase()}.png"),
               ),
             )),
       ),
