@@ -118,6 +118,7 @@ class Backend {
           typeOf<List<Feeling>>(): (value) => value.cast<Feeling>(),
           typeOf<Set<TargetFeeling>>(): (value) => value.cast<TargetFeeling>(),
           typeOf<List<Post>>(): (value) => value.cast<Post>(),
+          typeOf<List<Reaction>>(): (value) => value.cast<Reaction>(),
         })
     );
   }
