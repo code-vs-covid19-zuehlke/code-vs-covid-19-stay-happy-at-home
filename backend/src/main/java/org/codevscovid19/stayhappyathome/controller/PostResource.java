@@ -58,7 +58,7 @@ public class PostResource {
 
   @PostMapping(path = "", produces = "application/json", consumes = "application/json")
   public ResponseEntity<Post> createPost(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
-                                          @RequestBody PostDto postDto) throws IOException {
+                                         @RequestBody PostDto postDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
     Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), user);
 
