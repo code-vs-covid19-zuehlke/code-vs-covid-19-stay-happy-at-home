@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/apis/Backend.dart';
+import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/PostWidget.dart';
@@ -9,15 +11,20 @@ class ContentFeed extends StatefulWidget {
 }
 
 class _ContentFeedState extends State<ContentFeed> {
+  List<Post> posts;
+
   @override
   void initState() {
     super.initState();
+    posts = List();
     loadPosts();
   }
 
   void loadPosts() async {
-    //TODO: Load posts and use them in the listview
-    //List<Post> posts = await Backend.getPosts();
+    List<Post> posts = await Backend.getPosts();
+    setState(() {
+      this.posts = posts;
+    });
   }
 
   void postSelected(id) {
@@ -46,10 +53,9 @@ class _ContentFeedState extends State<ContentFeed> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: posts.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return PostWidget("Toilet paper tower wanted!",
-                          "Where to store all the rolls?", null, postSelected);
+                      return PostWidget(posts[index], postSelected);
                     },
                   ),
                 ),
