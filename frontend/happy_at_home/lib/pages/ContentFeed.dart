@@ -4,6 +4,7 @@ import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/PostWidget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ContentFeed extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class ContentFeed extends StatefulWidget {
 
 class _ContentFeedState extends State<ContentFeed> {
   List<Post> posts;
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -31,40 +34,51 @@ class _ContentFeedState extends State<ContentFeed> {
     Navigator.pushNamed(context, "/detail");
   }
 
+  void onRefresh() async {
+    await loadPosts();
+    _refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 30,
-            ),
-            Expanded(
-              flex: 1,
-              child: Card(
-                margin: const EdgeInsets.all(16),
-                elevation: 2,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ListView.builder(
-                    itemCount: posts.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return PostWidget(posts[index], postSelected);
-                    },
+        child: SmartRefresher(
+          enablePullDown: true,
+          header: WaterDropMaterialHeader(),
+          controller: _refreshController,
+          onRefresh: onRefresh,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 30,
+              ),
+              Expanded(
+                flex: 1,
+                child: Card(
+                  margin: const EdgeInsets.all(16),
+                  elevation: 2,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ListView.builder(
+                      itemCount: posts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return PostWidget(posts[index], postSelected);
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 50,
-            )
-          ],
+              SizedBox(
+                height: 50,
+              )
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: ContentFeedBottomBar(),
