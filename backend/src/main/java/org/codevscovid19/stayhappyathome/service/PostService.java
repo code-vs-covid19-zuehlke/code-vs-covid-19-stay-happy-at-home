@@ -35,14 +35,14 @@ public class PostService {
   }
 
   private Collection<Post> getPostsForEmotion(Emotion emotion) {
-    Collection<Post> postsForFeeling = new ArrayList<>();
-    Optional<List<TargetFeeling>> targetFeelingsByEmotion = targetFeelingRepository.findAllByEmotion(emotion);
-    if (targetFeelingsByEmotion.isPresent()) {
-      List<TargetFeeling> targetFeelings = targetFeelingsByEmotion.get();
-      for (TargetFeeling targetFeeling : targetFeelings) {
-        postsForFeeling.add(targetFeeling.getPost());
-      }
+    Collection<Post> postsForEmotion = new ArrayList<>();
+    Optional<List<TargetFeeling>> targetFeelings = targetFeelingRepository.findAllByEmotion(emotion);
+    if (targetFeelings.isEmpty()) {
+      return postsForEmotion;
     }
-    return postsForFeeling;
+    for (TargetFeeling targetFeeling : targetFeelings.get()) {
+      postsForEmotion.add(targetFeeling.getPost());
+    }
+    return postsForEmotion;
   }
 }
