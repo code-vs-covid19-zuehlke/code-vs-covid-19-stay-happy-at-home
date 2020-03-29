@@ -12,7 +12,6 @@ class StartUp extends StatefulWidget {
 }
 
 class _StartUpState extends State<StartUp> {
-
   Future<void> _loadUser() async {
     UserState().user = await UserRegistration.load();
     Future.delayed(const Duration(seconds: 1), () {
@@ -55,7 +54,10 @@ class _StartUpState extends State<StartUp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Stay Happy @ Home"),
+            Text(
+              "Stay Happy @ Home",
+              style: TextStyle(fontFamily: "Comfortaa", fontSize: 35)
+            ),
             Text(
               "😀😷🐼",
               style: TextStyle(fontSize: 50),
