@@ -35,45 +35,50 @@ class PostRatingWidget extends StatelessWidget {
   }
 
   void addReaction(Emoji reaction) async {
-    await Backend.postReactionToPost(
-        post, Reaction(reaction));
+    await Backend.postReactionToPost(post, Reaction(reaction));
+  }
+
+  List<Widget> getContent() {
+    List<Widget> widgetList = List();
+
+    for (Reaction reaction in post.postReactions) {
+      widgetList.add(Container(
+        height: 25,
+        child: Row(
+          children: <Widget>[
+            EmojiImage(reaction.emoji),
+            Text(
+              "1",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(width: 10,)
+          ],
+        ),
+      ));
+    }
+    if (showAdd) {
+      widgetList.add(
+        Container(
+          child: InkWell(
+            onTap: showReactions,
+            child: Container(
+              color: Colors.black,
+              width: 30,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    return widgetList;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 25,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Image(image: AssetImage("assets/emoji/pile_of_poo.png")),
-          Text(
-            "27",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(width: 10),
-          Image(
-            image: AssetImage("assets/emoji/drooling_face.png"),
-          ),
-          Text(
-            "7",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(width: 10),
-          if (showAdd == true)
-            InkWell(
-              onTap: showReactions,
-              child: Container(
-                color: Colors.black,
-                width: 30,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.start, children: getContent());
   }
 }
