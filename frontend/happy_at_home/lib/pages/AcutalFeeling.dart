@@ -30,9 +30,10 @@ class _ActualFeelingState extends State<ActualFeeling> {
     this.timePeriod = time;
   }
 
-  void uploadFeelings() async {
+  void uploadFeelingsAndTime() async {
     var feelings = chosenFeelings.map((emoji) => Feeling(emoji)).toList();
     await Backend.setFeelings(UserState().user, feelings);
+    await Backend.setTime(UserState().user, timePeriod.round());
     Navigator.pushNamed(context, "/feed");
   }
 
@@ -58,7 +59,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
                       child: EmojiChooserWidget(3, updateFeelings, true)),
                   ButtonWidget(
                     title: "Make me Happy!",
-                    onPress: uploadFeelings,
+                    onPress: uploadFeelingsAndTime,
                   ),
                 ],
               ),
