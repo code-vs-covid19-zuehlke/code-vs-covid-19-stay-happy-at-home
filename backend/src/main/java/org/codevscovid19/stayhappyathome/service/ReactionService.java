@@ -91,4 +91,20 @@ public class ReactionService {
 
     return reactionSummary;
   }
+
+  public Post enrichPostWithReactionSummary(Post post) {
+    ReactionSummaryDto postReactionSummary = getReactionSummaryForPost(post.getId());
+    post.setReactionSummary(postReactionSummary);
+    List<Reply> replies = enrichRepliesWithReactionSummaries(post.getReplies());
+    post.setReplies(replies);
+    return post;
+  }
+
+  private List<Reply> enrichRepliesWithReactionSummaries(List<Reply> replies) {
+    for (Reply reply : replies) {
+      ReactionSummaryDto reactionSummary = getReactionSummaryForReply(reply.getId());
+      reply.setReactionSummary(reactionSummary);
+    }
+    return replies;
+  }
 }
