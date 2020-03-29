@@ -25,8 +25,15 @@ class FeelingWidget extends StatelessWidget {
               longPressFeeling(feelingEmoji);
             },
             child: Badge(
-              badgeContent: Text("${feelingCount}"),
+              badgeContent: Text("${feelingCount}",
+                style: TextStyle(fontWeight: FontWeight.bold),),
               showBadge: feelingCount > 0,
+              position: BadgePosition.bottomRight(),
+              shape: BadgeShape.square,
+              borderRadius: 5,
+              badgeColor: Colors.greenAccent,
+              padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+              animationType: BadgeAnimationType.scale,
               child: Image(
                 image: AssetImage("assets/emoji/${feelingEmoji
                     .toString()
