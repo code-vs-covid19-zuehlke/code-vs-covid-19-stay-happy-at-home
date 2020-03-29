@@ -72,8 +72,7 @@ public class PostResource {
 
     Post newPost = postRepository.save(post);
 
-    URL photoUrl = photoService.writeBytesToStorage("post-" + newPost.getId(), postDto.getPicture(), postDto.getPhotoContentType());
-    newPost.updatePhoto(photoUrl, postDto.getPhotoContentType());
+    newPost = associateReplyWithPhoto(postDto, newPost);
     postRepository.save(newPost);
     return ResponseEntity.ok(newPost);
   }
@@ -108,6 +107,16 @@ public class PostResource {
   public ResponseEntity<ReactionSummaryDto> getReactionSummary(@PathVariable("postId") Long postId) {
     ReactionSummaryDto reactionSummary = reactionService.getReactionSummaryForPost(postId);
     return ResponseEntity.ok(reactionSummary);
+  }
+
+  private Post associateReplyWithPhoto(PostDto postDto, Post newPost) throws IOException {
+    byte[] picture = postDto.getPicture();
+    String photoContentType = postDto.getPhotoContentType();
+    if (picture != null && photoContentType != null) {
+      URL photoUrl = photoService.writeBytesToStorage("post-" + newPost.getId(), picture, photoContentType);
+      newPost.updatePhoto(photoUrl, photoContentType);
+    }
+    return newPost;
   }
 
 }

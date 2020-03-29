@@ -52,8 +52,9 @@ public class ReplyResource {
     Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), user, Collections.emptyList());
     Reply newReply = replyRepository.save(reply);
 
-    newReply = associateReplyWithPhoto(replyDto, reply, newReply);
+    newReply = associateReplyWithPhoto(replyDto, newReply);
 
+    replyRepository.save(reply);
     post.addReply(reply);
     postRepository.save(post);
     return ResponseEntity.ok(newReply);
@@ -73,14 +74,13 @@ public class ReplyResource {
     return ResponseEntity.ok(newReplyReaction);
   }
 
-  private Reply associateReplyWithPhoto(@RequestBody ReplyDto replyDto, Reply reply, Reply newReply) throws IOException {
+  private Reply associateReplyWithPhoto(ReplyDto replyDto, Reply newReply) throws IOException {
     byte[] picture = replyDto.getPicture();
     String photoContentType = replyDto.getPhotoContentType();
 
     if (picture != null && photoContentType != null) {
       URL photoUrl = photoService.writeBytesToStorage("reply-" + newReply.getId(), picture, photoContentType);
       newReply.updatePhoto(photoUrl, photoContentType);
-      replyRepository.save(reply);
     }
     return newReply;
   }

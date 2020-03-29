@@ -1,5 +1,7 @@
 package org.codevscovid19.stayhappyathome.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ public class ReplyReaction {
   @SequenceGenerator(name = "reply_reaction_sequence_generator", sequenceName = "reply_reaction__id_sequence")
   private Long id;
 
+  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "reply_id")
   private Reply reply;
