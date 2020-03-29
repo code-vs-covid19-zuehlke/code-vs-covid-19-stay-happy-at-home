@@ -52,6 +52,14 @@ public class Post {
     // for Jackson
   }
 
+  public Post(String title, String description, URL link, User user, Set<TargetFeeling> targetFeelings) {
+    this.title = title;
+    this.description = description;
+    this.link = link;
+    this.user = user;
+    this.targetFeelings = targetFeelings;
+  }
+
   public Post(String title, String description, URL link, URL picture, User user, Set<TargetFeeling> targetFeelings, String photoContentType) {
     this.title = title;
     this.description = description;
@@ -149,6 +157,11 @@ public class Post {
   }
 
   public void setPhotoContentType(String photoContentType) {
+    this.photoContentType = photoContentType;
+  }
+
+  public void updatePhoto(URL photoUrl, String photoContentType){
+    this.picture = photoUrl;
     this.photoContentType = photoContentType;
   }
 

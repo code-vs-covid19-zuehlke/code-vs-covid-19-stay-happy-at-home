@@ -69,10 +69,12 @@ public class PostResource {
   public ResponseEntity<Post> createPost(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                          @RequestBody PostDto postDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
-
-    URL photoUrl = photoService.writeBytesToStorage("post-" + postDto.getId(), postDto.getPicture(), postDto.getPhotoContentType());
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), photoUrl, user, postDto.getTargetFeelings(), postDto.getPhotoContentType());
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), user, postDto.getTargetFeelings());
     Post newPost = postRepository.save(post);
+
+    URL photoUrl = photoService.writeBytesToStorage("post-" + newPost.getId(), postDto.getPicture(), postDto.getPhotoContentType());
+    newPost.updatePhoto(photoUrl, postDto.getPhotoContentType());
+    postRepository.save(newPost);
     return ResponseEntity.ok(newPost);
   }
 
@@ -89,10 +91,13 @@ public class PostResource {
                                            @RequestBody ReplyDto replyDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
     Post post = postRepository.findById(postId).orElseThrow(() -> new HansNotFoundException("Post", postId));
-    URL photoUrl = photoService.writeBytesToStorage("reply-" + replyDto.getId(), replyDto.getPicture(), replyDto.getPhotoContentType());
-
-    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), photoUrl, user, Collections.emptyList(), replyDto.getPhotoContentType());
+    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), user, Collections.emptyList());
     Reply newReply = replyRepository.save(reply);
+
+    URL photoUrl = photoService.writeBytesToStorage("reply-" + newReply.getId(), replyDto.getPicture(), replyDto.getPhotoContentType());
+    newReply.updatePhoto(photoUrl, replyDto.getPhotoContentType());
+    replyRepository.save(reply);
+
     post.addReply(reply);
     postRepository.save(post);
     return ResponseEntity.ok(newReply);

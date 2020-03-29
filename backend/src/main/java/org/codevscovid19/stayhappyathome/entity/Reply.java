@@ -46,6 +46,14 @@ public class Reply {
     // for Jackson
   }
 
+  public Reply(String title, String description, URL link, User user, List<ReplyReaction> replyReactions) {
+    this.title = title;
+    this.description = description;
+    this.link = link;
+    this.user = user;
+    this.replyReactions = replyReactions;
+  }
+
   public Reply(String title, String description, URL link, URL picture, User user, List<ReplyReaction> replyReactions, String photoContentType) {
     this.title = title;
     this.description = description;
@@ -126,6 +134,11 @@ public class Reply {
   }
 
   public void setPhotoContentType(String photoContentType) {
+    this.photoContentType = photoContentType;
+  }
+
+  public void updatePhoto(URL photoUrl, String photoContentType){
+    this.picture = photoUrl;
     this.photoContentType = photoContentType;
   }
 
