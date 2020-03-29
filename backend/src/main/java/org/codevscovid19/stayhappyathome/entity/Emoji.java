@@ -34,8 +34,6 @@ public enum Emoji {
 
   @Override
   public String toString() {
-    return "Emoji{" +
-      "unicode='" + unicode + '\'' +
-      '}';
+    return this.name();
   }
 }
