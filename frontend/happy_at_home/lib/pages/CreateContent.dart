@@ -66,7 +66,11 @@ class _CreateContentState extends State<CreateContent> {
               Row(
                 children: <Widget>[
                   SizedBox(width: 16),
-                  Icon(Icons.chevron_left),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.chevron_left)),
                   SizedBox(
                     width: 20,
                   ),
@@ -126,8 +130,7 @@ class _CreateContentState extends State<CreateContent> {
               ),
               TitleCard(
                   title: "This makes me feel...",
-                  child: TargetFeelingChooserWidget(updateTargetFeelings)
-              ),
+                  child: TargetFeelingChooserWidget(updateTargetFeelings)),
               TitleCard(
                 title: "How much time does it need?",
                 child: StyledSlider(0, updateTimePeriod),
