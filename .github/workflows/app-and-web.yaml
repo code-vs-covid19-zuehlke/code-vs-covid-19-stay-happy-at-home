@@ -1,7 +1,10 @@
 #The name of your workflow.
 name:  Web, Android
 # Trigger the workflow on push or pull request
-on: [push,pull_request]
+on: 
+  push:
+    tags:
+    - 'release*'
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
   build_deploy:
