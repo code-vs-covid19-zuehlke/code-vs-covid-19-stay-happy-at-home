@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reply.dart';
 import 'package:happyathome/usecases/ReplyCreation.dart';
@@ -9,6 +10,7 @@ import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/PostRatingWidget.dart';
 import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ContentDetail extends StatefulWidget {
   @override
@@ -17,6 +19,9 @@ class ContentDetail extends StatefulWidget {
 
 class _ContentDetailState extends State<ContentDetail> {
   Post post;
+
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
 
   void createReply(image) async {
     await ReplyCreation.create(post, "dummy", "dummy", null, image);
@@ -35,6 +40,14 @@ class _ContentDetailState extends State<ContentDetail> {
     return widgetList;
   }
 
+  void onRefresh() async {
+    Post post = await Backend.getPostById(this.post.id);
+    setState(() {
+      this.post = post;
+    });
+    _refreshController.refreshCompleted();
+  }
+  
   @override
   Widget build(BuildContext context) {
     post ??= ModalRoute
@@ -45,18 +58,24 @@ class _ContentDetailState extends State<ContentDetail> {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: TitleCard(
-          title: post.title,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                height: 400,
-                child: ListView(
-                  children: createContent(),
+        child: SmartRefresher(
+          enablePullDown: true,
+          header: WaterDropMaterialHeader(),
+          controller: _refreshController,
+          onRefresh: onRefresh,
+          child: TitleCard(
+            title: post.title,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: 400,
+                  child: ListView(
+                    children: createContent(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
