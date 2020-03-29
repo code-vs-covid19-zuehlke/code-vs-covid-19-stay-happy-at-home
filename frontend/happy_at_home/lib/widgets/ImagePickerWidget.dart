@@ -51,8 +51,8 @@ class ImagePickerWidget extends StatelessWidget {
     return image == null
         ? Center(
       child: Container(
-        height: 120,
-        width: 120,
+        height: 100,
+        width: 100,
         margin: const EdgeInsets.all(24),
         child: FlatButton(
           onPressed: showModal,

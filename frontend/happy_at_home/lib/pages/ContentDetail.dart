@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
+import 'package:happyathome/widgets/PostRatingWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
 
 class ContentDetail extends StatefulWidget {
@@ -25,20 +26,61 @@ class _ContentDetailState extends State<ContentDetail> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: 240,
+                height: 400,
                 child: ListView.builder(
-                  itemCount: 20,
+                  itemCount: 3,
                   itemBuilder: (BuildContext context, int index) {
-                    return Text("Toilet paper tower wanted!");
+                    if (index < 2) {
+                      return ReplyWidget();
+                    } else {
+                      return ImagePickerWidget(context, null, () {});
+                    }
                   },
                 ),
               ),
-              ImagePickerWidget(context, null, () {}),
             ],
           ),
         ),
       ),
       bottomNavigationBar: ContentDetailBottomBar(),
+    );
+  }
+}
+
+class ReplyWidget extends StatelessWidget {
+  const ReplyWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey,
+            width: 1,
+          ),
+        ),
+      ),
+      height: 150,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Image(
+                image: AssetImage(
+                  "assets/profile_picture.jpg",
+                ),
+                height: 100,
+              ),
+              PostRatingWidget(null),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
