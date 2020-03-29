@@ -5,47 +5,53 @@ class PostWidget extends StatelessWidget {
   final String title;
   final String description;
   final dynamic reactions;
+  final Function postSelected;
 
   //Todo: replace with post
-  PostWidget(this.title, this.description, this.reactions);
+  PostWidget(this.title, this.description, this.reactions, this.postSelected);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: 1,
+    return InkWell(
+      onTap: () {
+        //Todo: Replace with ID
+        postSelected(title);
+      },
+      child: Container(
+        height: 100,
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 1,
+            ),
           ),
         ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          PostImage(7),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "$title",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            PostImage(7),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "$title",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Text("$description"),
-              PostRatingWidget(reactions),
-            ],
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(Icons.chevron_right)
-        ],
+                Text("$description"),
+                PostRatingWidget(reactions),
+              ],
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.chevron_right)
+          ],
+        ),
       ),
     );
   }

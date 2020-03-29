@@ -8,6 +8,22 @@ class ContentFeed extends StatefulWidget {
 }
 
 class _ContentFeedState extends State<ContentFeed> {
+
+  @override
+  void initState() {
+    super.initState();
+    loadPosts();
+  }
+
+  void loadPosts() async {
+    //TODO: Load posts and use them in the listview
+    //List<Post> posts = await Backend.getPosts();
+  }
+
+  void postSelected(id) {
+    Navigator.pushNamed(context, "/detail");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,20 +31,26 @@ class _ContentFeedState extends State<ContentFeed> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Text("Content Feed Page"),
-            PostWidget(
-                "Toilet paper tower wanted!", "Where to store all the rolls?",
-                null),
-            FlatButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, "/detail");
-              },
-              label: Text(
-                "Go to Content Detail page",
-              ),
-              icon: Icon(
-                Icons.edit,
-                color: Colors.blue,
+            SizedBox(height: 30,),
+            Expanded(
+              flex: 10,
+              child: Card(
+                margin: const EdgeInsets.all(16),
+                elevation: 2,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (BuildContext context, int index) {
+                      return PostWidget("Toilet paper tower wanted!",
+                          "Where to store all the rolls?", null, postSelected);
+                    },
+                  ),
+                ),
               ),
             ),
             FlatButton.icon(
