@@ -39,7 +39,7 @@ public class Reply {
   private List<ReplyReaction> replyReactions;
 
   @ManyToOne
-  @JoinColumn(name = "replies")
+  @JoinColumn(name = "post_id")
   private Post post;
 
   private Reply() {
