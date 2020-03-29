@@ -1,4 +1,5 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:happyathome/UserState.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
@@ -74,11 +75,7 @@ class Backend {
   static Future<String> _postRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await http.post(url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JsonMapper.serialize(object));
+    final response = await http.post(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
@@ -90,17 +87,24 @@ class Backend {
   static Future<String> _putRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await http.put(url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JsonMapper.serialize(object));
+    final response = await http.put(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
       throw Exception('Failed to load $url with status code ${response.statusCode}');
     }
+  }
+
+  static Map<String, String> _createHeaders() {
+    var headers = <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+    final user = UserState().user;
+    if (user != null && user.id != null) {
+      headers.putIfAbsent('X-User-Id', () => user.id);
+    }
+    return headers;
   }
 
   static void init(){
