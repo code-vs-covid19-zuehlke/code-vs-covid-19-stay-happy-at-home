@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:happyathome/widgets/TitleCard.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerWidget extends StatelessWidget {
@@ -50,23 +49,26 @@ class ImagePickerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return image == null
-        ? TitleCard(
-      title: "Upload Picture",
-      child: FlatButton.icon(
-        label: Text(""),
-        onPressed: showModal,
-        color: Colors.greenAccent,
-        icon: Icon(
-          Icons.file_upload,
-          color: Colors.black,
-          size: 70,
+        ? Center(
+      child: Container(
+        height: 120,
+        width: 120,
+        margin: const EdgeInsets.all(24),
+        child: FlatButton(
+          onPressed: showModal,
+          color: Colors.greenAccent,
+          child: Icon(
+            Icons.file_upload,
+            color: Colors.black,
+            size: 70,
+          ),
         ),
             ),
           )
-        : TitleCard(
-      title: "Your Picture",
+        : Center(
       child: Container(
-        height: 300,
+        height: 200,
+        width: 200,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: FileImage(image),

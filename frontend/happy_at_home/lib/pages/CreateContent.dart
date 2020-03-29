@@ -119,7 +119,9 @@ class _CreateContentState extends State<CreateContent> {
                   ),
                 ),
               ),
-              ImagePickerWidget(context, _image, onChooseImage),
+              TitleCard(
+                  title: _image == null ? "Upload Picture" : "Your Picture",
+                  child: ImagePickerWidget(context, _image, onChooseImage)),
               TitleCard(
                 title: "Add Link",
                 child: TextField(
