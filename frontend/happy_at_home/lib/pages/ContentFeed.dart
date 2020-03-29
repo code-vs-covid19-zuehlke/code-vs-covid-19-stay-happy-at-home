@@ -30,8 +30,8 @@ class _ContentFeedState extends State<ContentFeed> {
     });
   }
 
-  void postSelected(id) {
-    Navigator.pushNamed(context, "/detail");
+  void postSelected(post) {
+    Navigator.pushNamed(context, "/detail", arguments: post);
   }
 
   void onRefresh() async {

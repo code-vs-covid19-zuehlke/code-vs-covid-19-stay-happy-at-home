@@ -13,7 +13,7 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        postSelected(post.id);
+        postSelected(post);
       },
       child: Container(
         height: 100,
