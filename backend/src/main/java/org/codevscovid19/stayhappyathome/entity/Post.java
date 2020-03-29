@@ -45,6 +45,9 @@ public class Post {
   @Enumerated(EnumType.STRING)
   private Set<TargetFeeling> targetFeelings;
 
+  @OneToMany
+  private List<Reply> replies;
+
   private Post() {
     // for Jackson
   }
@@ -62,7 +65,10 @@ public class Post {
   @JsonIgnore
   @Transient
   public void addReaction(PostReaction postReaction) {
-    Optional.ofNullable(postReactions).orElse(new ArrayList<>()).add(postReaction);
+    if (postReactions == null) {
+      postReactions = new ArrayList<>();
+    }
+    postReactions.add(postReaction);
   }
 
   public Long getId() {
@@ -137,6 +143,14 @@ public class Post {
     this.photoContentType = photoContentType;
   }
 
+  public List<Reply> getReplies() {
+    return replies;
+  }
+
+  public void setReplies(List<Reply> replies) {
+    this.replies = replies;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -149,11 +163,13 @@ public class Post {
       Objects.equals(picture, post.picture) &&
       Objects.equals(photoContentType, post.photoContentType) &&
       Objects.equals(user, post.user) &&
-      Objects.equals(postReactions, post.postReactions);
+      Objects.equals(postReactions, post.postReactions) &&
+      Objects.equals(targetFeelings, post.targetFeelings) &&
+      Objects.equals(replies, post.replies);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions);
+    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions, targetFeelings, replies);
   }
 }

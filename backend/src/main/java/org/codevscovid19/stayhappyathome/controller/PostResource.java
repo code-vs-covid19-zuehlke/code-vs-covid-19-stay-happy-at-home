@@ -65,7 +65,7 @@ public class PostResource {
 
   @PostMapping(path = "", produces = "application/json", consumes = "application/json")
   public ResponseEntity<Post> createPost(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
-                                          @RequestBody PostDto postDto) throws IOException {
+                                         @RequestBody PostDto postDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
     URL photoUrl = photoService.writeBytesToGcp("post-" + postDto.getId(), postDto.getPicture(), postDto.getPhotoContentType());
 
@@ -116,10 +116,10 @@ public class PostResource {
     Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new RuntimeException("Could not find Reply"));
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-    // TODO: add reaction to reaction
-    ReplyReaction replyReaction = new ReplyReaction(user);
-
+    ReplyReaction replyReaction = new ReplyReaction(user, reactionDto.getEmoji());
     ReplyReaction newReplyReaction = replyReactionRepository.save(replyReaction);
+    reply.addReaction(newReplyReaction);
+    replyRepository.save(reply);
     return ResponseEntity.ok(newReplyReaction);
   }
 }

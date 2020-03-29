@@ -16,12 +16,15 @@ public class ReplyReaction {
   @ManyToOne
   private User user;
 
+  private Emoji emoji;
+
   private ReplyReaction() {
     // for Jackson
   }
 
-  public ReplyReaction(User user) {
+  public ReplyReaction(User user, Emoji emoji) {
     this.user = user;
+    this.emoji = emoji;
   }
 
   public Long getId() {
@@ -40,17 +43,35 @@ public class ReplyReaction {
     this.user = user;
   }
 
+  public Emoji getEmoji() {
+    return emoji;
+  }
+
+  public void setEmoji(Emoji emoji) {
+    this.emoji = emoji;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ReplyReaction that = (ReplyReaction) o;
     return Objects.equals(id, that.id) &&
-      Objects.equals(user, that.user);
+      Objects.equals(user, that.user) &&
+      emoji == that.emoji;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, user);
+    return Objects.hash(id, user, emoji);
+  }
+
+  @Override
+  public String toString() {
+    return "ReplyReaction{" +
+      "id=" + id +
+      ", user=" + user +
+      ", emoji=" + emoji +
+      '}';
   }
 }

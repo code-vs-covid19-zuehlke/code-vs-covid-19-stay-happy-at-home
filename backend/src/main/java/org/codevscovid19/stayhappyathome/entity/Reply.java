@@ -1,8 +1,10 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,8 +25,10 @@ public class Reply {
 
   @Column(name = "link")
   private URL link;
+
   @Column(name = "picture")
   private URL picture;
+
   @Column(name = "photo_content_type")
   private String photoContentType;
 
@@ -33,6 +37,10 @@ public class Reply {
 
   @OneToMany
   private List<ReplyReaction> replyReactions;
+
+  @ManyToOne
+  @JoinColumn(name = "replies")
+  private Post post;
 
   private Reply() {
     // for Jackson
@@ -46,6 +54,15 @@ public class Reply {
     this.user = user;
     this.replyReactions = replyReactions;
     this.photoContentType = photoContentType;
+  }
+
+  @JsonIgnore
+  @Transient
+  public void addReaction(ReplyReaction replyReaction) {
+    if (replyReactions == null) {
+      replyReactions = new ArrayList<>();
+    }
+    replyReactions.add(replyReaction);
   }
 
   public Long getId() {
@@ -112,6 +129,16 @@ public class Reply {
     this.photoContentType = photoContentType;
   }
 
+  @JsonIgnore
+  public Post getPost() {
+    return post;
+  }
+
+  @JsonIgnore
+  public void setPost(Post post) {
+    this.post = post;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -124,11 +151,12 @@ public class Reply {
       Objects.equals(picture, reply.picture) &&
       Objects.equals(photoContentType, reply.photoContentType) &&
       Objects.equals(user, reply.user) &&
-      Objects.equals(replyReactions, reply.replyReactions);
+      Objects.equals(replyReactions, reply.replyReactions) &&
+      Objects.equals(post, reply.post);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, link, picture, photoContentType, user, replyReactions);
+    return Objects.hash(id, title, description, link, picture, photoContentType, user, replyReactions, post);
   }
 }
