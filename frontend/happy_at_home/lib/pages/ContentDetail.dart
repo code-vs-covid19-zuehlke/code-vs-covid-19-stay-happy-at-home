@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:happyathome/models/Post.dart';
+import 'package:happyathome/usecases/ReplyCreation.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
@@ -12,9 +13,14 @@ class ContentDetail extends StatefulWidget {
 }
 
 class _ContentDetailState extends State<ContentDetail> {
-  String title = "Toilet paper towers wanted!";
-  String description = "Where to store all the rolls?";
   Post post;
+
+  void createReply(image) async {
+    await ReplyCreation.create(post, "dummy", "dummy", null, image);
+    setState(() {
+      post = post;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,7 @@ class _ContentDetailState extends State<ContentDetail> {
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
         child: TitleCard(
-          title: title,
+          title: post.title,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -39,7 +45,7 @@ class _ContentDetailState extends State<ContentDetail> {
                     if (index < 1) {
                       return ReplyWidget(post);
                     } else {
-                      return ImagePickerWidget(context, null, () {});
+                      return ImagePickerWidget(context, null, createReply);
                     }
                   },
                 ),
