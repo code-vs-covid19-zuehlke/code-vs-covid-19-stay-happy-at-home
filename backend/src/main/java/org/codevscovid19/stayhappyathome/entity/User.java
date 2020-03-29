@@ -33,6 +33,9 @@ public class User {
   @OneToMany(cascade = CascadeType.ALL)
   private List<FeelingRecord> feelingRecords;
 
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<TimeRecord> availableTimeRecords;
+
   private User() {
     // for Jackson
   }
@@ -42,19 +45,6 @@ public class User {
     this.name = name;
     this.photo = photo;
     this.photoContentType = photoContentType;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  @JsonIgnore
-  public List<FeelingRecord> getFeelingRecords() {
-    return Optional.ofNullable(feelingRecords).orElse(new ArrayList<>());
   }
 
   @Transient
@@ -68,16 +58,60 @@ public class User {
       .orElse(Collections.emptyList());
   }
 
+  @JsonIgnore
+  public List<FeelingRecord> getFeelingRecords() {
+    if (feelingRecords == null) {
+      feelingRecords = new ArrayList<>();
+    }
+    return feelingRecords;
+  }
+
+  @Transient
+  @JsonIgnore
+  public void addTimeRecord(TimeRecord timeRecord) {
+    getAvailableTimeRecords().add(timeRecord);
+  }
+
+  @Transient
+  @JsonIgnore
+  public void addFeelings(FeelingRecord feelingRecord) {
+    getFeelingRecords().add(feelingRecord);
+  }
+
+  @JsonIgnore
+  public List<TimeRecord> getAvailableTimeRecords() {
+    if (availableTimeRecords == null) {
+      availableTimeRecords = new ArrayList<>();
+    }
+    return availableTimeRecords;
+  }
+
+  @JsonIgnore
+  public void setAvailableTimeRecords(List<TimeRecord> availableTimeRecords) {
+    this.availableTimeRecords = availableTimeRecords;
+  }
+
+  @Transient
+  public TimeRecord getTimeRecord() {
+    return getAvailableTimeRecords().stream()
+      .max(Comparator.comparing(TimeRecord::getTime))
+      .orElse(null);
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
   public URL getPhoto() {
     return photo;
   }
 
   public String getPhotoContentType() {
     return photoContentType;
-  }
-
-  public void addFeelings(FeelingRecord feelingRecord) {
-    feelingRecords.add(feelingRecord);
   }
 
   @Override

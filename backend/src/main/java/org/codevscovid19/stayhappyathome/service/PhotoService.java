@@ -14,7 +14,7 @@ import java.net.URL;
 
 @Service
 public class PhotoService {
-  private static final String STORAGE_CLOUD_GOOGLE_COM = "storage.cloud.google.com";
+  private static final String STORAGE_CLOUD_GOOGLE_COM = "storage.googleapis.com";
   private static final String HTTPS = "https";
   private final Storage gcStorage;
   private final String bucketName;

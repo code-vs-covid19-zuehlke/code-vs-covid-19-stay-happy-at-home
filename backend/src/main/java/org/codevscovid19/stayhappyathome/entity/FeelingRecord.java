@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "FEELING_RECORD")
+@Table(name = "FEELING_RECORDS")
 public class FeelingRecord {
 
   @Id
@@ -25,6 +25,9 @@ public class FeelingRecord {
 
   @OneToMany(cascade = CascadeType.ALL)
   private List<Feeling> feelings;
+
+  @Column
+  private Integer availableMinutes;
 
   @Column(name = "time")
   private LocalDateTime time;
@@ -58,6 +61,14 @@ public class FeelingRecord {
     this.time = time;
   }
 
+  public Integer getAvailableMinutes() {
+    return availableMinutes;
+  }
+
+  public void setAvailableMinutes(Integer availableMinutes) {
+    this.availableMinutes = availableMinutes;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -65,12 +76,13 @@ public class FeelingRecord {
     FeelingRecord that = (FeelingRecord) o;
     return Objects.equals(id, that.id) &&
       Objects.equals(feelings, that.feelings) &&
+      Objects.equals(availableMinutes, that.availableMinutes) &&
       Objects.equals(time, that.time);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, feelings, time);
+    return Objects.hash(id, feelings, availableMinutes, time);
   }
 
   @Override
