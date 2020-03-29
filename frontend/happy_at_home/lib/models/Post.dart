@@ -3,6 +3,7 @@ import 'package:happyathome/models/TargetFeeling.dart';
 
 import 'Reaction.dart';
 import 'Reply.dart';
+import 'User.dart';
 
 @jsonSerializable
 class Post {
@@ -14,9 +15,10 @@ class Post {
   final String photoContentType;
   final List<Reaction> postReactions;
   final List<Reply> replies;
+  final User user;
 
   const Post(this.id, this.title, this.description, this.link, this.picture,
-      this.photoContentType, this.postReactions, this.replies);
+      this.photoContentType, this.postReactions, this.replies, this.user);
 }
 
 @jsonSerializable
