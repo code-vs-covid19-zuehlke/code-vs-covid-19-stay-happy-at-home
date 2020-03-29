@@ -1,12 +1,12 @@
 package org.codevscovid19.stayhappyathome.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "POSTS")
@@ -25,8 +25,10 @@ public class Post {
 
   @Column(name = "link")
   private URL link;
+
   @Column(name = "picture")
   private URL picture;
+
   @Column(name = "photo_content_type")
   private String photoContentType;
 
@@ -55,6 +57,12 @@ public class Post {
     this.user = user;
     this.targetFeelings = targetFeelings;
     this.photoContentType = photoContentType;
+  }
+
+  @JsonIgnore
+  @Transient
+  public void addReaction(PostReaction postReaction) {
+    Optional.ofNullable(postReactions).orElse(new ArrayList<>()).add(postReaction);
   }
 
   public Long getId() {

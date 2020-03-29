@@ -1,5 +1,7 @@
 package org.codevscovid19.stayhappyathome.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import java.util.Objects;
@@ -16,12 +18,19 @@ public class PostReaction {
   @ManyToOne
   private User user;
 
+  @ManyToOne
+  @JoinColumn(name = "postReactions")
+  private Post post;
+
+  private Emoji emoji;
+
   private PostReaction() {
     // for Jackson
   }
 
-  public PostReaction(User user) {
+  public PostReaction(User user, Emoji emoji) {
     this.user = user;
+    this.emoji = emoji;
   }
 
   public Long getId() {
@@ -40,17 +49,37 @@ public class PostReaction {
     this.user = user;
   }
 
+  @JsonIgnore
+  public Post getPost() {
+    return post;
+  }
+
+  @JsonIgnore
+  public void setPost(Post post) {
+    this.post = post;
+  }
+
+  public Emoji getEmoji() {
+    return emoji;
+  }
+
+  public void setEmoji(Emoji emoji) {
+    this.emoji = emoji;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     PostReaction that = (PostReaction) o;
     return Objects.equals(id, that.id) &&
-      Objects.equals(user, that.user);
+      Objects.equals(user, that.user) &&
+      Objects.equals(post, that.post) &&
+      emoji == that.emoji;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, user);
+    return Objects.hash(id, user, post, emoji);
   }
 }
