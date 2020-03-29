@@ -60,7 +60,7 @@ public class UserResource {
 
   @PostMapping(consumes = "application/json", produces = "application/json")
   public ResponseEntity<User> createUser(@RequestBody UserDto userDto) throws IOException {
-    URL photoUrl = photoService.writeBytesToGcp("user-" + userDto.getId(), userDto.getPhoto());
+    URL photoUrl = photoService.writeBytesToGcp("user-" + userDto.getId(), userDto.getPhoto(), userDto.getPhotoContentType());
 
     User user = new User(userDto.getId(), userDto.getName(), photoUrl, userDto.getPhotoContentType());
     return ResponseEntity.ok(userRepository.save(user));
@@ -86,11 +86,7 @@ public class UserResource {
   @GetMapping(path = "/{id}/feeling", produces = "application/json")
   public ResponseEntity<List<Feeling>> getFeelings(@PathVariable String id) {
     Optional<User> userEntity = userRepository.findById(id);
-    List<FeelingRecord> feelingRecords = userEntity.get().getFeelingRecords();
-    List<Feeling> latestFeelings = feelingRecords.stream()
-      .max(Comparator.comparing(FeelingRecord::getTime))
-      .map(FeelingRecord::getFeelings)
-      .orElse(Collections.emptyList());
+    List<Feeling> latestFeelings = userEntity.get().getFeelings();
     return ResponseEntity.ok(latestFeelings);
   }
 }

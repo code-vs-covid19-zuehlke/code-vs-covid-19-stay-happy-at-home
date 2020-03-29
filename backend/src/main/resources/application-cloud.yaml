@@ -7,7 +7,7 @@ spring:
   datasource:
     name: stayhappyathome
     username: postgres
-    password: gvfba2iDFwzewlql
+    password:
     initialization-mode: always
     driver-class-name: org.postgresql.Driver
 

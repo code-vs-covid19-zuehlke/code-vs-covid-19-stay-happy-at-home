@@ -1,15 +1,12 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "USERS")
@@ -46,8 +43,20 @@ public class User {
     return name;
   }
 
+  @JsonIgnore
   public List<FeelingRecord> getFeelingRecords() {
-    return feelingRecords;
+    return Optional.ofNullable(feelingRecords).orElse(new ArrayList<>());
+  }
+
+  @Transient
+  public List<Feeling> getFeelings() {
+    List<FeelingRecord> feelingRecords = getFeelingRecords();
+    return feelingRecords.stream()
+      .filter(Objects::nonNull)
+      .filter(feelingRecord -> feelingRecord.getTime() != null)
+      .max(Comparator.comparing(FeelingRecord::getTime))
+      .map(FeelingRecord::getFeelings)
+      .orElse(Collections.emptyList());
   }
 
   public URL getPhoto() {
