@@ -117,6 +117,7 @@ class Backend {
         valueDecorators: {
           typeOf<List<Feeling>>(): (value) => value.cast<Feeling>(),
           typeOf<Set<TargetFeeling>>(): (value) => value.cast<TargetFeeling>(),
+          typeOf<List<Post>>(): (value) => value.cast<Post>(),
         })
     );
   }

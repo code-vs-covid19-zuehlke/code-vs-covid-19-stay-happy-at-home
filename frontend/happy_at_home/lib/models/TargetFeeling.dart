@@ -1,14 +1,11 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:happyathome/models/Emotion.dart';
+import 'package:happyathome/utils/EnumStringConverter.dart';
 
 @jsonSerializable
-@Json(enumValues: TargetFeeling.values)
-enum TargetFeeling {
-  HAPPY,
-  RELAXED,
-  ACCOMPLISHED,
-  INFORMED,
-  ENERGIZED,
-  AWWW,
-  INSPIRED,
-  ENTERTAINED
+class TargetFeeling {
+  @JsonProperty(converter: EnumStringConverter(Emotion.values))
+  final Emotion emotion;
+
+  const TargetFeeling(this.emotion);
 }
