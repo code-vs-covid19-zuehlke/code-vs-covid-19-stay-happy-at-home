@@ -2,14 +2,10 @@ spring:
   profiles:
     active: dev
 
+  datasource:
+    hikari:
+      max-lifetime: 60000 # 60 seconds before removing connection from pool
 
-jpa:
-  properties:
-    hibernate:
-      enable_lazy_load_no_trans: true
-      event:
-        merge:
-          entity_copy_observer: allow
 
 logging:
   level:
