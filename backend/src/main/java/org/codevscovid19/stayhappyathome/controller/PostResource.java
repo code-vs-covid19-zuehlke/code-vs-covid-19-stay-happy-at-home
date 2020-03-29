@@ -63,7 +63,7 @@ public class PostResource {
   public ResponseEntity<Post> createPost(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                          @RequestBody PostDto postDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), user);
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), user, postDto.getRequiredTime());
 
     postDto.getTargetFeelings().forEach(targetFeeling -> targetFeelingRepository.save(new TargetFeeling(post, targetFeeling.getEmotion())));
 
