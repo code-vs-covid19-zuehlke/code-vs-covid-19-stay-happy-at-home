@@ -9,10 +9,9 @@ class Post {
   final String link;
   final String picture;
   final String photoContentType;
-  final Set<TargetFeeling> targetFeelings;
 
   const Post(this.id, this.title, this.description, this.link, this.picture,
-      this.photoContentType, this.targetFeelings);
+      this.photoContentType);
 }
 
 @jsonSerializable
@@ -22,7 +21,7 @@ class CreatePost {
   final String link;
   final String picture;
   final String photoContentType;
-  final Set<String> targetFeelings;
+  final Set<TargetFeeling> targetFeelings;
 
   const CreatePost(this.title, this.description, this.link, this.picture,
       this.photoContentType, this.targetFeelings);

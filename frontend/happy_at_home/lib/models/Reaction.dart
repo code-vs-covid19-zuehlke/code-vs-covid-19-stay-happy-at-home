@@ -1,8 +1,12 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:happyathome/utils/EnumStringConverter.dart';
+
+import 'Emoji.dart';
 
 @jsonSerializable
 class Reaction {
-  final String id;
+  @JsonProperty(converter: EnumStringConverter(Emoji.values))
+  final Emoji emoji;
 
-  const Reaction(this.id);
+  const Reaction(this.emoji);
 }
