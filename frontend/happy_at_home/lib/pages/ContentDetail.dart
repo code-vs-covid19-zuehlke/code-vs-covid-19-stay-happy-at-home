@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:happyathome/models/Post.dart';
+import 'package:happyathome/models/Reply.dart';
 import 'package:happyathome/usecases/ReplyCreation.dart';
+import 'package:happyathome/utils/GoogleCloudImage.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
@@ -22,6 +24,16 @@ class _ContentDetailState extends State<ContentDetail> {
     });
   }
 
+  List<Widget> createContent() {
+    List<Widget> widgetList = List();
+    widgetList.add(ReplyWidget(post, null, false));
+    for (Reply reply in post.replies) {
+      widgetList.add(ReplyWidget(post, reply, true));
+    }
+    widgetList.add(ImagePickerWidget(context, null, createReply));
+    return widgetList;
+  }
+
   @override
   Widget build(BuildContext context) {
     post ??= ModalRoute
@@ -39,15 +51,8 @@ class _ContentDetailState extends State<ContentDetail> {
             children: <Widget>[
               Container(
                 height: 400,
-                child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index < 1) {
-                      return ReplyWidget(post);
-                    } else {
-                      return ImagePickerWidget(context, null, createReply);
-                    }
-                  },
+                child: ListView(
+                  children: createContent(),
                 ),
               ),
             ],
@@ -61,8 +66,10 @@ class _ContentDetailState extends State<ContentDetail> {
 
 class ReplyWidget extends StatelessWidget {
   Post post;
+  Reply reply;
+  bool isReply;
 
-  ReplyWidget(this.post);
+  ReplyWidget(this.post, this.reply, this.isReply);
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +90,11 @@ class ReplyWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Image(
-                image: AssetImage(
-                  "assets/profile_picture.jpg",
-                ),
+                image: GoogleCloudImage.get(
+                    isReply ? reply.picture : post.picture),
                 height: 100,
               ),
-              PostRatingWidget(context, null, post, true),
+              PostRatingWidget(context, reply, post, true, isReply),
             ],
           ),
         ],
