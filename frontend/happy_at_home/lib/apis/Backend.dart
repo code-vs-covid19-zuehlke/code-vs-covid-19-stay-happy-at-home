@@ -65,7 +65,7 @@ class Backend {
 
   static Future<String> _getRaw(String path) async {
     final url = '$baseUrl/$path';
-    final response = await http.get(url);
+    final response = await http.get(url, headers: _createHeaders());
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
