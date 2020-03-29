@@ -64,7 +64,7 @@ class Backend {
 
   static Future<String> _getRaw(String path) async {
     final url = '$baseUrl/$path';
-    final response = await http.get(url);
+    final response = await http.get(url, headers: _createHeaders());
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
@@ -107,11 +107,8 @@ class Backend {
     return headers;
   }
 
-  static void init(){
-    JsonMapper().useAdapter(JsonMapperAdapter(
-        valueDecorators: {
-          typeOf<List<Feeling>>(): (value) => value.cast<Feeling>()
-        })
-    );
+  static void init() {
+    JsonMapper()
+        .useAdapter(JsonMapperAdapter(valueDecorators: {typeOf<List<Feeling>>(): (value) => value.cast<Feeling>()}));
   }
 }
