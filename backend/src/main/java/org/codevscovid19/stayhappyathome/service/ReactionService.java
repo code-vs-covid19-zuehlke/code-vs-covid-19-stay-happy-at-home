@@ -36,8 +36,8 @@ public class ReactionService {
     this.replyReactionRepository = replyReactionRepository;
   }
 
-  public ReactionSummaryDto getReactionSummaryReceived(String userId){
-    User user = userRepository.findById(userId).orElseThrow(() ->new HansNotFoundException("User", userId));
+  public ReactionSummaryDto getReactionSummaryReceived(String userId) {
+    User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
 
     List<Post> posts = postRepository.findAllByUserEquals(user);
     ReactionSummaryDto reactionSummary = new ReactionSummaryDto();
@@ -58,7 +58,7 @@ public class ReactionService {
   }
 
   public ReactionSummaryDto getReactionSummaryGiven(String userId) {
-    User user = userRepository.findById(userId).orElseThrow(() ->new HansNotFoundException("User", userId));
+    User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
     ReactionSummaryDto reactionSummary = new ReactionSummaryDto();
 
     List<ReplyReaction> replyReactions = replyReactionRepository.findAllByUserEquals(user);
@@ -67,6 +67,19 @@ public class ReactionService {
     }
 
     List<PostReaction> postReactions = postReactionRepository.findAllByUserEquals(user);
+    for (PostReaction postReaction : postReactions) {
+      reactionSummary.addReaction(postReaction.getEmoji());
+    }
+
+    return reactionSummary;
+  }
+
+  public ReactionSummaryDto getReactionSummaryForPost(Long postId) {
+    Post post = postRepository.findById(postId)
+      .orElseThrow(() -> new RuntimeException(String.format("Post with id %d not found", postId)));
+    ReactionSummaryDto reactionSummary = new ReactionSummaryDto();
+
+    List<PostReaction> postReactions = postReactionRepository.findAllByPostEquals(post);
     for (PostReaction postReaction : postReactions) {
       reactionSummary.addReaction(postReaction.getEmoji());
     }

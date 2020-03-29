@@ -1,5 +1,6 @@
 package org.codevscovid19.stayhappyathome.repository;
 
+import org.codevscovid19.stayhappyathome.entity.Post;
 import org.codevscovid19.stayhappyathome.entity.PostReaction;
 import org.codevscovid19.stayhappyathome.entity.User;
 import org.springframework.data.repository.CrudRepository;
@@ -10,4 +11,6 @@ import java.util.List;
 @Repository
 public interface PostReactionRepository extends CrudRepository<PostReaction, Long> {
   List<PostReaction> findAllByUserEquals(User user);
+
+  List<PostReaction> findAllByPostEquals(Post post);
 }
