@@ -6,7 +6,9 @@ import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
 import 'package:happyathome/models/TargetFeeling.dart';
 import 'package:happyathome/models/User.dart';
+import 'package:happyathome/utils/LogClient.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class Backend {
   static const baseUrl = 'https://backend-sas4ozc6wa-ew.a.run.app/api/v1';
@@ -53,6 +55,8 @@ class Backend {
 
   // ------------------------------------------------------------------------------
 
+  static BaseClient _client = LogClient(http.Client());
+
   static Future<T> _get<T>(String path) async {
     final response = await _getRaw(path);
     return JsonMapper.deserialize<T>(response);
@@ -65,7 +69,7 @@ class Backend {
 
   static Future<String> _getRaw(String path) async {
     final url = '$baseUrl/$path';
-    final response = await http.get(url, headers: _createHeaders());
+    final response = await _client.get(url, headers: _createHeaders());
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
@@ -76,7 +80,7 @@ class Backend {
   static Future<String> _postRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await http.post(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
+    final response = await _client.post(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
@@ -88,7 +92,7 @@ class Backend {
   static Future<String> _putRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await http.put(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
+    final response = await _client.put(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;

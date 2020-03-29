@@ -18,7 +18,11 @@ class PostCreation {
     }
 
     final post = await Backend.postPost(CreatePost(title, description, link,
-        base64.encode(binaryData), "image/jpg", targetFeeling));
+        base64.encode(binaryData), "image/jpg", targetFeeling.map((tf) =>
+        tf
+            .toString()
+            .split(".")
+            .last).toSet()));
     return post;
   }
 }

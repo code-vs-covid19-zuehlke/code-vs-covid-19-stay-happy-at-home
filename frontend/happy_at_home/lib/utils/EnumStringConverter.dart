@@ -8,7 +8,7 @@ class EnumStringConverter<T> implements ICustomConverter<T> {
 
   @override
   T fromJSON(jsonValue, [JsonProperty jsonProperty]) {
-    return EnumToString.fromString(enumValues, jsonValue);
+    return EnumToString.fromString(enumValues, jsonValue.toString());
   }
 
   @override
