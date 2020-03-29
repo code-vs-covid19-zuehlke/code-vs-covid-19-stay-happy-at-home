@@ -71,6 +71,15 @@ public class Post {
     postReactions.add(postReaction);
   }
 
+  @JsonIgnore
+  @Transient
+  public void addReply(Reply reply) {
+    if (replies == null) {
+      replies = new ArrayList<>();
+    }
+    replies.add(reply);
+  }
+
   public Long getId() {
     return id;
   }

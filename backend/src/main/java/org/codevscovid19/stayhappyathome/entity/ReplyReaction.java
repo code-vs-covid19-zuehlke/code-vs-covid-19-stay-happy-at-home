@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "REACTIONS")
+@Table(name = "REPLY_REACTIONS")
 public class ReplyReaction {
 
   @Id

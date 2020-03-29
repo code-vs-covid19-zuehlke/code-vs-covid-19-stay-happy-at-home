@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "REACTIONS")
+@Table(name = "POST_REACTIONS")
 public class PostReaction {
 
   @Id
@@ -19,7 +19,7 @@ public class PostReaction {
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "postReactions")
+  @JoinColumn(name = "post_id")
   private Post post;
 
   private Emoji emoji;
