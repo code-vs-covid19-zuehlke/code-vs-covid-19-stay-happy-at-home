@@ -1,22 +1,19 @@
 package org.codevscovid19.stayhappyathome.service;
 
 import org.codevscovid19.stayhappyathome.entity.*;
-import org.codevscovid19.stayhappyathome.repository.PostRepository;
+import org.codevscovid19.stayhappyathome.repository.TargetFeelingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
 public class PostService {
-  private PostRepository postRepository;
-  private FeelingMatcherMap feelingMatcherMap;
+  private final TargetFeelingRepository targetFeelingRepository;
 
   @Autowired
-
-  public PostService(PostRepository postRepository) {
-    this.postRepository = postRepository;
+  public PostService(TargetFeelingRepository targetFeelingRepository) {
+    this.targetFeelingRepository = targetFeelingRepository;
   }
 
   public Set<Post> getPostsForUser(User user) {
@@ -30,8 +27,11 @@ public class PostService {
 
   private Collection<Post> getPostsForFeeling(Feeling feeling) {
     Collection<Post> postsForFeeling = new HashSet<>();
-    Set<TargetFeeling> targetFeelings = feelingMatcherMap.getEmotionToEmotionMatrix().get(feeling);
-    targetFeelings.forEach(targetFeeling -> postsForFeeling.addAll(postRepository.findByTargetFeeling(targetFeeling)));
+    Set<Emotion> emotions = FeelingMatcherMap.getEmotionToEmotionMatrix().get(feeling.getEmoji());
+    emotions.forEach(emotion -> {
+      targetFeelingRepository.findByEmotion(emotion)
+        .map(targetFeeling -> postsForFeeling.add(targetFeeling.getPost()));
+    });
     return postsForFeeling;
   }
 }

@@ -1,13 +1,10 @@
 package org.codevscovid19.stayhappyathome.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "POSTS")
@@ -30,24 +27,16 @@ public class Post {
   @OneToMany
   private List<PostReaction> postReactions;
 
-  @NotNull
-  @ElementCollection(targetClass = TargetFeeling.class)
-  @CollectionTable(name = "target_feelings", joinColumns = @JoinColumn(name = "target_feeling_id"))
-  @Column(name = "target_feeling")
-  @Enumerated(EnumType.STRING)
-  private Set<TargetFeeling> targetFeelings;
-
   private Post() {
     // for Jackson
   }
 
-  public Post(String title, String description, URL link, byte[] picture, User user, Set<TargetFeeling> targetFeelings) {
+  public Post(String title, String description, URL link, byte[] picture, User user) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
     this.user = user;
-    this.targetFeelings = targetFeelings;
   }
 
   public Long getId() {
@@ -104,14 +93,6 @@ public class Post {
 
   public void setPostReactions(List<PostReaction> postReactions) {
     this.postReactions = postReactions;
-  }
-
-  public Set<TargetFeeling> getTargetFeelings() {
-    return targetFeelings;
-  }
-
-  public void setTargetFeelings(Set<TargetFeeling> targetFeelings) {
-    this.targetFeelings = targetFeelings;
   }
 
   @Override

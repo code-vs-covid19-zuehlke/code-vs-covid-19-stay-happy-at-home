@@ -1,11 +1,39 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import java.util.Set;
+import javax.persistence.*;
 
-public enum TargetFeeling {
-  HAPPY, RELAXED, ACCOMPLISHED, INFORMED, ENERGIZED, AWWW, INSPIRED, ENTERTAINED;
+@Entity
+@Table(name = "TARGET_FEELINGS")
+public class TargetFeeling {
 
-  public static Set<TargetFeeling> getAll() {
-    return Set.of(HAPPY, RELAXED, ACCOMPLISHED, INFORMED, ENERGIZED, AWWW, INSPIRED, ENTERTAINED);
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @ManyToOne
+  private Post post;
+
+  @Column
+  private Emotion emotion;
+
+  public TargetFeeling(Post post, Emotion emotion) {
+    this.post = post;
+    this.emotion = emotion;
+  }
+
+  public Post getPost() {
+    return post;
+  }
+
+  public void setPost(Post post) {
+    this.post = post;
+  }
+
+  public Emotion getEmotion() {
+    return emotion;
+  }
+
+  public void setEmotion(Emotion emotion) {
+    this.emotion = emotion;
   }
 }

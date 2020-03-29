@@ -1,16 +1,11 @@
 package org.codevscovid19.stayhappyathome.controller;
 
-import com.google.common.collect.Lists;
 import org.codevscovid19.stayhappyathome.dto.PostDto;
 import org.codevscovid19.stayhappyathome.dto.PostReactionDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyReactionDto;
 import org.codevscovid19.stayhappyathome.entity.*;
-import org.codevscovid19.stayhappyathome.repository.PostReactionRepository;
-import org.codevscovid19.stayhappyathome.repository.PostRepository;
-import org.codevscovid19.stayhappyathome.repository.ReplyReactionRepository;
-import org.codevscovid19.stayhappyathome.repository.ReplyRepository;
-import org.codevscovid19.stayhappyathome.repository.UserRepository;
+import org.codevscovid19.stayhappyathome.repository.*;
 import org.codevscovid19.stayhappyathome.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -40,17 +34,19 @@ public class PostResource {
   private final PostService postService;
   private final PostReactionRepository postReactionRepository;
   private final ReplyReactionRepository replyReactionRepository;
+  private final TargetFeelingRepository targetFeelingRepository;
 
   @Autowired
   public PostResource(PostRepository postRepository, ReplyRepository replyRepository,
                       PostReactionRepository postReactionRepository, ReplyReactionRepository replyReactionRepository,
-                      UserRepository userRepository, PostService postService) {
+                      UserRepository userRepository, PostService postService, TargetFeelingRepository targetFeelingRepository) {
     this.postRepository = postRepository;
     this.replyRepository = replyRepository;
     this.userRepository = userRepository;
     this.postService = postService;
     this.postReactionRepository = postReactionRepository;
     this.replyReactionRepository = replyReactionRepository;
+    this.targetFeelingRepository = targetFeelingRepository;
   }
 
   @GetMapping(path = "", produces = "application/json")
@@ -65,7 +61,8 @@ public class PostResource {
                                           @RequestBody PostDto postDto) {
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
 
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user, postDto.getTargetFeelings());
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), postDto.getPicture(), user);
+    postDto.getTargetFeelings().forEach(targetFeeling -> targetFeelingRepository.save(new TargetFeeling(post, targetFeeling.getEmotion())));
 
     Post newPost = postRepository.save(post);
     return ResponseEntity.ok(newPost);
