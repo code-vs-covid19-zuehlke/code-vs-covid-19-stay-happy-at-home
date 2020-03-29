@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.Set;
 
 public class PostDto {
-  private Long id;
   private String title;
   private String description;
   private URL link;
@@ -23,14 +22,6 @@ public class PostDto {
     this.picture = picture;
     this.targetFeelings = targetFeelings;
     this.photoContentType = photoContentType;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getTitle() {
