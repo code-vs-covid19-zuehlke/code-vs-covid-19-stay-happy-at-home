@@ -10,7 +10,7 @@ import 'package:happyathome/utils/FallbackImage.dart';
 
 class PostCreation {
   static Future<Post> create(String title, String description, String link,
-      File image, Set<Emotion> emotions) async {
+      File image, Set<Emotion> emotions, int requiredTime) async {
     Uint8List binaryData;
     if (image == null) {
       binaryData = await FallbackImage.bytes();
@@ -20,7 +20,7 @@ class PostCreation {
 
     final post = await Backend.postPost(CreatePost(title, description, link,
         base64.encode(binaryData), "image/jpg",
-        emotions.map((em) => TargetFeeling(em)).toSet()));
+        emotions.map((em) => TargetFeeling(em)).toSet(), requiredTime));
     return post;
   }
 }
