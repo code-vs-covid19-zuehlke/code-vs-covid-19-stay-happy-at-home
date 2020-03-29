@@ -81,7 +81,7 @@ public class ReactionService {
 
   public ReactionSummaryDto getReactionSummaryForReply(Long replyId) {
     Reply reply = replyRepository.findById(replyId)
-      .orElseThrow(() -> new HansNotFoundException(String.format("Reply", replyId)));
+      .orElseThrow(() -> new HansNotFoundException("Reply", replyId));
     ReactionSummaryDto reactionSummary = new ReactionSummaryDto();
 
     List<ReplyReaction> replyReactions = replyReactionRepository.findAllByReplyEquals(reply);
