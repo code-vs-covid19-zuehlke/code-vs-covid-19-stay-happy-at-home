@@ -1,7 +1,5 @@
 package org.codevscovid19.stayhappyathome.dto;
 
-import org.codevscovid19.stayhappyathome.entity.TargetFeeling;
-
 import java.net.URL;
 import java.util.Set;
 
@@ -11,14 +9,14 @@ public class PostDto {
   private String description;
   private URL link;
   private byte[] picture;
-  private Set<TargetFeeling> targetFeelings;
+  private Set<TargetFeelingDto> targetFeelings;
   private String photoContentType;
 
   private PostDto() {
     // for Jackson
   }
 
-  public PostDto(String title, String description, URL link, byte[] picture, Set<TargetFeeling> targetFeelings, String photoContentType) {
+  public PostDto(String title, String description, URL link, byte[] picture, Set<TargetFeelingDto> targetFeelings, String photoContentType) {
     this.title = title;
     this.description = description;
     this.link = link;
@@ -67,11 +65,11 @@ public class PostDto {
     this.picture = picture;
   }
 
-  public void setTargetFeelings(Set<TargetFeeling> targetFeelings) {
+  public void setTargetFeelings(Set<TargetFeelingDto> targetFeelings) {
     this.targetFeelings = targetFeelings;
   }
 
-  public Set<TargetFeeling> getTargetFeelings() {
+  public Set<TargetFeelingDto> getTargetFeelings() {
     return this.targetFeelings;
   }
 
