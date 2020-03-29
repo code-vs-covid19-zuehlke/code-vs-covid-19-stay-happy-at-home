@@ -16,11 +16,12 @@ class UserWidget extends StatelessWidget {
           return Column(children: <Widget>[
             SizedBox(height: 15),
             CircleAvatar(
-              backgroundImage: AssetImage('assets/profile_picture.jpg'),
-              radius: 70,),
+              backgroundImage: AssetImage("assets/profile_picture.jpg"),
+              radius: 70,
+            ),
             SizedBox(height: 15),
-            Text("Hi ${snapshot.data.name}", style: TextStyle(fontSize: 36,
-                fontFamily: "Comfortaa")),
+            Text("Hi ${snapshot.data.name}",
+                style: TextStyle(fontSize: 36, fontFamily: "Comfortaa")),
             SizedBox(height: 15),
           ]);
         } else if (snapshot.hasError) {

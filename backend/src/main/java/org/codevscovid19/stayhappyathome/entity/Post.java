@@ -1,9 +1,13 @@
 package org.codevscovid19.stayhappyathome.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "POSTS")
@@ -22,8 +26,10 @@ public class Post {
 
   @Column(name = "link")
   private URL link;
+
   @Column(name = "picture")
   private URL picture;
+
   @Column(name = "photo_content_type")
   private String photoContentType;
 
@@ -33,8 +39,19 @@ public class Post {
   @OneToMany
   private List<PostReaction> postReactions;
 
+  @OneToMany
+  private List<Reply> replies;
+
   private Post() {
     // for Jackson
+  }
+
+  public Post(String title, String description, URL link, User user, Set<TargetFeeling> targetFeelings) {
+    this.title = title;
+    this.description = description;
+    this.link = link;
+    this.user = user;
+    this.targetFeelings = targetFeelings;
   }
 
   public Post(String title, String description, URL link, URL picture, User user, String photoContentType) {
@@ -44,6 +61,24 @@ public class Post {
     this.picture = picture;
     this.user = user;
     this.photoContentType = photoContentType;
+  }
+
+  @JsonIgnore
+  @Transient
+  public void addReaction(PostReaction postReaction) {
+    if (postReactions == null) {
+      postReactions = new ArrayList<>();
+    }
+    postReactions.add(postReaction);
+  }
+
+  @JsonIgnore
+  @Transient
+  public void addReply(Reply reply) {
+    if (replies == null) {
+      replies = new ArrayList<>();
+    }
+    replies.add(reply);
   }
 
   public Long getId() {
@@ -110,6 +145,19 @@ public class Post {
     this.photoContentType = photoContentType;
   }
 
+  public void updatePhoto(URL photoUrl, String photoContentType) {
+    this.picture = photoUrl;
+    this.photoContentType = photoContentType;
+  }
+
+  public List<Reply> getReplies() {
+    return replies;
+  }
+
+  public void setReplies(List<Reply> replies) {
+    this.replies = replies;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -122,11 +170,13 @@ public class Post {
       Objects.equals(picture, post.picture) &&
       Objects.equals(photoContentType, post.photoContentType) &&
       Objects.equals(user, post.user) &&
-      Objects.equals(postReactions, post.postReactions);
+      Objects.equals(postReactions, post.postReactions) &&
+      Objects.equals(targetFeelings, post.targetFeelings) &&
+      Objects.equals(replies, post.replies);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions);
+    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions, targetFeelings, replies);
   }
 }

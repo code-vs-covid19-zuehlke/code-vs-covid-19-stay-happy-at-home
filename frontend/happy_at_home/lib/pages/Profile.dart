@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
 
@@ -103,6 +104,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
+      bottomNavigationBar: ProfileBottomBar(),
     );
   }
 
@@ -112,3 +114,61 @@ class _ProfileState extends State<Profile> {
     });
   }
 }
+
+class ProfileBottomBar extends StatelessWidget {
+  const ProfileBottomBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomBarWidget(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.greenAccent,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "00:24:30",
+                    style: TextStyle(
+                      fontFamily: "Comfortaa",
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Text("Add more time...",
+                style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey
+                ),),
+            ],
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              "Back",
+              style: TextStyle(color: Colors.white),
+            ),
+            color: Colors.black,
+          ),
+          SizedBox(
+            width: 50,
+          ),
+        ],
+      ),
+    );
+  }
+}
+

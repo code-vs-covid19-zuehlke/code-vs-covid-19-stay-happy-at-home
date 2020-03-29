@@ -5,6 +5,7 @@ import org.codevscovid19.stayhappyathome.dto.PostReactionDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyDto;
 import org.codevscovid19.stayhappyathome.dto.ReplyReactionDto;
 import org.codevscovid19.stayhappyathome.entity.*;
+import org.codevscovid19.stayhappyathome.login.HansNotFoundException;
 import org.codevscovid19.stayhappyathome.repository.*;
 import org.codevscovid19.stayhappyathome.service.PhotoService;
 import org.codevscovid19.stayhappyathome.service.PostService;
@@ -50,21 +51,24 @@ public class PostResource {
 
   @GetMapping(path = "", produces = "application/json")
   public ResponseEntity<Set<Post>> getPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId) {
-    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
+    User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
 
     return ResponseEntity.ok(postService.getPostsForUser(user));
   }
 
   @PostMapping(path = "", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<Post> createPosts(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
+  public ResponseEntity<Post> createPost(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                           @RequestBody PostDto postDto) throws IOException {
-    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
-    URL photoUrl = photoService.writeBytesToGcp("post-" + postDto.getId(), postDto.getPicture(), postDto.getPhotoContentType());
+    User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), user);
 
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), photoUrl, user, postDto.getPhotoContentType());
     postDto.getTargetFeelings().forEach(targetFeeling -> targetFeelingRepository.save(new TargetFeeling(post, targetFeeling.getEmotion())));
 
     Post newPost = postRepository.save(post);
+
+    URL photoUrl = photoService.writeBytesToStorage("post-" + newPost.getId(), postDto.getPicture(), postDto.getPhotoContentType());
+    newPost.updatePhoto(photoUrl, postDto.getPhotoContentType());
+    postRepository.save(newPost);
     return ResponseEntity.ok(newPost);
   }
 
@@ -79,12 +83,17 @@ public class PostResource {
   public ResponseEntity<Reply> createReply(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                            @PathVariable("postId") Long postId,
                                            @RequestBody ReplyDto replyDto) throws IOException {
-    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
-    URL photoUrl = photoService.writeBytesToGcp("reply-" + replyDto.getId(), replyDto.getPicture(), replyDto.getPhotoContentType());
-
-    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), photoUrl, user, Collections.emptyList(), replyDto.getPhotoContentType());
-
+    User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
+    Post post = postRepository.findById(postId).orElseThrow(() -> new HansNotFoundException("Post", postId));
+    Reply reply = new Reply(replyDto.getTitle(), replyDto.getDescription(), replyDto.getLink(), user, Collections.emptyList());
     Reply newReply = replyRepository.save(reply);
+
+    URL photoUrl = photoService.writeBytesToStorage("reply-" + newReply.getId(), replyDto.getPicture(), replyDto.getPhotoContentType());
+    newReply.updatePhoto(photoUrl, replyDto.getPhotoContentType());
+    replyRepository.save(reply);
+
+    post.addReply(reply);
+    postRepository.save(post);
     return ResponseEntity.ok(newReply);
   }
 
@@ -92,13 +101,13 @@ public class PostResource {
   public ResponseEntity<PostReaction> createPostReaction(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                                          @PathVariable("postId") Long postId,
                                                          @RequestBody PostReactionDto reactionDto) {
-    Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Could not find Post"));
-    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
+    Post post = postRepository.findById(postId).orElseThrow(() -> new HansNotFoundException("Post", postId));
+    User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
 
-    // TODO: add reaction to post
-    PostReaction postReaction = new PostReaction(user);
-
+    PostReaction postReaction = new PostReaction(user, reactionDto.getEmoji());
     PostReaction newPostReaction = postReactionRepository.save(postReaction);
+    post.addReaction(newPostReaction);
+    postRepository.save(post);
     return ResponseEntity.ok(newPostReaction);
   }
 
@@ -107,13 +116,13 @@ public class PostResource {
                                                            @PathVariable("postId") Long postId,
                                                            @PathVariable("replyId") Long replyId,
                                                            @RequestBody ReplyReactionDto reactionDto) {
-    Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new RuntimeException("Could not find Reply"));
-    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Could not find User"));
+    Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new HansNotFoundException("Reply", replyId));
+    User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
 
-    // TODO: add reaction to reaction
-    ReplyReaction replyReaction = new ReplyReaction(user);
-
+    ReplyReaction replyReaction = new ReplyReaction(user, reactionDto.getEmoji());
     ReplyReaction newReplyReaction = replyReactionRepository.save(replyReaction);
+    reply.addReaction(newReplyReaction);
+    replyRepository.save(reply);
     return ResponseEntity.ok(newReplyReaction);
   }
 }

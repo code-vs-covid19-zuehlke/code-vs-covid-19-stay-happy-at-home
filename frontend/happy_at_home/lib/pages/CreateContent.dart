@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:happyathome/models/TargetFeeling.dart';
+import 'package:happyathome/widgets/ButtonWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
@@ -65,7 +66,11 @@ class _CreateContentState extends State<CreateContent> {
               Row(
                 children: <Widget>[
                   SizedBox(width: 16),
-                  Icon(Icons.chevron_left),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.chevron_left)),
                   SizedBox(
                     width: 20,
                   ),
@@ -114,7 +119,9 @@ class _CreateContentState extends State<CreateContent> {
                   ),
                 ),
               ),
-              ImagePickerWidget(context, _image, onChooseImage),
+              TitleCard(
+                  title: _image == null ? "Upload Picture" : "Your Picture",
+                  child: ImagePickerWidget(context, _image, onChooseImage)),
               TitleCard(
                 title: "Add Link",
                 child: TextField(
@@ -125,30 +132,15 @@ class _CreateContentState extends State<CreateContent> {
               ),
               TitleCard(
                   title: "This makes me feel...",
-                  child: TargetFeelingChooserWidget(updateTargetFeelings)
-              ),
+                  child: TargetFeelingChooserWidget(updateTargetFeelings)),
               TitleCard(
                 title: "How much time does it need?",
                 child: StyledSlider(0, updateTimePeriod),
               ),
-              Padding(
-                padding:
-                const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(15),
-                  ),
-                  onPressed: postPost,
-                  color: Colors.black,
-                  child: Text(
-                    "POST!",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+              ButtonWidget(
+                title: "POST!",
+                onPress: postPost,
               ),
-              SizedBox(
-                height: 20,
-              )
             ],
           ),
         ),

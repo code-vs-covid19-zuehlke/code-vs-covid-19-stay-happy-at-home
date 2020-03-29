@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
+import 'package:happyathome/widgets/ButtonWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
+import 'package:happyathome/widgets/TitleCard.dart';
 
 import '../UserState.dart';
 
@@ -45,25 +47,27 @@ class _RegisterState extends State<Register> {
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text("Register User Page"),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Enter your name'),
+              TitleCard(
+                title: "Who are you?",
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Nickname'),
+                  ),
                 ),
               ),
-              ImagePickerWidget(context, _image, onChooseImage),
-              FlatButton.icon(
-                onPressed: createUser,
-                label: Text(
-                  "Register now",
-                ),
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.blue,
-                ),
+              TitleCard(
+                  title: _image == null ? "Upload Picture" : "Your Picture",
+                  child: ImagePickerWidget(context, _image, onChooseImage)),
+              ButtonWidget(
+                onPress: createUser,
+                title: "Register now",
               )
             ],
           ),

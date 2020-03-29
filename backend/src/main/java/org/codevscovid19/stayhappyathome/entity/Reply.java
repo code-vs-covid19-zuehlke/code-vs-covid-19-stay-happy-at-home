@@ -1,8 +1,20 @@
 package org.codevscovid19.stayhappyathome.entity;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,8 +35,10 @@ public class Reply {
 
   @Column(name = "link")
   private URL link;
+
   @Column(name = "picture")
   private URL picture;
+
   @Column(name = "photo_content_type")
   private String photoContentType;
 
@@ -34,8 +48,20 @@ public class Reply {
   @OneToMany
   private List<ReplyReaction> replyReactions;
 
+  @ManyToOne
+  @JoinColumn(name = "post_id")
+  private Post post;
+
   private Reply() {
     // for Jackson
+  }
+
+  public Reply(String title, String description, URL link, User user, List<ReplyReaction> replyReactions) {
+    this.title = title;
+    this.description = description;
+    this.link = link;
+    this.user = user;
+    this.replyReactions = replyReactions;
   }
 
   public Reply(String title, String description, URL link, URL picture, User user, List<ReplyReaction> replyReactions, String photoContentType) {
@@ -46,6 +72,15 @@ public class Reply {
     this.user = user;
     this.replyReactions = replyReactions;
     this.photoContentType = photoContentType;
+  }
+
+  @JsonIgnore
+  @Transient
+  public void addReaction(ReplyReaction replyReaction) {
+    if (replyReactions == null) {
+      replyReactions = new ArrayList<>();
+    }
+    replyReactions.add(replyReaction);
   }
 
   public Long getId() {
@@ -112,6 +147,21 @@ public class Reply {
     this.photoContentType = photoContentType;
   }
 
+  public void updatePhoto(URL photoUrl, String photoContentType){
+    this.picture = photoUrl;
+    this.photoContentType = photoContentType;
+  }
+
+  @JsonIgnore
+  public Post getPost() {
+    return post;
+  }
+
+  @JsonIgnore
+  public void setPost(Post post) {
+    this.post = post;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -124,11 +174,12 @@ public class Reply {
       Objects.equals(picture, reply.picture) &&
       Objects.equals(photoContentType, reply.photoContentType) &&
       Objects.equals(user, reply.user) &&
-      Objects.equals(replyReactions, reply.replyReactions);
+      Objects.equals(replyReactions, reply.replyReactions) &&
+      Objects.equals(post, reply.post);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, link, picture, photoContentType, user, replyReactions);
+    return Objects.hash(id, title, description, link, picture, photoContentType, user, replyReactions, post);
   }
 }
