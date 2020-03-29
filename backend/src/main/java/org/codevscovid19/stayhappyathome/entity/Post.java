@@ -33,6 +33,7 @@ public class Post {
   private String photoContentType;
 
   @ManyToOne
+  @JoinColumn(name = "user_id")
   private User user;
 
   @OneToMany
