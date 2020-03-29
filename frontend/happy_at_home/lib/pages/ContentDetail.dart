@@ -4,6 +4,7 @@ import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/PostRatingWidget.dart';
+import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
 
 class ContentDetail extends StatefulWidget {
@@ -102,23 +103,7 @@ class ContentDetailBottomBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.greenAccent,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "00:24:30",
-                style: TextStyle(
-                  fontFamily: "Comfortaa",
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          TimerWidget(),
           RaisedButton(
             onPressed: () {
               Navigator.pop(context);

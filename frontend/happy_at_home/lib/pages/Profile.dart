@@ -4,6 +4,7 @@ import 'package:happyathome/models/User.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
 
 import '../UserState.dart';
@@ -32,7 +33,7 @@ class _ProfileState extends State<Profile> {
           child: Center(
             child: Column(
               children: <Widget>[
-                UserWidget(Backend.getUserById(UserState().user.id)),
+                UserWidget(futureUser),
                 Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24.0),
@@ -129,23 +130,7 @@ class ProfileBottomBar extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.greenAccent,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "00:24:30",
-                    style: TextStyle(
-                      fontFamily: "Comfortaa",
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
+              TimerWidget(),
               Text("Add more time...",
                 style: TextStyle(
                     fontSize: 10,

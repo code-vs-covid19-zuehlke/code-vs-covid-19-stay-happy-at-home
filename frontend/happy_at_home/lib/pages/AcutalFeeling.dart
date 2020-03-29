@@ -34,6 +34,7 @@ class _ActualFeelingState extends State<ActualFeeling> {
     var feelings = chosenFeelings.map((emoji) => Feeling(emoji)).toList();
     await Backend.setFeelings(UserState().user, feelings);
     await Backend.setTime(UserState().user, timePeriod.round());
+    UserState().user = await UserRegistration.load();
     Navigator.pushNamed(context, "/feed");
   }
 
