@@ -24,7 +24,7 @@ public class PhotoService {
     this.bucketName = bucketName;
   }
 
-  public URL writeBytesToGcp(String id, byte[] bytes, String photoContentType) throws IOException {
+  public URL writeBytesToStorage(String id, byte[] bytes, String photoContentType) throws IOException {
     GoogleStorageResource resource = new GoogleStorageResource(gcStorage, "gs://" + bucketName + "/" + id);
     try (OutputStream os = resource.getOutputStream()) {
       os.write(bytes);

@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,7 +58,7 @@ public class UserResource {
 
   @PostMapping(consumes = "application/json", produces = "application/json")
   public ResponseEntity<User> createUser(@RequestBody UserDto userDto) throws IOException {
-    URL photoUrl = photoService.writeBytesToGcp("user-" + userDto.getId(), userDto.getPhoto(), userDto.getPhotoContentType());
+    URL photoUrl = photoService.writeBytesToStorage("user-" + userDto.getId(), userDto.getPhoto(), userDto.getPhotoContentType());
 
     User user = new User(userDto.getId(), userDto.getName(), photoUrl, userDto.getPhotoContentType());
     return ResponseEntity.ok(userRepository.save(user));
