@@ -46,8 +46,8 @@ class Backend {
     return _post('post', post);
   }
 
-  static Future<Reply> postReply(Post post, Reply reply) async {
-    return _post('post/${post.id}/reply', reply);
+  static Future<Reply> postReply(Post post, CreateReply reply) async {
+    return _post('reply/post/${post.id}', reply);
   }
 
   static Future<Reaction> postReactionToPost(Post post, Reaction reaction) async {
@@ -55,7 +55,7 @@ class Backend {
   }
 
   static Future<Reaction> postReactionToReply(Post post, Reply reply, Reaction reaction) async {
-    return _post('post/${post.id}/reply/${reply.id}/reaction', reaction);
+    return _post('reply/${reply.id}/reaction', reaction);
   }
 
   // ------------------------------------------------------------------------------
@@ -123,6 +123,7 @@ class Backend {
       typeOf<Set<TargetFeeling>>(): (value) => value.cast<TargetFeeling>(),
       typeOf<List<Post>>(): (value) => value.cast<Post>(),
       typeOf<List<Reaction>>(): (value) => value.cast<Reaction>(),
+      typeOf<List<Reply>>(): (value) => value.cast<Reply>(),
     }));
   }
 }

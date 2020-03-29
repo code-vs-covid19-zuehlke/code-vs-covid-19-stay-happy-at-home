@@ -42,24 +42,29 @@ public class Post {
   @OneToMany
   private List<Reply> replies;
 
+  @Column(name = "required_time")
+  private Integer requiredTime;
+
   private Post() {
     // for Jackson
   }
 
-  public Post(String title, String description, URL link, User user) {
+  public Post(String title, String description, URL link, User user, Integer requiredTime) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.user = user;
+    this.requiredTime = requiredTime;
   }
 
-  public Post(String title, String description, URL link, URL picture, User user, String photoContentType) {
+  public Post(String title, String description, URL link, URL picture, User user, String photoContentType, Integer requiredTime) {
     this.title = title;
     this.description = description;
     this.link = link;
     this.picture = picture;
     this.user = user;
     this.photoContentType = photoContentType;
+    this.requiredTime = requiredTime;
   }
 
   @JsonIgnore
@@ -157,6 +162,14 @@ public class Post {
     this.replies = replies;
   }
 
+  public Integer getRequiredTime() {
+    return requiredTime;
+  }
+
+  public void setRequiredTime(Integer requiredTime) {
+    this.requiredTime = requiredTime;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -170,11 +183,12 @@ public class Post {
       Objects.equals(photoContentType, post.photoContentType) &&
       Objects.equals(user, post.user) &&
       Objects.equals(postReactions, post.postReactions) &&
-      Objects.equals(replies, post.replies);
+      Objects.equals(replies, post.replies) &&
+      Objects.equals(requiredTime, post.requiredTime);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions, replies);
+    return Objects.hash(id, title, description, link, picture, photoContentType, user, postReactions, replies, requiredTime);
   }
 }

@@ -28,13 +28,13 @@ public class ReactionIntegrationTest {
   private int port;
   private String baseUri = "http://localhost";
   private String basePath = "/api/v1";
-  public static final String USER_ID_MEISTER = "meister";
+  private static final String USER_ID_MEISTER = "meister";
   private static final String USER_ID_KLEISTER = "kleister";
-  public static final Headers HEADERS_MEISTER = new Headers(new Header("X-User-Id", USER_ID_MEISTER));
-  public static final Headers HEADERS_KLEISTER = new Headers(new Header("X-User-Id", USER_ID_KLEISTER));
+  private static final Headers HEADERS_MEISTER = new Headers(new Header("X-User-Id", USER_ID_MEISTER));
+  private static final Headers HEADERS_KLEISTER = new Headers(new Header("X-User-Id", USER_ID_KLEISTER));
 
   @Test
-  public void testReactions() {
+  void testReactions() {
     createUser(USER_ID_MEISTER, "Hans12");
     createUser(USER_ID_KLEISTER, "Hans99");
     IdContainer post = createPost(HEADERS_MEISTER);
@@ -104,7 +104,7 @@ public class ReactionIntegrationTest {
       .port(port)
       .headers(headers)
       .contentType(ContentType.JSON)
-      .body(new PostDto("Title", "Description", null, new byte[]{}, Set.of(new TargetFeelingDto(Emotion.AWWW)), "image/png"))
+      .body(new PostDto("Title", "Description", null, new byte[]{}, Set.of(new TargetFeelingDto(Emotion.AWWW)), "image/png", 10))
       .when()
       .post("/post")
       .then()

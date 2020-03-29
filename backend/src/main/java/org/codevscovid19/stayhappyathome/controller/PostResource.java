@@ -2,6 +2,7 @@ package org.codevscovid19.stayhappyathome.controller;
 
 import org.codevscovid19.stayhappyathome.dto.PostDto;
 import org.codevscovid19.stayhappyathome.dto.PostReactionDto;
+import org.codevscovid19.stayhappyathome.dto.ReactionSummaryDto;
 import org.codevscovid19.stayhappyathome.entity.Post;
 import org.codevscovid19.stayhappyathome.entity.PostReaction;
 import org.codevscovid19.stayhappyathome.entity.TargetFeeling;
@@ -13,6 +14,7 @@ import org.codevscovid19.stayhappyathome.repository.TargetFeelingRepository;
 import org.codevscovid19.stayhappyathome.repository.UserRepository;
 import org.codevscovid19.stayhappyathome.service.PhotoService;
 import org.codevscovid19.stayhappyathome.service.PostService;
+import org.codevscovid19.stayhappyathome.service.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,16 +37,19 @@ public class PostResource {
   private final PostReactionRepository postReactionRepository;
   private final TargetFeelingRepository targetFeelingRepository;
   private final PhotoService photoService;
+  private final ReactionService reactionService;
 
   @Autowired
   public PostResource(PostRepository postRepository, PostReactionRepository postReactionRepository, UserRepository userRepository,
-                      PostService postService, PhotoService photoService, TargetFeelingRepository targetFeelingRepository) {
+                      PostService postService, PhotoService photoService, TargetFeelingRepository targetFeelingRepository,
+                      ReactionService reactionService) {
     this.postRepository = postRepository;
     this.userRepository = userRepository;
     this.postService = postService;
     this.postReactionRepository = postReactionRepository;
     this.targetFeelingRepository = targetFeelingRepository;
     this.photoService = photoService;
+    this.reactionService = reactionService;
   }
 
   @GetMapping(path = "", produces = "application/json")
@@ -58,7 +63,7 @@ public class PostResource {
   public ResponseEntity<Post> createPost(@RequestHeader(name = USER_ID_HEADER_NAME) String userId,
                                          @RequestBody PostDto postDto) throws IOException {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
-    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), user);
+    Post post = new Post(postDto.getTitle(), postDto.getDescription(), postDto.getLink(), user, postDto.getRequiredTime());
 
     postDto.getTargetFeelings().forEach(targetFeeling -> targetFeelingRepository.save(new TargetFeeling(post, targetFeeling.getEmotion())));
 
@@ -85,10 +90,17 @@ public class PostResource {
     User user = userRepository.findById(userId).orElseThrow(() -> new HansNotFoundException("User", userId));
 
     PostReaction postReaction = new PostReaction(user, reactionDto.getEmoji());
+    postReaction.setPost(post);
     PostReaction newPostReaction = postReactionRepository.save(postReaction);
     post.addReaction(newPostReaction);
     postRepository.save(post);
     return ResponseEntity.ok(newPostReaction);
+  }
+
+  @GetMapping(path = "/{postId}/reactions")
+  public ResponseEntity<ReactionSummaryDto> getReactionSummary(@PathVariable("postId") Long postId) {
+    ReactionSummaryDto reactionSummary = reactionService.getReactionSummaryForPost(postId);
+    return ResponseEntity.ok(reactionSummary);
   }
 
 }
