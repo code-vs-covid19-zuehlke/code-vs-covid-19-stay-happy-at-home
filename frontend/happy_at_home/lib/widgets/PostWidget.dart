@@ -29,21 +29,27 @@ class PostWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            PostImage(post.picture, 7),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: <Widget>[
-                Text(
-                  post.title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                PostImage(post.picture, 7),
+                SizedBox(width: 10,),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      post.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(post.description),
+                    PostRatingWidget(null, false),
+                  ],
                 ),
-                Text(post.description),
-                PostRatingWidget(null, false),
               ],
             ),
+
             SizedBox(
               width: 20,
             ),
