@@ -1,10 +1,13 @@
 package org.codevscovid19.stayhappyathome.controller;
 
 import org.codevscovid19.stayhappyathome.dto.FeelingDto;
+import org.codevscovid19.stayhappyathome.dto.TimeRecordDto;
 import org.codevscovid19.stayhappyathome.dto.UserDto;
 import org.codevscovid19.stayhappyathome.entity.Feeling;
 import org.codevscovid19.stayhappyathome.entity.FeelingRecord;
+import org.codevscovid19.stayhappyathome.entity.TimeRecord;
 import org.codevscovid19.stayhappyathome.entity.User;
+import org.codevscovid19.stayhappyathome.login.HansNotFoundException;
 import org.codevscovid19.stayhappyathome.repository.FeelingRepository;
 import org.codevscovid19.stayhappyathome.repository.UserRepository;
 import org.slf4j.Logger;
@@ -23,8 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,21 +67,27 @@ public class UserResource {
     return ResponseEntity.ok(userRepository.save(user));
   }
 
+  @PutMapping(path = "/{id}/time", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<Void> addAvailableTime(@PathVariable String id, @RequestBody TimeRecordDto timeRecordDto) {
+    User user = userRepository.findById(id).orElseThrow(() -> new HansNotFoundException("User", id));
+    TimeRecord timeRecord = new TimeRecord(timeRecordDto.getAvailableTime());
+    user.addTimeRecord(timeRecord);
+    userRepository.save(user);
+    return ResponseEntity.ok().build();
+  }
+
   @PutMapping(path = "/{id}/feeling", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Void> addFeelings(@PathVariable String id, @RequestBody List<FeelingDto> feelingDtos) {
-    Optional<User> userEntity = userRepository.findById(id);
-    if (userEntity.isPresent()) {
-      User user = userEntity.get();
-      List<Feeling> feelings = feelingDtos.stream()
-        .map(feelingDto -> new Feeling(feelingDto.getEmoji()))
-        .collect(Collectors.toList());
-      FeelingRecord feelingRecord = new FeelingRecord(feelings);
-      user.addFeelings(feelingRecord);
-      User saved = userRepository.save(user);
-      logger.debug("user after save: " + saved);
-      return ResponseEntity.ok().build();
-    }
-    return ResponseEntity.notFound().build();
+    User user = userRepository.findById(id).orElseThrow(() -> new HansNotFoundException("User", id));
+
+    List<Feeling> feelings = feelingDtos.stream()
+      .map(feelingDto -> new Feeling(feelingDto.getEmoji()))
+      .collect(Collectors.toList());
+    FeelingRecord feelingRecord = new FeelingRecord(feelings);
+    user.addFeelings(feelingRecord);
+    User saved = userRepository.save(user);
+    logger.debug("user after save: " + saved);
+    return ResponseEntity.ok().build();
   }
 
   @GetMapping(path = "/{id}/feeling", produces = "application/json")
