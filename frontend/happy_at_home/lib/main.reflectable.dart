@@ -2,7 +2,6 @@
 // https://github.com/dart-lang/reflectable.
 
 import 'dart:core';
-
 import 'package:dart_json_mapper/src/model/annotations.dart' as prefix0;
 import 'package:happyathome/models/Emoji.dart' as prefix7;
 import 'package:happyathome/models/Feeling.dart' as prefix3;
@@ -12,9 +11,18 @@ import 'package:happyathome/models/Reply.dart' as prefix4;
 import 'package:happyathome/models/TargetFeeling.dart' as prefix6;
 import 'package:happyathome/models/User.dart' as prefix1;
 import 'package:happyathome/utils/EnumStringConverter.dart' as prefix8;
+
+// ignore_for_file: prefer_adjacent_string_concatenation
+// ignore_for_file: prefer_collection_literals
+// ignore_for_file: unnecessary_const
+// ignore_for_file: implementation_imports
+
+// ignore:unused_import
 import 'package:reflectable/mirrors.dart' as m;
-import 'package:reflectable/reflectable.dart' as r show Reflectable;
+// ignore:unused_import
 import 'package:reflectable/src/reflectable_builder_based.dart' as r;
+// ignore:unused_import
+import 'package:reflectable/reflectable.dart' as r show Reflectable;
 
 final _data = <r.Reflectable, r.ReflectorData>{
   const prefix0.JsonSerializable(): r.ReflectorData(
@@ -130,19 +138,12 @@ final _data = <r.Reflectable, r.ReflectorData>{
             {},
             {},
             {
-              r'': (b) =>
-                  (id, title, description, link, picture,
-                  photoContentType, targetFeelings) =>
-              b
-                  ? prefix5.Post(
-                  id,
-                  title,
-                  description,
-                  link,
-                  picture,
-                  photoContentType,
-                  targetFeelings)
-                  : null
+              r'': (b) => (id, title, description, link, picture,
+                      photoContentType, targetFeelings) =>
+                  b
+                      ? prefix5.Post(id, title, description, link, picture,
+                          photoContentType, targetFeelings)
+                      : null
             },
             -1,
             5,
@@ -162,13 +163,12 @@ final _data = <r.Reflectable, r.ReflectorData>{
             {},
             {},
             {
-              r'': (b) =>
-                  (title, description, link, picture, photoContentType,
-                  targetFeelings) =>
-              b
-                  ? prefix5.CreatePost(title, description, link, picture,
-                  photoContentType, targetFeelings)
-                  : null
+              r'': (b) => (title, description, link, picture, photoContentType,
+                      targetFeelings) =>
+                  b
+                      ? prefix5.CreatePost(title, description, link, picture,
+                          photoContentType, targetFeelings)
+                      : null
             },
             -1,
             6,
@@ -220,11 +220,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
       ],
       <m.DeclarationMirror>[
         r.VariableMirrorImpl(r'id', 33797, 0, const prefix0.JsonSerializable(),
-            -1,
-            9,
-            9,
-            const <int>[],
-            const []),
+            -1, 9, 9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'name',
             33797,
@@ -232,9 +228,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'photo',
             33797,
@@ -242,9 +236,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'photoContentType',
             33797,
@@ -252,9 +244,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'feelings',
             2130949,
@@ -266,11 +256,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const <int>[3],
             const []),
         r.VariableMirrorImpl(r'id', 33797, 1, const prefix0.JsonSerializable(),
-            -1,
-            9,
-            9,
-            const <int>[],
-            const []),
+            -1, 9, 9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'name',
             33797,
@@ -278,9 +264,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'photo',
             33797,
@@ -288,9 +272,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'photoContentType',
             33797,
@@ -298,15 +280,9 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(r'id', 33797, 2, const prefix0.JsonSerializable(),
-            -1,
-            9,
-            9,
-            const <int>[],
-            const []),
+            -1, 9, 9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'emoji',
             33797,
@@ -314,25 +290,15 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             8,
             8,
-            8,
-            const <int>[],
-            const <Object>[
+            8, const <int>[], const <Object>[
           const prefix0.JsonProperty(
               converter:
                   const prefix8.EnumStringConverter(prefix7.Emoji.values))
         ]),
         r.VariableMirrorImpl(r'id', 33797, 4, const prefix0.JsonSerializable(),
-            -1,
-            9,
-            9,
-            const <int>[],
-            const []),
+            -1, 9, 9, const <int>[], const []),
         r.VariableMirrorImpl(r'id', 33797, 5, const prefix0.JsonSerializable(),
-            -1,
-            9,
-            9,
-            const <int>[],
-            const []),
+            -1, 12, 12, const <int>[], const []),
         r.VariableMirrorImpl(
             r'title',
             33797,
@@ -340,9 +306,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'description',
             33797,
@@ -350,9 +314,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'link',
             33797,
@@ -360,9 +322,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'picture',
             33797,
@@ -370,9 +330,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'photoContentType',
             33797,
@@ -380,17 +338,15 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'targetFeelings',
             2130949,
             5,
             const prefix0.JsonSerializable(),
             -1,
-            12,
             13,
+            14,
             const <int>[7],
             const []),
         r.VariableMirrorImpl(
@@ -400,9 +356,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'description',
             33797,
@@ -410,9 +364,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'link',
             33797,
@@ -420,9 +372,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'picture',
             33797,
@@ -430,9 +380,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'photoContentType',
             33797,
@@ -440,18 +388,16 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             9,
-            9,
-            const <int>[],
-            const []),
+            9, const <int>[], const []),
         r.VariableMirrorImpl(
             r'targetFeelings',
             2130949,
             6,
             const prefix0.JsonSerializable(),
             -1,
-            12,
-            13,
-            const <int>[7],
+            15,
+            16,
+            const <int>[9],
             const []),
         r.VariableMirrorImpl(
             r'index',
@@ -459,20 +405,16 @@ final _data = <r.Reflectable, r.ReflectorData>{
             7,
             const prefix0.JsonSerializable(),
             -1,
-            14,
-            14,
-            const <int>[],
-            const []),
+            12,
+            12, const <int>[], const []),
         r.VariableMirrorImpl(
             r'index',
             33861,
             8,
             const prefix0.JsonSerializable(),
             -1,
-            14,
-            14,
-            const <int>[],
-            const []),
+            12,
+            12, const <int>[], const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 0, 27),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 1, 28),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 2, 29),
@@ -489,23 +431,9 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const <int>[0, 1, 2, 3, 4],
             const prefix0.JsonSerializable(),
             const []),
-        r.MethodMirrorImpl(
-            r'==',
-            131074,
-            null,
-            -1,
-            15,
-            15,
-            const <int>[],
+        r.MethodMirrorImpl(r'==', 131074, null, -1, 17, 17, const <int>[],
             const <int>[5], const prefix0.JsonSerializable(), const []),
-        r.MethodMirrorImpl(
-            r'toString',
-            131074,
-            null,
-            -1,
-            9,
-            9,
-            const <int>[],
+        r.MethodMirrorImpl(r'toString', 131074, null, -1, 9, 9, const <int>[],
             const <int>[], const prefix0.JsonSerializable(), const []),
         r.MethodMirrorImpl(
             r'noSuchMethod',
@@ -518,22 +446,15 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const <int>[6],
             const prefix0.JsonSerializable(),
             const []),
-        r.MethodMirrorImpl(
-            r'hashCode',
-            131075,
-            null,
-            -1,
-            14,
-            14,
-            const <int>[],
+        r.MethodMirrorImpl(r'hashCode', 131075, null, -1, 12, 12, const <int>[],
             const <int>[], const prefix0.JsonSerializable(), const []),
         r.MethodMirrorImpl(
             r'runtimeType',
             131075,
             null,
             -1,
-            16,
-            16,
+            18,
+            18,
             const <int>[],
             const <int>[],
             const prefix0.JsonSerializable(),
@@ -597,24 +518,10 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const <int>[21, 22, 23, 24, 25, 26],
             const prefix0.JsonSerializable(),
             const []),
-        r.MethodMirrorImpl(
-            r'toString',
-            131138,
-            7,
-            -1,
-            9,
-            9,
-            const <int>[],
+        r.MethodMirrorImpl(r'toString', 131138, 7, -1, 9, 9, const <int>[],
             const <int>[], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 25, 65),
-        r.MethodMirrorImpl(
-            r'toString',
-            131138,
-            8,
-            -1,
-            9,
-            9,
-            const <int>[],
+        r.MethodMirrorImpl(r'toString', 131138, 8, -1, 9, 9, const <int>[],
             const <int>[], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 26, 67)
       ],
@@ -697,8 +604,8 @@ final _data = <r.Reflectable, r.ReflectorData>{
             35,
             const prefix0.JsonSerializable(),
             -1,
-            17,
-            17,
+            19,
+            19,
             const <int>[],
             const [],
             null,
@@ -793,8 +700,8 @@ final _data = <r.Reflectable, r.ReflectorData>{
             56,
             const prefix0.JsonSerializable(),
             -1,
-            9,
-            9,
+            12,
+            12,
             const <int>[],
             const [],
             null,
@@ -865,8 +772,8 @@ final _data = <r.Reflectable, r.ReflectorData>{
             56,
             const prefix0.JsonSerializable(),
             -1,
-            12,
             13,
+            14,
             const <int>[7],
             const [],
             null,
@@ -937,9 +844,9 @@ final _data = <r.Reflectable, r.ReflectorData>{
             63,
             const prefix0.JsonSerializable(),
             -1,
-            12,
-            13,
-            const <int>[7],
+            15,
+            16,
+            const <int>[9],
             const [],
             null,
             null)
@@ -957,9 +864,11 @@ final _data = <r.Reflectable, r.ReflectorData>{
         String,
         const m.TypeValue<List<prefix3.Feeling>>().type,
         List,
+        int,
         const m.TypeValue<Set<prefix6.TargetFeeling>>().type,
         Set,
-        int,
+        const m.TypeValue<Set<String>>().type,
+        Set,
         bool,
         Type,
         Invocation
