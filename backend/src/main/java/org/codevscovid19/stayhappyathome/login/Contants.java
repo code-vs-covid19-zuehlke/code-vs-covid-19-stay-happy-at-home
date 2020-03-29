@@ -1,7 +1,7 @@
 package org.codevscovid19.stayhappyathome.login;
 
 public class Contants {
-  private Contants(){
+  private Contants() {
     // empty constructor to hide public one
   }
 
