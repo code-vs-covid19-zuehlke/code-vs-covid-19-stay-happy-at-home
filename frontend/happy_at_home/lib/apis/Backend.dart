@@ -3,6 +3,7 @@ import 'package:happyathome/UserState.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
+import 'package:happyathome/models/ReactionSummary.dart';
 import 'package:happyathome/models/Reply.dart';
 import 'package:happyathome/models/TargetFeeling.dart';
 import 'package:happyathome/models/Time.dart';
@@ -32,6 +33,10 @@ class Backend {
 
   static Future<String> setTime(User user, int time) async {
     return _putRaw('user/${user.id}/time', CreateTime(time));
+  }
+
+  static Future<ReactionSummary> getReactionSummaryReceived() async {
+    return _get('user/reactions/received');
   }
 
   static Future<Post> getPostById(int id) async {
