@@ -6,6 +6,7 @@ import 'package:happyathome/usecases/PostCreation.dart';
 import 'package:happyathome/widgets/ButtonWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
+import 'package:happyathome/widgets/LoadingOverlayWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
 import 'package:happyathome/widgets/TargetFeelingChooserWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
@@ -22,6 +23,7 @@ class _CreateContentState extends State<CreateContent> {
   File _image;
   List<Emotion> chosenFeelings;
   double timePeriod;
+  bool loading = false;
 
   void onChooseImage(image) {
     setState(() {
@@ -38,6 +40,9 @@ class _CreateContentState extends State<CreateContent> {
   }
 
   void postPost() async {
+    setState(() {
+      loading = true;
+    });
     await PostCreation.create(
         titleController.text,
         descriptionController.text,
@@ -66,89 +71,92 @@ class _CreateContentState extends State<CreateContent> {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 16),
-                  InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.chevron_left)),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    "Create Post",
-                    style: TextStyle(fontFamily: "Comfortaa", fontSize: 35),
-                  ),
-                ],
-              ),
-              Card(
-                margin: const EdgeInsets.all(16),
-                elevation: 2,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+        child: LoadingOverlayWidget(
+          isLoading: loading,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    SizedBox(width: 16),
+                    InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(Icons.chevron_left)),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "Create Post",
+                      style: TextStyle(fontFamily: "Comfortaa", fontSize: 35),
+                    ),
+                  ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Title",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      TextField(
-                        controller: titleController,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Enter Title / Question / Challenge'),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Description",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      TextField(
-                        controller: descriptionController,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Description'),
-                      )
-                    ],
+                Card(
+                  margin: const EdgeInsets.all(16),
+                  elevation: 2,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Title",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        TextField(
+                          controller: titleController,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter Title / Question / Challenge'),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Description",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        TextField(
+                          controller: descriptionController,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Description'),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              TitleCard(
-                  title: _image == null ? "Upload Picture" : "Your Picture",
-                  child: ImagePickerWidget(context, _image, onChooseImage)),
-              TitleCard(
-                title: "Add Link",
-                child: TextField(
-                  controller: linkController,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Link'),
+                TitleCard(
+                    title: _image == null ? "Upload Picture" : "Your Picture",
+                    child: ImagePickerWidget(context, _image, onChooseImage)),
+                TitleCard(
+                  title: "Add Link",
+                  child: TextField(
+                    controller: linkController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), hintText: 'Link'),
+                  ),
                 ),
-              ),
-              TitleCard(
-                  title: "This makes me feel...",
-                  child: TargetFeelingChooserWidget(updateTargetFeelings)),
-              TitleCard(
-                title: "How much time does it need?",
-                child: StyledSlider(0, updateTimePeriod),
-              ),
-              ButtonWidget(
-                title: "POST!",
-                onPress: postPost,
-              ),
-            ],
+                TitleCard(
+                    title: "This makes me feel...",
+                    child: TargetFeelingChooserWidget(updateTargetFeelings)),
+                TitleCard(
+                  title: "How much time does it need?",
+                  child: StyledSlider(0, updateTimePeriod),
+                ),
+                ButtonWidget(
+                  title: "POST!",
+                  onPress: postPost,
+                ),
+              ],
+            ),
           ),
         ),
       ),
