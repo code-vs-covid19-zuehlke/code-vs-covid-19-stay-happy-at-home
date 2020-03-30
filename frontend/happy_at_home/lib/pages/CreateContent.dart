@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:happyathome/models/Emotion.dart';
 import 'package:happyathome/usecases/PostCreation.dart';
 import 'package:happyathome/widgets/ButtonWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/ImagePickerWebWidget.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/LoadingOverlayWidget.dart';
 import 'package:happyathome/widgets/StyledSlider.dart';
@@ -21,6 +24,8 @@ class _CreateContentState extends State<CreateContent> {
   final descriptionController = TextEditingController();
   final linkController = TextEditingController();
   File _image;
+  Uint8List _webImageRaw;
+  Image _webImage;
   List<Emotion> chosenFeelings;
   double timePeriod;
   bool loading = false;
@@ -28,6 +33,13 @@ class _CreateContentState extends State<CreateContent> {
   void onChooseImage(image) {
     setState(() {
       _image = image;
+    });
+  }
+
+  void onChooseWebImage(image, imageRaw) {
+    setState(() {
+      _webImage = image;
+      _webImageRaw = imageRaw;
     });
   }
 
@@ -43,13 +55,24 @@ class _CreateContentState extends State<CreateContent> {
     setState(() {
       loading = true;
     });
-    await PostCreation.create(
-        titleController.text,
-        descriptionController.text,
-        linkController.text,
-        _image,
-        chosenFeelings.toSet(),
-        timePeriod == null ? 0 : timePeriod.round());
+    if (kIsWeb) {
+      await PostCreation.createFromWeb(
+          titleController.text,
+          descriptionController.text,
+          linkController.text,
+          _webImageRaw,
+          chosenFeelings.toSet(),
+          timePeriod == null ? 0 : timePeriod.round());
+    } else {
+      await PostCreation.create(
+          titleController.text,
+          descriptionController.text,
+          linkController.text,
+          _image,
+          chosenFeelings.toSet(),
+          timePeriod == null ? 0 : timePeriod.round());
+    }
+
     Navigator.pop(context);
   }
 
@@ -135,7 +158,9 @@ class _CreateContentState extends State<CreateContent> {
                 ),
                 TitleCard(
                     title: _image == null ? "Upload Picture" : "Your Picture",
-                    child: ImagePickerWidget(context, _image, onChooseImage)),
+                    child: kIsWeb
+                        ? ImagePickerWebWidget(_webImage, onChooseWebImage)
+                        : ImagePickerWidget(context, _image, onChooseImage)),
                 TitleCard(
                   title: "Add Link",
                   child: TextField(

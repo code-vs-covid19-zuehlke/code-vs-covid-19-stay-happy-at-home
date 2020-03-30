@@ -22,6 +22,7 @@ dependencies:
   http: any
   cupertino_icons: ^0.1.2
   image_picker: ^0.6.4
+  image_picker_web: any
   shared_preferences: ^0.5.6+3
   dart_json_mapper: ^1.5.8
   uuid: any

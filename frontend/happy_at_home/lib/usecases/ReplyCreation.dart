@@ -23,4 +23,21 @@ class ReplyCreation {
             title, description, link, base64.encode(binaryData), "image/jpg"));
     return reply;
   }
+
+  static Future<Reply> createFromWeb(Post post, String title,
+      String description,
+      String link, Uint8List image) async {
+    Uint8List binaryData;
+    if (image == null) {
+      binaryData = await FallbackImage.bytes();
+    } else {
+      binaryData = image;
+    }
+
+    final reply = await Backend.postReply(
+        post,
+        CreateReply(
+            title, description, link, base64.encode(binaryData), "image/jpg"));
+    return reply;
+  }
 }

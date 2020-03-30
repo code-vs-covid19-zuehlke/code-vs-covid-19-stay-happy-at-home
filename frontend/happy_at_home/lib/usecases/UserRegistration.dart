@@ -40,6 +40,22 @@ class UserRegistration {
     return user;
   }
 
+  static Future<User> registerFromWeb(String userName, Uint8List image) async {
+    Uint8List binaryData;
+    if (image == null) {
+      binaryData = await FallbackImage.bytes();
+    } else {
+      binaryData = image;
+    }
+
+    final user = await Backend.postUser(CreateUser.createUser(
+        userName, base64.encode(binaryData), "image/jpg"));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(userRegistered, true);
+    await prefs.setString(userId, user.id);
+    return user;
+  }
+
   static void unregister(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(userRegistered, false);

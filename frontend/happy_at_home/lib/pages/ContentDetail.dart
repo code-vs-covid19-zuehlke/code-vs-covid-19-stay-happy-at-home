@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Emoji.dart';
@@ -8,6 +9,7 @@ import 'package:happyathome/usecases/ReplyCreation.dart';
 import 'package:happyathome/utils/GoogleCloudImage.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/ImagePickerWebWidget.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/LoadingOverlayWidget.dart';
 import 'package:happyathome/widgets/NewUserWidget.dart';
@@ -41,13 +43,29 @@ class _ContentDetailState extends State<ContentDetail> {
     _refreshController.requestRefresh();
   }
 
+  void createReplyFromWeb(webImage, webImageRaw) async {
+    setState(() {
+      loading = true;
+    });
+    await ReplyCreation.createFromWeb(
+        post, "dummy", "dummy", null, webImageRaw);
+    setState(() {
+      loading = false;
+    });
+    _refreshController.requestRefresh();
+  }
+
   List<Widget> createContent() {
     List<Widget> widgetList = List();
     widgetList.add(ReplyWidget(post, null, false, addReaction));
     for (Reply reply in post.replies) {
       widgetList.add(ReplyWidget(post, reply, true, addReaction));
     }
-    widgetList.add(ImagePickerWidget(context, null, createReply));
+    if (kIsWeb) {
+      widgetList.add(ImagePickerWebWidget(null, createReplyFromWeb));
+    } else {
+      widgetList.add(ImagePickerWidget(context, null, createReply));
+    }
     return widgetList;
   }
 
