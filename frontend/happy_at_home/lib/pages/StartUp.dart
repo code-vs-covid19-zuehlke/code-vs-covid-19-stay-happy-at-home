@@ -54,17 +54,62 @@ class _StartUpState extends State<StartUp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Stay Happy @ Home",
-              style: TextStyle(fontFamily: "Comfortaa", fontSize: 35)
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SizedBox(width: 20,),
+                      EmojiImage.ScaledEmojiImage(
+                          Emoji.FACE_WITH_TEARS_OF_JOY, 1.5),
+                      SizedBox(width: 100,),
+                      EmojiImage.ScaledEmojiImage(Emoji.EXPLODING_HEAD, 1)
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      EmojiImage.ScaledEmojiImage(Emoji.PANDA, 1),
+                      SizedBox(height: 70, width: 130,),
+                      EmojiImage.ScaledEmojiImage(
+                          Emoji.HEAR_NO_EVIL_MONKEY, 2.5),
+                      SizedBox(width: 30,)
+                    ],
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 15),
-            Text(
-              "😀😷🐼",
-              style: TextStyle(fontSize: 50),
+            Expanded(
+                flex: 1,
+                child: Image(image: AssetImage("assets/logo.png"),)),
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      EmojiImage.ScaledEmojiImage(
+                          Emoji.FACE_SCREAMING_IN_FEAR, 1.5),
+                      SizedBox(width: 100,),
+                      EmojiImage.ScaledEmojiImage(
+                          Emoji.FACE_WITH_MEDICAL_MASK, 1)
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(width: 50,),
+                      EmojiImage.ScaledEmojiImage(Emoji.YAWNING_FACE, 1),
+                      SizedBox(height: 70, width: 100,),
+                      EmojiImage.ScaledEmojiImage(Emoji.NERD_FACE, 2.5),
+                      SizedBox(width: 30,)
+                    ],
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 15),
-            EmojiImage(Emoji.FACE_WITH_TEARS_OF_JOY),
           ],
         ),
       ),
