@@ -16,9 +16,19 @@ class Post {
   final ReactionSummary reactionSummary;
   final List<Reply> replies;
   final User user;
+  final int requiredTime;
 
-  const Post(this.id, this.title, this.description, this.link, this.picture,
-      this.photoContentType, this.replies, this.user, this.reactionSummary);
+  const Post(
+      this.id,
+      this.title,
+      this.description,
+      this.link,
+      this.picture,
+      this.photoContentType,
+      this.replies,
+      this.user,
+      this.reactionSummary,
+      this.requiredTime);
 }
 
 @jsonSerializable
@@ -29,7 +39,8 @@ class CreatePost {
   final String picture;
   final String photoContentType;
   final Set<TargetFeeling> targetFeelings;
+  final int requiredTime;
 
   const CreatePost(this.title, this.description, this.link, this.picture,
-      this.photoContentType, this.targetFeelings);
+      this.photoContentType, this.targetFeelings, this.requiredTime);
 }
