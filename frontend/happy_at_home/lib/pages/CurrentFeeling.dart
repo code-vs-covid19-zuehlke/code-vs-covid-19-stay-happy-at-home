@@ -12,12 +12,12 @@ import 'package:happyathome/widgets/UserWidget.dart';
 
 import '../UserState.dart';
 
-class ActualFeeling extends StatefulWidget {
+class CurrentFeeling extends StatefulWidget {
   @override
-  _ActualFeelingState createState() => _ActualFeelingState();
+  _CurrentFeelingState createState() => _CurrentFeelingState();
 }
 
-class _ActualFeelingState extends State<ActualFeeling> {
+class _CurrentFeelingState extends State<CurrentFeeling> {
   final userstate = UserState();
   List<Emoji> chosenFeelings;
   double timePeriod = 15.0;

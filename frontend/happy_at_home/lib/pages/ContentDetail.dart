@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
-import 'package:happyathome/models/User.dart';
 import 'package:happyathome/usecases/ReplyCreation.dart';
 import 'package:happyathome/utils/GoogleCloudImage.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
-import 'package:happyathome/widgets/EmojiImage.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
 import 'package:happyathome/widgets/NewUserWidget.dart';
 import 'package:happyathome/widgets/PostRatingWidget.dart';
