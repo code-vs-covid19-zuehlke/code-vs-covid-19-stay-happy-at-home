@@ -53,12 +53,11 @@ class PostRatingWidget extends StatelessWidget {
             GestureDetector(
                 onTap: () {
                   if (addReaction != null) {
-                    addReaction(post, reply,
-                        EnumToString.fromString(Emoji.values, emoji), isReply);
+                    addReaction(post, reply, emoji, isReply);
                   }
                 },
                 child:
-                EmojiImage(EnumToString.fromString(Emoji.values, emoji))),
+                EmojiImage(emoji)),
             Text(
               count.toString(),
               style: TextStyle(fontWeight: FontWeight.bold),

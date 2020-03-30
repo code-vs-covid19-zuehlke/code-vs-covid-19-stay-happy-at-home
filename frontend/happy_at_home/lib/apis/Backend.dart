@@ -1,5 +1,7 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:happyathome/UserState.dart';
+import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
@@ -59,13 +61,11 @@ class Backend {
     return _post('reply/post/${post.id}', reply);
   }
 
-  static Future<Reaction> postReactionToPost(Post post,
-      Reaction reaction) async {
+  static Future<Reaction> postReactionToPost(Post post, Reaction reaction) async {
     return _post('post/${post.id}/reaction', reaction);
   }
 
-  static Future<Reaction> postReactionToReply(Post post, Reply reply,
-      Reaction reaction) async {
+  static Future<Reaction> postReactionToReply(Post post, Reply reply, Reaction reaction) async {
     return _post('reply/${reply.id}/reaction', reaction);
   }
 
@@ -96,28 +96,24 @@ class Backend {
   static Future<String> _postRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await _client.post(url,
-        headers: _createHeaders(), body: JsonMapper.serialize(object));
+    final response = await _client.post(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
-      throw Exception(
-          'Failed to load $url with status code ${response.statusCode}');
+      throw Exception('Failed to load $url with status code ${response.statusCode}');
     }
   }
 
   static Future<String> _putRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await _client.put(url,
-        headers: _createHeaders(), body: JsonMapper.serialize(object));
+    final response = await _client.put(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
-      throw Exception(
-          'Failed to load $url with status code ${response.statusCode}');
+      throw Exception('Failed to load $url with status code ${response.statusCode}');
     }
   }
 
@@ -139,6 +135,22 @@ class Backend {
       typeOf<List<Post>>(): (value) => value.cast<Post>(),
       typeOf<List<Reaction>>(): (value) => value.cast<Reaction>(),
       typeOf<List<Reply>>(): (value) => value.cast<Reply>(),
+    }, converters: {
+      typeOf<Map<Emoji, int>>(): MyConverter(),
     }));
+  }
+}
+
+class MyConverter extends ICustomConverter {
+  @override
+  fromJSON(jsonValue, [JsonProperty jsonProperty]) {
+    Map<Emoji, int> map = {};
+    jsonValue.forEach((k, v) => map.putIfAbsent(EnumToString.fromString(Emoji.values, k.toString()), ()=>v));
+    return map;
+  }
+
+  @override
+  toJSON(object, [JsonProperty jsonProperty]) {
+    return null; // not implemented yet
   }
 }
