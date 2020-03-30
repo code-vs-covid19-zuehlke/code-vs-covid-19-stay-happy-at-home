@@ -2,7 +2,6 @@
 // https://github.com/dart-lang/reflectable.
 
 import 'dart:core';
-
 import 'package:dart_json_mapper/src/model/annotations.dart' as prefix0;
 import 'package:happyathome/models/Emoji.dart' as prefix2;
 import 'package:happyathome/models/Emotion.dart' as prefix10;
@@ -15,9 +14,18 @@ import 'package:happyathome/models/TargetFeeling.dart' as prefix7;
 import 'package:happyathome/models/Time.dart' as prefix6;
 import 'package:happyathome/models/User.dart' as prefix1;
 import 'package:happyathome/utils/EnumStringConverter.dart' as prefix11;
+
+// ignore_for_file: prefer_adjacent_string_concatenation
+// ignore_for_file: prefer_collection_literals
+// ignore_for_file: unnecessary_const
+// ignore_for_file: implementation_imports
+
+// ignore:unused_import
 import 'package:reflectable/mirrors.dart' as m;
-import 'package:reflectable/reflectable.dart' as r show Reflectable;
+// ignore:unused_import
 import 'package:reflectable/src/reflectable_builder_based.dart' as r;
+// ignore:unused_import
+import 'package:reflectable/reflectable.dart' as r show Reflectable;
 
 final _data = <r.Reflectable, r.ReflectorData>{
   const prefix0.JsonSerializable(): r.ReflectorData(
@@ -184,11 +192,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
               r'': (b) => (title, description, link, picture, photoContentType,
                       targetFeelings, requiredTime) =>
                   b
-                      ? prefix4.CreatePost(
-                      title,
-                      description,
-                      link,
-                      picture,
+                      ? prefix4.CreatePost(title, description, link, picture,
                           photoContentType, targetFeelings, requiredTime)
                       : null
             },
@@ -438,24 +442,15 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             -1,
             17,
-            17,
-            const <int>[],
-            const []),
-        r.VariableMirrorImpl(
-            r'reactions',
-            2130949,
-            3,
-            const prefix0.JsonSerializable(),
-            -1,
-            18,
-            19,
-            null,
-            const []),
-        r.VariableMirrorImpl(
-            r'id',
-            33797,
-            4,
-            const prefix0.JsonSerializable(),
+            17, const <int>[], const []),
+        r.VariableMirrorImpl(r'reactions', 2130949, 3,
+            const prefix0.JsonSerializable(), -1, 18, 19, const <int>[
+          2,
+          17
+        ], const <Object>[
+          const prefix0.JsonProperty(enumValues: prefix2.Emoji.values)
+        ]),
+        r.VariableMirrorImpl(r'id', 33797, 4, const prefix0.JsonSerializable(),
             -1, 17, 17, const <int>[], const []),
         r.VariableMirrorImpl(
             r'title',
@@ -497,16 +492,8 @@ final _data = <r.Reflectable, r.ReflectorData>{
             -1,
             14,
             14, const <int>[], const []),
-        r.VariableMirrorImpl(
-            r'reactionSummary',
-            33797,
-            4,
-            const prefix0.JsonSerializable(),
-            3,
-            3,
-            3,
-            const <int>[],
-            const []),
+        r.VariableMirrorImpl(r'reactionSummary', 33797, 4,
+            const prefix0.JsonSerializable(), 3, 3, 3, const <int>[], const []),
         r.VariableMirrorImpl(
             r'replies',
             2130949,
@@ -517,10 +504,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             21,
             const <int>[6],
             const []),
-        r.VariableMirrorImpl(
-            r'user',
-            33797,
-            4,
+        r.VariableMirrorImpl(r'user', 33797, 4,
             const prefix0.JsonSerializable(), 0, 0, 0, const <int>[], const []),
         r.VariableMirrorImpl(
             r'requiredTime',
@@ -630,16 +614,8 @@ final _data = <r.Reflectable, r.ReflectorData>{
             -1,
             14,
             14, const <int>[], const []),
-        r.VariableMirrorImpl(
-            r'reactionSummary',
-            33797,
-            6,
-            const prefix0.JsonSerializable(),
-            3,
-            3,
-            3,
-            const <int>[],
-            const []),
+        r.VariableMirrorImpl(r'reactionSummary', 33797, 6,
+            const prefix0.JsonSerializable(), 3, 3, 3, const <int>[], const []),
         r.VariableMirrorImpl(r'user', 33797, 6,
             const prefix0.JsonSerializable(), 0, 0, 0, const <int>[], const []),
         r.VariableMirrorImpl(
@@ -713,12 +689,10 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             13,
             13,
-            13,
-            const <int>[],
-            const <Object>[
+            13, const <int>[], const <Object>[
           const prefix0.JsonProperty(
               converter:
-              const prefix11.EnumStringConverter(prefix10.Emotion.values))
+                  const prefix11.EnumStringConverter(prefix10.Emotion.values))
         ]),
         r.VariableMirrorImpl(
             r'emoji',
@@ -727,13 +701,11 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             2,
             2,
-            2,
-            const <int>[],
-            const <Object>[
-              const prefix0.JsonProperty(
-                  converter:
+            2, const <int>[], const <Object>[
+          const prefix0.JsonProperty(
+              converter:
                   const prefix11.EnumStringConverter(prefix2.Emoji.values))
-            ]),
+        ]),
         r.VariableMirrorImpl(
             r'emoji',
             33797,
@@ -741,13 +713,11 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const prefix0.JsonSerializable(),
             2,
             2,
-            2,
-            const <int>[],
-            const <Object>[
-              const prefix0.JsonProperty(
-                  converter:
+            2, const <int>[], const <Object>[
+          const prefix0.JsonProperty(
+              converter:
                   const prefix11.EnumStringConverter(prefix2.Emoji.values))
-            ]),
+        ]),
         r.VariableMirrorImpl(
             r'index',
             33861,
@@ -816,30 +786,12 @@ final _data = <r.Reflectable, r.ReflectorData>{
             const <int>[8, 9, 10, 11],
             const prefix0.JsonSerializable(),
             const []),
-        r.MethodMirrorImpl(
-            r'toString',
-            131138,
-            2,
-            -1,
-            14,
-            14,
-            const <int>[],
-            const <int>[],
-            const prefix0.JsonSerializable(),
-            const []),
+        r.MethodMirrorImpl(r'toString', 131138, 2, -1, 14, 14, const <int>[],
+            const <int>[], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 10, 67),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 11, 68),
-        r.MethodMirrorImpl(
-            r'',
-            0,
-            3,
-            -1,
-            3,
-            3,
-            const <int>[],
-            const <int>[12],
-            const prefix0.JsonSerializable(),
-            const []),
+        r.MethodMirrorImpl(r'', 128, 3, -1, 3, 3, const <int>[],
+            const <int>[12], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 12, 70),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 13, 71),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 14, 72),
@@ -919,49 +871,20 @@ final _data = <r.Reflectable, r.ReflectorData>{
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 42, 105),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 43, 106),
         r.MethodMirrorImpl(r'', 128, 8, -1, 8, 8, const <int>[],
-            const <int>[43, 44],
-            const prefix0.JsonSerializable(),
-            const []),
+            const <int>[43, 44], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 44, 108),
         r.MethodMirrorImpl(r'', 128, 9, -1, 9, 9, const <int>[],
-            const <int>[45],
-            const prefix0.JsonSerializable(),
-            const []),
+            const <int>[45], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 45, 110),
         r.MethodMirrorImpl(r'', 128, 10, -1, 10, 10, const <int>[],
-            const <int>[46],
-            const prefix0.JsonSerializable(),
-            const []),
+            const <int>[46], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 46, 112),
-        r.MethodMirrorImpl(
-            r'',
-            128,
-            11,
-            -1,
-            11,
-            11,
-            const <int>[],
+        r.MethodMirrorImpl(r'', 128, 11, -1, 11, 11, const <int>[],
             const <int>[47], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 47, 114),
-        r.MethodMirrorImpl(
-            r'',
-            128,
-            12,
-            -1,
-            12,
-            12,
-            const <int>[],
-            const <int>[48],
-            const prefix0.JsonSerializable(),
-            const []),
-        r.MethodMirrorImpl(
-            r'toString',
-            131138,
-            13,
-            -1,
-            14,
-            14,
-            const <int>[],
+        r.MethodMirrorImpl(r'', 128, 12, -1, 12, 12, const <int>[],
+            const <int>[48], const prefix0.JsonSerializable(), const []),
+        r.MethodMirrorImpl(r'toString', 131138, 13, -1, 14, 14, const <int>[],
             const <int>[], const prefix0.JsonSerializable(), const []),
         r.ImplicitGetterMirrorImpl(const prefix0.JsonSerializable(), 48, 117)
       ],
@@ -1118,7 +1041,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             -1,
             18,
             19,
-            null,
+            const <int>[2, 17],
             const [],
             null,
             null),
@@ -1574,7 +1497,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
         const m.TypeValue<List<prefix9.Feeling>>().type,
         List,
         int,
-        const m.TypeValue<Map<String, dynamic>>().type,
+        const m.TypeValue<Map<prefix2.Emoji, int>>().type,
         Map,
         const m.TypeValue<List<prefix5.Reply>>().type,
         List,

@@ -1,8 +1,11 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 
+import 'Emoji.dart';
+
 @jsonSerializable
 class ReactionSummary {
-  final Map<String, dynamic> reactions;
+  @JsonProperty(enumValues: Emoji.values)
+  final Map<Emoji, int> reactions;
 
-  ReactionSummary(this.reactions);
+  const ReactionSummary(this.reactions);
 }

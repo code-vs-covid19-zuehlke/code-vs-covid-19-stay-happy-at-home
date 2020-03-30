@@ -130,8 +130,7 @@ class _ProfileState extends State<Profile> {
       reactionSummary.reactions.forEach((emoji, count) {
         widgetList.add(Container(
             child: Row(children: <Widget>[
-              EmojiImage.ScaledEmojiImage(
-                  EnumToString.fromString(Emoji.values, emoji), 5),
+              EmojiImage.ScaledEmojiImage(emoji, 5),
               Text(count.toString()),
               SizedBox(width: 10),
             ])));
