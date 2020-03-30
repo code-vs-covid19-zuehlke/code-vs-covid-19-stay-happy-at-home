@@ -1,0 +1,49 @@
+#The name of your workflow.
+name:  Web
+# Trigger the workflow on push or pull request
+on: 
+  push:
+    tags:
+    - 'release-web-*'
+#A workflow run is made up of one or more jobs. Jobs run in parallel by default.
+jobs:
+  build_deploy:
+    #if conditional to prevent a job from running
+    if: github.event_name != 'pull_request'
+    runs-on: macos-latest
+    #Identifies any jobs that must complete successfully before this job will run.
+    name: Build web
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.12.14'
+          channel: 'dev'
+      # This action sets up a java environment
+      # https://github.com/actions/setup-java
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      #enable linux,macos,windows   and  web
+      - run: cd ./frontend/happy_at_home && flutter channel beta
+      - run: cd ./frontend/happy_at_home && flutter upgrade
+      - run: cd ./frontend/happy_at_home && flutter config --enable-web
+      - run: cd ./frontend/happy_at_home && flutter config --enable-linux-desktop
+      - run: cd ./frontend/happy_at_home && flutter config --enable-macos-desktop
+      - run: cd ./frontend/happy_at_home && flutter config --enable-windows-desktop
+      - run: cd ./frontend/happy_at_home && flutter pub get
+      - run: cd ./frontend/happy_at_home && flutter create .
+      # run code generation
+      - run: cd ./frontend/happy_at_home && flutter pub run build_runner build --delete-conflicting-outputs
+      # build macOS desktop version
+      #- run: cd ./frontend/happy_at_home && flutter build macos --release
+      # build Flutter web version
+      - run: cd ./frontend/happy_at_home && flutter build web
+      # Handle the deploy process of your project to GitHub Pages.
+      # https://github.com/JamesIves/github-pages-deploy-action
+      - uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_BRANCH: master
+          BRANCH: gh-pages
+          FOLDER: frontend/happy_at_home/build/web
