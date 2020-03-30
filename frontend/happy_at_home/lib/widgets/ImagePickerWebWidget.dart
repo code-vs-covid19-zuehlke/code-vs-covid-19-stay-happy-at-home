@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+import 'package:happyathome/widgets/image_getter/AbstractImageGetter.dart';
 
 class ImagePickerWebWidget extends StatelessWidget {
   final Image image;
@@ -8,7 +8,7 @@ class ImagePickerWebWidget extends StatelessWidget {
   ImagePickerWebWidget(this.image, this.onChooseWebImage);
 
   void getImage() async {
-    var imageRaw = await ImagePickerWeb.getImage(outputType: ImageType.bytes);
+    var imageRaw = await AbstractImageGetter().getImage();
     var img = Image.memory(imageRaw, semanticLabel: "img");
     onChooseWebImage(img, imageRaw);
   }
