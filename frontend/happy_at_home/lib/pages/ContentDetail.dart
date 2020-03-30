@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:happyathome/models/Feeling.dart';
 import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Emoji.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/models/Reaction.dart';
 import 'package:happyathome/models/Reply.dart';
-import 'package:happyathome/models/User.dart';
 import 'package:happyathome/usecases/ReplyCreation.dart';
 import 'package:happyathome/utils/GoogleCloudImage.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
-import 'package:happyathome/widgets/EmojiImage.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
+import 'package:happyathome/widgets/LoadingOverlayWidget.dart';
 import 'package:happyathome/widgets/NewUserWidget.dart';
 import 'package:happyathome/widgets/PostRatingWidget.dart';
 import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../UserState.dart';
 
 class ContentDetail extends StatefulWidget {
   @override
@@ -25,13 +25,20 @@ class ContentDetail extends StatefulWidget {
 
 class _ContentDetailState extends State<ContentDetail> {
   Post post;
+  bool loading = false;
 
   RefreshController _refreshController =
   RefreshController(initialRefresh: false);
 
   void createReply(image) async {
+    setState(() {
+      loading = true;
+    });
     await ReplyCreation.create(post, "dummy", "dummy", null, image);
-    reload();
+    setState(() {
+      loading = false;
+    });
+    _refreshController.requestRefresh();
   }
 
   List<Widget> createContent() {
@@ -52,7 +59,7 @@ class _ContentDetailState extends State<ContentDetail> {
   }
 
   void onRefresh() async {
-    reload();
+    await reload();
     _refreshController.refreshCompleted();
   }
 
@@ -62,7 +69,8 @@ class _ContentDetailState extends State<ContentDetail> {
     } else {
       await Backend.postReactionToPost(post, Reaction(reaction));
     }
-    reload();
+
+    _refreshController.requestRefresh();
   }
 
   @override
@@ -72,24 +80,27 @@ class _ContentDetailState extends State<ContentDetail> {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: SmartRefresher(
-          enablePullDown: true,
-          header: WaterDropMaterialHeader(),
-          controller: _refreshController,
-          onRefresh: onRefresh,
-          child: TitleCard(
-            title: post.title,
-            subtitle: post.description,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 400,
-                  child: ListView(
-                    children: createContent(),
+        child: LoadingOverlayWidget(
+          isLoading: loading,
+          child: SmartRefresher(
+            enablePullDown: true,
+            header: WaterDropMaterialHeader(),
+            controller: _refreshController,
+            onRefresh: onRefresh,
+            child: TitleCard(
+              title: post.title,
+              subtitle: post.description,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: 400,
+                    child: ListView(
+                      children: createContent(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -167,9 +178,12 @@ class ContentDetailBottomBar extends StatelessWidget {
             ),
             color: Colors.black,
           ),
-          SizedBox(
-            width: 50,
-          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, "/profile");
+            },
+            child: NewUserWidget(UserState().user),
+          )
         ],
       ),
     );

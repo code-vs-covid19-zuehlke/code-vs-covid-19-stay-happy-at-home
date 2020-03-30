@@ -46,7 +46,18 @@ class PostRatingWidget extends StatelessWidget {
           height: 25,
           child: Row(
             children: <Widget>[
-              EmojiImage(EnumToString.fromString(Emoji.values, emoji)),
+              GestureDetector(
+                  onTap: () {
+                    if (addReaction != null) {
+                      addReaction(
+                          post,
+                          reply,
+                          EnumToString.fromString(Emoji.values, emoji),
+                          isReply);
+                    }
+                  },
+                  child:
+                  EmojiImage(EnumToString.fromString(Emoji.values, emoji))),
               Text(
                 count.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -64,7 +75,15 @@ class PostRatingWidget extends StatelessWidget {
           height: 25,
           child: Row(
             children: <Widget>[
-              EmojiImage(EnumToString.fromString(Emoji.values, emoji)),
+              GestureDetector(
+                onTap: () {
+                  if (addReaction != null) {
+                    addReaction(post, reply,
+                        EnumToString.fromString(Emoji.values, emoji), isReply);
+                  }
+                },
+                child: EmojiImage(EnumToString.fromString(Emoji.values, emoji)),
+              ),
               Text(
                 count.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),

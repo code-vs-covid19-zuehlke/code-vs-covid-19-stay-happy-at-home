@@ -3,9 +3,12 @@ import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/NewUserWidget.dart';
 import 'package:happyathome/widgets/PostWidget.dart';
 import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../UserState.dart';
 
 class ContentFeed extends StatefulWidget {
   @override
@@ -15,13 +18,12 @@ class ContentFeed extends StatefulWidget {
 class _ContentFeedState extends State<ContentFeed> {
   List<Post> posts;
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+  RefreshController(initialRefresh: true);
 
   @override
   void initState() {
     super.initState();
     posts = List();
-    loadPosts();
   }
 
   void loadPosts() async {
@@ -82,13 +84,16 @@ class _ContentFeedState extends State<ContentFeed> {
           ),
         ),
       ),
-      bottomNavigationBar: ContentFeedBottomBar(),
+      bottomNavigationBar: ContentFeedBottomBar(
+          _refreshController.requestRefresh),
     );
   }
 }
 
 class ContentFeedBottomBar extends StatelessWidget {
-  const ContentFeedBottomBar({
+  final Function onRaisedButtonNavigationPop;
+
+  const ContentFeedBottomBar(this.onRaisedButtonNavigationPop, {
     Key key,
   }) : super(key: key);
 
@@ -100,8 +105,9 @@ class ContentFeedBottomBar extends StatelessWidget {
         children: <Widget>[
           TimerWidget(),
           RaisedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, "/create");
+            onPressed: () async {
+              await Navigator.pushNamed(context, "/create");
+              this.onRaisedButtonNavigationPop();
             },
             child: Icon(
               Icons.add,
@@ -113,9 +119,7 @@ class ContentFeedBottomBar extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, "/profile");
             },
-            child: CircleAvatar(
-              backgroundImage: AssetImage("assets/profile_picture.jpg"),
-            ),
+            child: NewUserWidget(UserState().user),
           )
         ],
       ),
