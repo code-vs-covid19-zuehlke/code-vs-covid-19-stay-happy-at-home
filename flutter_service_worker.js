@@ -2,13 +2,13 @@
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "/index.html": "49006c53c1df0e160c78b133f12c58c4",
-"/main.dart.js": "369e1187c99a8beaad6a8a5f0609a1e9",
+"/main.dart.js": "826bccd265bc55eade731a48d7f4c5b4",
 "/favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "/icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "/icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "/manifest.json": "062489acaab5aac6d97c183925512037",
-"/assets/LICENSE": "934ba2edb792c0ea0ff4724844458020",
-"/assets/AssetManifest.json": "0b7415f7cdbd94f744a6d22f93788d71",
+"/assets/LICENSE": "8f62749795b63a8a1c3b38bc09e9981d",
+"/assets/AssetManifest.json": "65593b8b6dc21d342cf407d6c3a92962",
 "/assets/FontManifest.json": "d284a9da03d8cc1fe21e930832dcd9de",
 "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
 "/assets/fonts/Comfortaa-VariableFont_wght.ttf": "f40889caa25956ef4d27c2aadc4fbe13",
@@ -33,7 +33,8 @@ const RESOURCES = {
 "/assets/assets/emoji/grinning_face_with_smiling_eyes.png": "469cbabd6ed1b69b1836d041df1c49c3",
 "/assets/assets/emoji/person_in_lotus_position.png": "541542e78f963312ada158011190d1f9",
 "/assets/assets/emoji/downcast_face_with_sweat.png": "52a91ec93d6dd15c60124bd93cc37abf",
-"/assets/assets/profile_picture.jpg": "495d555b254371ef41eaad0bc3cd7d48"
+"/assets/assets/profile_picture.jpg": "495d555b254371ef41eaad0bc3cd7d48",
+"/assets/assets/logo.png": "d9cfbb459a03656d519c39f64e166ea2"
 };
 
 self.addEventListener('activate', function (event) {
