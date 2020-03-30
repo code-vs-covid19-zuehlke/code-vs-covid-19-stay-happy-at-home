@@ -21,19 +21,29 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Future<User> futureUser;
   ReactionSummary reactionSummaryReceived;
+  ReactionSummary reactionSummaryGiven;
 
   @override
   void initState() {
     super.initState();
     futureUser = Backend.getUserById(UserState().user.id);
-    loadReactions();
+    loadReceivedReactions();
+    loadGivenReactions();
   }
 
-  void loadReactions() async {
-    ReactionSummary futureReactionSummaryGiven =
+  void loadReceivedReactions() async {
+    ReactionSummary reactionSummaryReceived =
     await Backend.getReactionSummaryReceived();
     setState(() {
-      this.reactionSummaryReceived = futureReactionSummaryGiven;
+      this.reactionSummaryReceived = reactionSummaryReceived;
+    });
+  }
+
+  void loadGivenReactions() async {
+    ReactionSummary reactionSummaryGiven =
+    await Backend.getReactionSummaryGiven();
+    setState(() {
+      this.reactionSummaryGiven = reactionSummaryGiven;
     });
   }
 
@@ -60,20 +70,16 @@ class _ProfileState extends State<Profile> {
                         Text("Reactions received",
                             style: TextStyle(
                                 fontSize: 24, fontFamily: "Comfortaa")),
-                        Row(children: getReactions() /*<Widget>[
-*/
+                        Row(
+                          children: getReactions(reactionSummaryReceived),
                         ),
                         SizedBox(height: 32),
                         Text("Reactions given",
                             style: TextStyle(
                                 fontSize: 24, fontFamily: "Comfortaa")),
-                        Row(children: <Widget>[
-                          Image.asset(
-                            "assets/emoji/pile_of_poo.png",
-                            scale: 5,
-                          ),
-                          Text("11"),
-                        ]),
+                        Row(
+                          children: getReactions(reactionSummaryGiven),
+                        )
                       ],
                     ),
                   ),
@@ -112,20 +118,23 @@ class _ProfileState extends State<Profile> {
   void _refresh() async {
     setState(() {
       futureUser = Backend.getUserById(UserState().user.id);
-      loadReactions();
+      loadReceivedReactions();
     });
   }
 
-  List<Widget> getReactions() {
+  List<Widget> getReactions(ReactionSummary reactionSummary) {
     List<Widget> widgetList = List();
-    reactionSummaryReceived.reactions.forEach((emoji, count) {
-      widgetList.add(Container(
-          child: Row(children: <Widget>[
-            EmojiImage.ScaledEmojiImage(
-                EnumToString.fromString(Emoji.values, emoji), 5),
-            Text(count.toString())
-          ])));
-    });
+    if (reactionSummary != null) {
+      reactionSummary.reactions.forEach((emoji, count) {
+        widgetList.add(Container(
+            child: Row(children: <Widget>[
+              EmojiImage.ScaledEmojiImage(
+                  EnumToString.fromString(Emoji.values, emoji), 5),
+              Text(count.toString()),
+              SizedBox(width: 10),
+            ])));
+      });
+    }
     return widgetList;
   }
 }

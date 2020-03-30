@@ -39,6 +39,10 @@ class Backend {
     return _get('user/reactions/received');
   }
 
+  static Future<ReactionSummary> getReactionSummaryGiven() async {
+    return _get('user/reactions/given');
+  }
+
   static Future<Post> getPostById(int id) async {
     return _get('post/$id');
   }
@@ -55,11 +59,13 @@ class Backend {
     return _post('reply/post/${post.id}', reply);
   }
 
-  static Future<Reaction> postReactionToPost(Post post, Reaction reaction) async {
+  static Future<Reaction> postReactionToPost(Post post,
+      Reaction reaction) async {
     return _post('post/${post.id}/reaction', reaction);
   }
 
-  static Future<Reaction> postReactionToReply(Post post, Reply reply, Reaction reaction) async {
+  static Future<Reaction> postReactionToReply(Post post, Reply reply,
+      Reaction reaction) async {
     return _post('reply/${reply.id}/reaction', reaction);
   }
 
@@ -90,24 +96,28 @@ class Backend {
   static Future<String> _postRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await _client.post(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
+    final response = await _client.post(url,
+        headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
-      throw Exception('Failed to load $url with status code ${response.statusCode}');
+      throw Exception(
+          'Failed to load $url with status code ${response.statusCode}');
     }
   }
 
   static Future<String> _putRaw<T>(String path, Object object) async {
     final url = '$baseUrl/$path';
 
-    final response = await _client.put(url, headers: _createHeaders(), body: JsonMapper.serialize(object));
+    final response = await _client.put(url,
+        headers: _createHeaders(), body: JsonMapper.serialize(object));
 
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return response.body;
     } else {
-      throw Exception('Failed to load $url with status code ${response.statusCode}');
+      throw Exception(
+          'Failed to load $url with status code ${response.statusCode}');
     }
   }
 
