@@ -167,7 +167,7 @@ class ContentDetailBottomBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          TimerWidget(),
+          TimerWidget(null),
           RaisedButton(
             onPressed: () {
               Navigator.pop(context);

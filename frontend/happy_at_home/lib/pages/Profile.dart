@@ -155,7 +155,7 @@ class ProfileBottomBar extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TimerWidget(),
+              TimerWidget(null),
               Text(
                 "Add more time...",
                 style: TextStyle(fontSize: 10, color: Colors.grey),

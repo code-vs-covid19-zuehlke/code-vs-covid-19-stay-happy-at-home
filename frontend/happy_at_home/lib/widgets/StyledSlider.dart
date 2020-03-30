@@ -51,7 +51,7 @@ class _StyledSliderState extends State<StyledSlider> {
         max: 30.0,
         value: sliderValue,
         label: "${sliderValue.toInt()} min",
-        divisions: 6,
+        divisions: 30,
         onChanged: (value) {
           setState(() {
             sliderValue = value;

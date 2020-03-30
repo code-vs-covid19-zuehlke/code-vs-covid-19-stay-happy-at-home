@@ -84,8 +84,8 @@ class _ContentFeedState extends State<ContentFeed> {
           ),
         ),
       ),
-      bottomNavigationBar: ContentFeedBottomBar(
-          _refreshController.requestRefresh),
+      bottomNavigationBar:
+      ContentFeedBottomBar(_refreshController.requestRefresh),
     );
   }
 }
@@ -103,7 +103,7 @@ class ContentFeedBottomBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          TimerWidget(),
+          TimerWidget(showHowAreYouAgainWidget),
           RaisedButton(
             onPressed: () async {
               await Navigator.pushNamed(context, "/create");
@@ -124,5 +124,9 @@ class ContentFeedBottomBar extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void showHowAreYouAgainWidget() {
+    print("CORONA-NA-NA-Na");
   }
 }
