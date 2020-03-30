@@ -24,6 +24,9 @@ class _CurrentFeelingState extends State<CurrentFeeling> {
 
   void updateFeelings(feelingList) {
     chosenFeelings = feelingList;
+    if (chosenFeelings.length == 3) {
+      uploadFeelingsAndTime();
+    }
   }
 
   void updateTimePeriod(time) {
