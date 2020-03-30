@@ -3,9 +3,12 @@ import 'package:happyathome/apis/Backend.dart';
 import 'package:happyathome/models/Post.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/NewUserWidget.dart';
 import 'package:happyathome/widgets/PostWidget.dart';
 import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../UserState.dart';
 
 class ContentFeed extends StatefulWidget {
   @override
@@ -116,9 +119,7 @@ class ContentFeedBottomBar extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, "/profile");
             },
-            child: CircleAvatar(
-              backgroundImage: AssetImage("assets/profile_picture.jpg"),
-            ),
+            child: NewUserWidget(UserState().user),
           )
         ],
       ),

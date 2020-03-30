@@ -15,6 +15,8 @@ import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:happyathome/widgets/TitleCard.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../UserState.dart';
+
 class ContentDetail extends StatefulWidget {
   @override
   _ContentDetailState createState() => _ContentDetailState();
@@ -164,9 +166,12 @@ class ContentDetailBottomBar extends StatelessWidget {
             ),
             color: Colors.black,
           ),
-          SizedBox(
-            width: 50,
-          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, "/profile");
+            },
+            child: NewUserWidget(UserState().user),
+          )
         ],
       ),
     );
