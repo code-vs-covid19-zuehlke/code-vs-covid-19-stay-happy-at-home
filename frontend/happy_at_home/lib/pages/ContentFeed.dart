@@ -18,13 +18,12 @@ class ContentFeed extends StatefulWidget {
 class _ContentFeedState extends State<ContentFeed> {
   List<Post> posts;
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+  RefreshController(initialRefresh: true);
 
   @override
   void initState() {
     super.initState();
     posts = List();
-    loadPosts();
   }
 
   void loadPosts() async {
@@ -85,7 +84,8 @@ class _ContentFeedState extends State<ContentFeed> {
           ),
         ),
       ),
-      bottomNavigationBar: ContentFeedBottomBar(loadPosts),
+      bottomNavigationBar: ContentFeedBottomBar(
+          _refreshController.requestRefresh),
     );
   }
 }

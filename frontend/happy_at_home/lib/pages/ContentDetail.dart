@@ -9,6 +9,7 @@ import 'package:happyathome/utils/GoogleCloudImage.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
 import 'package:happyathome/widgets/ImagePickerWidget.dart';
+import 'package:happyathome/widgets/LoadingOverlayWidget.dart';
 import 'package:happyathome/widgets/NewUserWidget.dart';
 import 'package:happyathome/widgets/PostRatingWidget.dart';
 import 'package:happyathome/widgets/TimerWidget.dart';
@@ -24,13 +25,20 @@ class ContentDetail extends StatefulWidget {
 
 class _ContentDetailState extends State<ContentDetail> {
   Post post;
+  bool loading = false;
 
   RefreshController _refreshController =
   RefreshController(initialRefresh: false);
 
   void createReply(image) async {
+    setState(() {
+      loading = true;
+    });
     await ReplyCreation.create(post, "dummy", "dummy", null, image);
-    reload();
+    setState(() {
+      loading = false;
+    });
+    _refreshController.requestRefresh();
   }
 
   List<Widget> createContent() {
@@ -51,7 +59,7 @@ class _ContentDetailState extends State<ContentDetail> {
   }
 
   void onRefresh() async {
-    reload();
+    await reload();
     _refreshController.refreshCompleted();
   }
 
@@ -61,7 +69,8 @@ class _ContentDetailState extends State<ContentDetail> {
     } else {
       await Backend.postReactionToPost(post, Reaction(reaction));
     }
-    reload();
+
+    _refreshController.requestRefresh();
   }
 
   @override
@@ -71,24 +80,27 @@ class _ContentDetailState extends State<ContentDetail> {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: SmartRefresher(
-          enablePullDown: true,
-          header: WaterDropMaterialHeader(),
-          controller: _refreshController,
-          onRefresh: onRefresh,
-          child: TitleCard(
-            title: post.title,
-            subtitle: post.description,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 400,
-                  child: ListView(
-                    children: createContent(),
+        child: LoadingOverlayWidget(
+          isLoading: loading,
+          child: SmartRefresher(
+            enablePullDown: true,
+            header: WaterDropMaterialHeader(),
+            controller: _refreshController,
+            onRefresh: onRefresh,
+            child: TitleCard(
+              title: post.title,
+              subtitle: post.description,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: 400,
+                    child: ListView(
+                      children: createContent(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
