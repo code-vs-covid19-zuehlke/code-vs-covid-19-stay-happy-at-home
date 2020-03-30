@@ -149,7 +149,7 @@ class ReplyWidget extends StatelessWidget {
           ),
           Padding(
               padding: const EdgeInsets.all(16.0),
-              child: NewUserWidget(isReply ? reply.user : post.user)),
+              child: NewUserWidget(isReply ? reply.user : post.user, 90)),
         ],
       ),
     );
@@ -182,7 +182,7 @@ class ContentDetailBottomBar extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, "/profile");
             },
-            child: NewUserWidget(UserState().user),
+            child: NewUserWidget(UserState().user, 60),
           )
         ],
       ),
