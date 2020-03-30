@@ -39,8 +39,12 @@ class _CreateContentState extends State<CreateContent> {
 
   void postPost() async {
     await PostCreation.create(
-        titleController.text, descriptionController.text, linkController.text,
-        _image, chosenFeelings.toSet(), timePeriod.round());
+        titleController.text,
+        descriptionController.text,
+        linkController.text,
+        _image,
+        chosenFeelings.toSet(),
+        timePeriod == null ? 0 : timePeriod.round());
     Navigator.pop(context);
   }
 

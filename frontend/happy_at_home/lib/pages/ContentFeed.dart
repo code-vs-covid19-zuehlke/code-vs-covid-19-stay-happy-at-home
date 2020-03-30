@@ -82,13 +82,15 @@ class _ContentFeedState extends State<ContentFeed> {
           ),
         ),
       ),
-      bottomNavigationBar: ContentFeedBottomBar(),
+      bottomNavigationBar: ContentFeedBottomBar(loadPosts),
     );
   }
 }
 
 class ContentFeedBottomBar extends StatelessWidget {
-  const ContentFeedBottomBar({
+  final Function onRaisedButtonNavigationPop;
+
+  const ContentFeedBottomBar(this.onRaisedButtonNavigationPop, {
     Key key,
   }) : super(key: key);
 
@@ -100,8 +102,9 @@ class ContentFeedBottomBar extends StatelessWidget {
         children: <Widget>[
           TimerWidget(),
           RaisedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, "/create");
+            onPressed: () async {
+              await Navigator.pushNamed(context, "/create");
+              this.onRaisedButtonNavigationPop();
             },
             child: Icon(
               Icons.add,
