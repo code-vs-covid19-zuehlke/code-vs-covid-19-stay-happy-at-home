@@ -142,7 +142,7 @@ class ReplyWidget extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.grey,
+            color: Colors.black12,
             width: 1,
           ),
         ),
@@ -159,7 +159,9 @@ class ReplyWidget extends StatelessWidget {
               Image(
                 image: GoogleCloudImage.get(
                     isReply ? reply.picture : post.picture),
+                width: 150,
                 height: 100,
+                fit: BoxFit.cover
               ),
               PostRatingWidget(
                   context, reply, post, true, isReply, addReaction),
@@ -167,7 +169,7 @@ class ReplyWidget extends StatelessWidget {
           ),
           Padding(
               padding: const EdgeInsets.all(16.0),
-              child: NewUserWidget(isReply ? reply.user : post.user)),
+              child: NewUserWidget(isReply ? reply.user : post.user, 90)),
         ],
       ),
     );
@@ -200,7 +202,7 @@ class ContentDetailBottomBar extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, "/profile");
             },
-            child: NewUserWidget(UserState().user),
+            child: NewUserWidget(UserState().user, 60),
           )
         ],
       ),

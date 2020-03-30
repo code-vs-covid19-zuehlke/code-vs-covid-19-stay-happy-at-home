@@ -24,10 +24,12 @@ class PostRatingWidget extends StatelessWidget {
         context: context,
         builder: (BuildContext bc) {
           return Container(
-            child: new ListView(
+            child: new GridView(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 5),
                 children: Emoji.values.map((emoji) {
-                  return new ListTile(
-                      leading: EmojiImage(emoji),
+                  return InkWell(
+                      child: EmojiImage(emoji),
                       onTap: () async {
                         addReaction(post, reply, emoji, isReply);
                         Navigator.pop(context);
@@ -39,62 +41,35 @@ class PostRatingWidget extends StatelessWidget {
 
   List<Widget> getContent() {
     List<Widget> widgetList = List();
-    if (isReply) {
-      reply.reactionSummary.reactions.forEach((emoji, count) {
-        widgetList.add(Container(
-          height: 25,
-          child: Row(
-            children: <Widget>[
-              GestureDetector(
-                  onTap: () {
-                    if (addReaction != null) {
-                      addReaction(
-                          post,
-                          reply,
-                          EnumToString.fromString(Emoji.values, emoji),
-                          isReply);
-                    }
-                  },
-                  child:
-                  EmojiImage(EnumToString.fromString(Emoji.values, emoji))),
-              Text(
-                count.toString(),
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                width: 10,
-              )
-            ],
-          ),
-        ));
-      });
-    } else {
-      post.reactionSummary.reactions.forEach((emoji, count) {
-        widgetList.add(Container(
-          height: 25,
-          child: Row(
-            children: <Widget>[
-              GestureDetector(
+    var reactions = isReply
+        ? reply.reactionSummary.reactions
+        : post.reactionSummary.reactions;
+
+    reactions.forEach((emoji, count) {
+      widgetList.add(Container(
+        height: 25,
+        child: Row(
+          children: <Widget>[
+            GestureDetector(
                 onTap: () {
                   if (addReaction != null) {
                     addReaction(post, reply,
                         EnumToString.fromString(Emoji.values, emoji), isReply);
                   }
                 },
-                child: EmojiImage(EnumToString.fromString(Emoji.values, emoji)),
-              ),
-              Text(
-                count.toString(),
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                width: 10,
-              )
-            ],
-          ),
-        ));
-      });
-    }
+                child:
+                EmojiImage(EnumToString.fromString(Emoji.values, emoji))),
+            Text(
+              count.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              width: 10,
+            )
+          ],
+        ),
+      ));
+    });
 
     if (showAdd) {
       widgetList.add(

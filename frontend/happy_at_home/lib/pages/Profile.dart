@@ -1,9 +1,13 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:happyathome/apis/Backend.dart';
+import 'package:happyathome/models/Emoji.dart';
+import 'package:happyathome/models/ReactionSummary.dart';
 import 'package:happyathome/models/User.dart';
 import 'package:happyathome/usecases/UserRegistration.dart';
 import 'package:happyathome/widgets/BottomBarWidget.dart';
 import 'package:happyathome/widgets/CustomColors.dart';
+import 'package:happyathome/widgets/EmojiImage.dart';
 import 'package:happyathome/widgets/TimerWidget.dart';
 import 'package:happyathome/widgets/UserWidget.dart';
 
@@ -16,11 +20,31 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Future<User> futureUser;
+  ReactionSummary reactionSummaryReceived;
+  ReactionSummary reactionSummaryGiven;
 
   @override
   void initState() {
     super.initState();
     futureUser = Backend.getUserById(UserState().user.id);
+    loadReceivedReactions();
+    loadGivenReactions();
+  }
+
+  void loadReceivedReactions() async {
+    ReactionSummary reactionSummaryReceived =
+    await Backend.getReactionSummaryReceived();
+    setState(() {
+      this.reactionSummaryReceived = reactionSummaryReceived;
+    });
+  }
+
+  void loadGivenReactions() async {
+    ReactionSummary reactionSummaryGiven =
+    await Backend.getReactionSummaryGiven();
+    setState(() {
+      this.reactionSummaryGiven = reactionSummaryGiven;
+    });
   }
 
   @override
@@ -28,79 +52,63 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                UserWidget(futureUser),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(32.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Reactions received", style: TextStyle(
-                            fontSize: 24, fontFamily: "Comfortaa")),
-                        Row(
-                          children: <Widget>[
-                            Image.asset(
-                              "assets/emoji/panda.png",
-                              scale: 5,
-                            ),
-                            Text("12"),
-                            SizedBox(width: 10),
-                            Image.asset(
-                              "assets/emoji/drooling_face.png",
-                              scale: 5,
-                            ),
-                            Text("27"),
-                          ],
-                        ),
-                        SizedBox(height: 32),
-                        Text("Reactions given", style: TextStyle(fontSize: 24,
-                            fontFamily: "Comfortaa")),
-                        Row(children: <Widget>[
-                          Image.asset(
-                            "assets/emoji/pile_of_poo.png",
-                            scale: 5,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  UserWidget(futureUser),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(32.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Reactions received",
+                              style: TextStyle(
+                                  fontSize: 24, fontFamily: "Comfortaa")),
+                          Row(
+                            children: getReactions(reactionSummaryReceived),
                           ),
-                          Text("11"),
-                        ]),
-                      ],
+                          SizedBox(height: 32),
+                          Text("Reactions given",
+                              style: TextStyle(
+                                  fontSize: 24, fontFamily: "Comfortaa")),
+                          Row(
+                            children: getReactions(reactionSummaryGiven),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                FlatButton.icon(
-                  onPressed: () => _refresh(),
-                  label: Text(
-                    "Refresh",
-                    style: TextStyle(
-                        fontFamily: "Comfortaa"
+                  FlatButton.icon(
+                    onPressed: () => _refresh(),
+                    label: Text(
+                      "Refresh",
+                      style: TextStyle(fontFamily: "Comfortaa"),
+                    ),
+                    icon: Icon(
+                      Icons.refresh,
+                      color: Colors.blue,
                     ),
                   ),
-                  icon: Icon(
-                    Icons.refresh,
-                    color: Colors.blue,
-                  ),
-                ),
-                FlatButton.icon(
-                  onPressed: () => UserRegistration.unregister(context),
-                  label: Text(
-                    "Unregister",
-                    style: TextStyle(
-                        fontFamily: "Comfortaa"
+                  FlatButton.icon(
+                    onPressed: () => UserRegistration.unregister(context),
+                    label: Text(
+                      "Unregister",
+                      style: TextStyle(fontFamily: "Comfortaa"),
+                    ),
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.blue,
                     ),
                   ),
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -112,7 +120,24 @@ class _ProfileState extends State<Profile> {
   void _refresh() async {
     setState(() {
       futureUser = Backend.getUserById(UserState().user.id);
+      loadReceivedReactions();
     });
+  }
+
+  List<Widget> getReactions(ReactionSummary reactionSummary) {
+    List<Widget> widgetList = List();
+    if (reactionSummary != null) {
+      reactionSummary.reactions.forEach((emoji, count) {
+        widgetList.add(Container(
+            child: Row(children: <Widget>[
+              EmojiImage.ScaledEmojiImage(
+                  EnumToString.fromString(Emoji.values, emoji), 5),
+              Text(count.toString()),
+              SizedBox(width: 10),
+            ])));
+      });
+    }
+    return widgetList;
   }
 }
 
@@ -131,11 +156,10 @@ class ProfileBottomBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TimerWidget(),
-              Text("Add more time...",
-                style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey
-                ),),
+              Text(
+                "Add more time...",
+                style: TextStyle(fontSize: 10, color: Colors.grey),
+              ),
             ],
           ),
           RaisedButton(
@@ -156,4 +180,3 @@ class ProfileBottomBar extends StatelessWidget {
     );
   }
 }
-
