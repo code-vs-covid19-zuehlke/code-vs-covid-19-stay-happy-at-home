@@ -52,61 +52,63 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                UserWidget(futureUser),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(32.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Reactions received",
-                            style: TextStyle(
-                                fontSize: 24, fontFamily: "Comfortaa")),
-                        Row(
-                          children: getReactions(reactionSummaryReceived),
-                        ),
-                        SizedBox(height: 32),
-                        Text("Reactions given",
-                            style: TextStyle(
-                                fontSize: 24, fontFamily: "Comfortaa")),
-                        Row(
-                          children: getReactions(reactionSummaryGiven),
-                        )
-                      ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  UserWidget(futureUser),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(32.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Reactions received",
+                              style: TextStyle(
+                                  fontSize: 24, fontFamily: "Comfortaa")),
+                          Row(
+                            children: getReactions(reactionSummaryReceived),
+                          ),
+                          SizedBox(height: 32),
+                          Text("Reactions given",
+                              style: TextStyle(
+                                  fontSize: 24, fontFamily: "Comfortaa")),
+                          Row(
+                            children: getReactions(reactionSummaryGiven),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                FlatButton.icon(
-                  onPressed: () => _refresh(),
-                  label: Text(
-                    "Refresh",
-                    style: TextStyle(fontFamily: "Comfortaa"),
+                  FlatButton.icon(
+                    onPressed: () => _refresh(),
+                    label: Text(
+                      "Refresh",
+                      style: TextStyle(fontFamily: "Comfortaa"),
+                    ),
+                    icon: Icon(
+                      Icons.refresh,
+                      color: Colors.blue,
+                    ),
                   ),
-                  icon: Icon(
-                    Icons.refresh,
-                    color: Colors.blue,
+                  FlatButton.icon(
+                    onPressed: () => UserRegistration.unregister(context),
+                    label: Text(
+                      "Unregister",
+                      style: TextStyle(fontFamily: "Comfortaa"),
+                    ),
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.blue,
+                    ),
                   ),
-                ),
-                FlatButton.icon(
-                  onPressed: () => UserRegistration.unregister(context),
-                  label: Text(
-                    "Unregister",
-                    style: TextStyle(fontFamily: "Comfortaa"),
-                  ),
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
