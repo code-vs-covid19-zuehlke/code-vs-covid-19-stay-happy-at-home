@@ -24,10 +24,11 @@ class PostRatingWidget extends StatelessWidget {
         context: context,
         builder: (BuildContext bc) {
           return Container(
-            child: new ListView(
+            child: new GridView(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
                 children: Emoji.values.map((emoji) {
-                  return new ListTile(
-                      leading: EmojiImage(emoji),
+                  return InkWell(
+                      child: EmojiImage(emoji),
                       onTap: () async {
                         addReaction(post, reply, emoji, isReply);
                         Navigator.pop(context);
