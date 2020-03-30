@@ -124,7 +124,7 @@ class ReplyWidget extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.grey,
+            color: Colors.black12,
             width: 1,
           ),
         ),
