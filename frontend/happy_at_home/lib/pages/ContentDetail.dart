@@ -141,7 +141,9 @@ class ReplyWidget extends StatelessWidget {
               Image(
                 image: GoogleCloudImage.get(
                     isReply ? reply.picture : post.picture),
+                width: 150,
                 height: 100,
+                fit: BoxFit.cover
               ),
               PostRatingWidget(
                   context, reply, post, true, isReply, addReaction),
