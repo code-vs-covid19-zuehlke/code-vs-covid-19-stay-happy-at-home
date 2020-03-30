@@ -119,7 +119,7 @@ class ContentFeedBottomBar extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, "/profile");
             },
-            child: NewUserWidget(UserState().user),
+            child: NewUserWidget(UserState().user, 60),
           )
         ],
       ),

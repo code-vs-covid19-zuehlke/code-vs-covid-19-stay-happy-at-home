@@ -20,7 +20,11 @@ class UserWidget extends StatelessWidget {
               radius: 70,
             ),
             SizedBox(height: 15),
-            Text("Hi ${snapshot.data.name}", style: TextStyle(fontSize: 36, fontFamily: "Comfortaa")),
+            Text(
+              "${snapshot.data.name}",
+              style: TextStyle(fontSize: 36, fontFamily: "Comfortaa"),
+              textAlign: TextAlign.center,
+            ),
             SizedBox(height: 15),
           ]);
         } else if (snapshot.hasError) {
