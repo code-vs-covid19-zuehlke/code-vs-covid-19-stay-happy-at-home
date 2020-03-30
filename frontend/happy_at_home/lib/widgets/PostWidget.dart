@@ -31,7 +31,7 @@ class PostWidget extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                PostImage(post.picture, 7),
+                PostImage(post.picture, post.requiredTime == null ? 0 : post.requiredTime),
                 SizedBox(width: 10,),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
